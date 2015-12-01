@@ -1,0 +1,187 @@
+.TH "/home/kotomysha/binson/binson/src/binson_error.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson_error.h \- 
+.PP
+Binson error handling implementation\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'binson_config\&.h'\fP
+.br
+\fC#include 'binson_io\&.h'\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef enum \fBbinson_res_\fP \fBbinson_res\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBbinson_res_\fP { \fBBINSON_RES_OK\fP = 0, \fBBINSON_RES_TRAVERSAL_BREAK\fP = 32, \fBBINSON_RES_TRAVERSAL_RESTART\fP, \fBBINSON_RES_TRAVERSAL_DONE\fP, \fBBINSON_RES_TRAVERSAL_CB\fP, \fBBINSON_RES_ERROR_ARG_WRONG\fP, \fBBINSON_RES_ERROR_ARG_WRONG_COMB\fP, \fBBINSON_RES_ERROR_TREE_OUT_OF_ARRAY\fP = 128, \fBBINSON_RES_ERROR_IO_EOF\fP = 256, \fBBINSON_RES_ERROR_IO_OUT_OF_BUFFER\fP, \fBBINSON_RES_ERROR_IO_PART\fP, \fBBINSON_RES_ERROR_IO_TYPE_UNKNOWN\fP, \fBBINSON_RES_ERROR_PARSE_INVALID_SIG\fP, \fBBINSON_RES_ERROR_PARSE_SUSPENDED\fP, \fBBINSON_RES_ERROR_ASSERT_FAILED\fP = 512, \fBBINSON_RES_ERROR_LIB_VERSION\fP, \fBBINSON_RES_ERROR_NOT_SUPPORTED\fP, \fBBINSON_RES_ERROR_OUT_OF_MEMORY\fP, \fBBINSON_RES_ERROR_BROKEN_INT_STRUCT\fP, \fBBINSON_RES_ERROR_STREAM\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_error_init\fP (\fBbinson_io\fP *io)"
+.br
+.RI "\fIInit error handling context\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_error_report\fP (\fBbinson_res\fP res, const char *file, unsigned int line, char *data, size_t data_len)"
+.br
+.RI "\fIStore error details in circular error queue\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_error_dump\fP ()"
+.br
+.RI "\fIDump all stored errors to attached IO\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_error_clear_all\fP ()"
+.br
+.RI "\fIClear all errors from ring buffer\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Binson error handling implementation\&. 
+
+Binson error handling header file\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef enum \fBbinson_res_\fP  \fBbinson_res\fP"
+Binson library error codes 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBbinson_res_\fP"
+Binson library error codes 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIBINSON_RES_OK \fP\fP
+traversal control codes set by callbacks 
+.TP
+\fB\fIBINSON_RES_TRAVERSAL_CB \fP\fP
+problem in traversal's callback binson API calls argument errors 
+.TP
+\fB\fIBINSON_RES_ERROR_ARG_WRONG_COMB \fP\fP
+invalid argument combination tree access errors 
+.TP
+\fB\fIBINSON_RES_ERROR_TREE_OUT_OF_ARRAY \fP\fP
+unable to access ARRAY item specified binson raw data input errors 
+.TP
+\fB\fIBINSON_RES_ERROR_IO_PART \fP\fP
+partial content 
+.TP
+\fB\fIBINSON_RES_ERROR_IO_TYPE_UNKNOWN \fP\fP
+binson parsing errors 
+.TP
+\fB\fIBINSON_RES_ERROR_PARSE_SUSPENDED \fP\fP
+Used from callback to postpone parsing 
+.TP
+\fB\fIBINSON_RES_ERROR_ASSERT_FAILED \fP\fP
+String is not vilid UTF-8 string internal library errors/failures codes 
+.TP
+\fB\fIBINSON_RES_ERROR_LIB_VERSION \fP\fP
+binary lib version don't match headers version 
+.TP
+\fB\fIBINSON_RES_ERROR_NOT_SUPPORTED \fP\fP
+feature not supported in this binson model type or still not implemented in library 
+.TP
+\fB\fIBINSON_RES_ERROR_BROKEN_INT_STRUCT \fP\fP
+internal structure consistency is broken 
+.TP
+\fB\fIBINSON_RES_ERROR_STREAM \fP\fP
+stream/file access or read/write error 
+.SH "Function Documentation"
+.PP 
+.SS "\fBbinson_res\fP binson_error_clear_all ()"
+
+.PP
+Clear all errors from ring buffer\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_error_dump ()"
+
+.PP
+Dump all stored errors to attached IO\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Newest error dump first
+.PP
+< Roll back dumped error record 
+.SS "\fBbinson_res\fP binson_error_init (\fBbinson_io\fP *io)"
+
+.PP
+Init error handling context\&. Binson error handling API calls
+.PP
+\fBParameters:\fP
+.RS 4
+\fIio\fP binson_io* 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_error_report (\fBbinson_res\fPres, const char *file, unsigned intline, char *data, size_tdata_len)"
+
+.PP
+Store error details in circular error queue\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIres\fP binson_res 
+.br
+\fIfile\fP const char* 
+.br
+\fIline\fP unsigned int 
+.br
+\fIdata\fP char* 
+.br
+\fIdata_len\fP size_t 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res 
+.RE
+.PP
+< Find next head position in ring
+.PP
+< Store error details
+.PP
+< Fix tail position if ring is full 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

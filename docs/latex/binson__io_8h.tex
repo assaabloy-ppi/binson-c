@@ -1,0 +1,430 @@
+\hypertarget{binson__io_8h}{\section{/home/kotomysha/binson/binson/src/binson\-\_\-io.h File Reference}
+\label{binson__io_8h}\index{/home/kotomysha/binson/binson/src/binson\-\_\-io.\-h@{/home/kotomysha/binson/binson/src/binson\-\_\-io.\-h}}
+}
+
+
+Binson input/output abstraction layer implementation.  
+
+
+{\ttfamily \#include \char`\"{}binson\-\_\-config.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-error.\-h\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structbinson__io__}{binson\-\_\-io\-\_\-} \hyperlink{binson__io_8h_ac028beb6cbafefc9fa05531e14a099b1}{binson\-\_\-io}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cc}{binson\-\_\-io\-\_\-type\-\_\-t} \{ \hyperlink{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca9666a13821ae07c77440c3b0e3d7ca08}{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-U\-L\-L} = 0, 
+\hyperlink{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca35b5f560efb575f1958af1a3b142cabe}{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R0}, 
+\hyperlink{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca21f5fa6a0b18232d108dcb3ea05063ff}{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-U\-F\-F\-E\-R}, 
+\hyperlink{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca60323cce8a6acc4e228273478791e1b0}{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R\-E\-A\-M}
+ \}
+\item 
+enum \hyperlink{binson__io_8h_a7c3648c1c633ffbe723b91c04713f2c0}{binson\-\_\-io\-\_\-mode\-\_\-t} \{ {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-M\-O\-D\-E\-\_\-\-R\-E\-A\-D} = 1, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-M\-O\-D\-E\-\_\-\-W\-R\-I\-T\-E} = 2, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-M\-O\-D\-E\-\_\-\-A\-P\-P\-E\-N\-D} = 8, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-M\-O\-D\-E\-\_\-\-C\-R\-E\-A\-T\-E} = 16
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_aae4c608e4dd37b29b0c5ce512e4bf000}{binson\-\_\-io\-\_\-open\-\_\-file} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, const char $\ast$path, \hyperlink{binson__io_8h_a7c3648c1c633ffbe723b91c04713f2c0}{binson\-\_\-io\-\_\-mode\-\_\-t} mode)
+\begin{DoxyCompactList}\small\item\em Open file with specified access mode and attach it to {\ttfamily binson\-\_\-io} object. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_a4568a1bf8373d2b2c3df799d7f6669d6}{binson\-\_\-io\-\_\-attach\-\_\-stream} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, F\-I\-L\-E $\ast$stream)
+\begin{DoxyCompactList}\small\item\em Attach already opened {\ttfamily F\-I\-L\-E} stream to {\ttfamily binson\-\_\-io} object. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_ac42072cf4b3226d18e39582d498906fb}{binson\-\_\-io\-\_\-attach\-\_\-fd} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, int fd, \hyperlink{binson__io_8h_a7c3648c1c633ffbe723b91c04713f2c0}{binson\-\_\-io\-\_\-mode\-\_\-t} mode)
+\begin{DoxyCompactList}\small\item\em Attach already existing file descriptor to {\ttfamily binson\-\_\-io} object. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_a2c120aea78b89dde47f1d99d5fb259d8}{binson\-\_\-io\-\_\-attach\-\_\-str} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, char $\ast$str, size\-\_\-t str\-\_\-size, \hyperlink{binson__io_8h_a7c3648c1c633ffbe723b91c04713f2c0}{binson\-\_\-io\-\_\-mode\-\_\-t} mode)
+\begin{DoxyCompactList}\small\item\em Attach string buffer to {\ttfamily binson\-\_\-io} object. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_a40375939cd9a8bdf36497d388b30a197}{binson\-\_\-io\-\_\-attach\-\_\-bytebuf} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, uint8\-\_\-t $\ast$buf, size\-\_\-t buf\-\_\-size)
+\begin{DoxyCompactList}\small\item\em Attach byte buffer to {\ttfamily binson\-\_\-io} object. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_a3948d552a8e0a733161ffd6da18f3c83}{binson\-\_\-io\-\_\-close} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em Close {\ttfamily binson\-\_\-io} object and free internal resources. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_ae6d825e2712e05fea821803db9ac568c}{binson\-\_\-io\-\_\-write} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, uint8\-\_\-t $\ast$src\-\_\-ptr, size\-\_\-t block\-\_\-size)
+\begin{DoxyCompactList}\small\item\em Writes data from external byte buffer to already opened {\ttfamily binson\-\_\-io}. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_a2fed830167917b7139d4fab112f6dfb2}{binson\-\_\-io\-\_\-write\-\_\-str} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, const char $\ast$str, \hyperlink{binson__config_8h_abb452686968e48b67397da5f97445f5b}{bool} write\-\_\-terminator)
+\begin{DoxyCompactList}\small\item\em Write zero-\/terminated string to opened {\ttfamily binson\-\_\-io}. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_aea83d0cb2257d8a5b4a1685c60fa1f96}{binson\-\_\-io\-\_\-write\-\_\-byte} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, uint8\-\_\-t byte)
+\begin{DoxyCompactList}\small\item\em Write single byte to opened {\ttfamily binson\-\_\-io}. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_ae1a0acf2efe75b10bfb10d9675102103}{binson\-\_\-io\-\_\-vprintf} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, const char $\ast$format, va\-\_\-list args)
+\begin{DoxyCompactList}\small\item\em Writes printf() style formated output to opened {\ttfamily binson\-\_\-io}. ({\ttfamily va\-\_\-list} argument allows to make wrappers around this function) \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_af9aff0ca4b5ddd4dec3388b97f206f74}{binson\-\_\-io\-\_\-printf} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Writes printf() style formated output to opened {\ttfamily binson\-\_\-io}. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_ad202d64c21b4f381b6a5635d4604442a}{binson\-\_\-io\-\_\-read} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, uint8\-\_\-t $\ast$dst\-\_\-ptr, size\-\_\-t max\-\_\-size, size\-\_\-t $\ast$read\-\_\-bytes)
+\begin{DoxyCompactList}\small\item\em Read from {\ttfamily binson\-\_\-io} up to {\ttfamily max\-\_\-size} bytes to external buffer. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__io_8h_ac268ca27c758c8743062a0668724a34e}{binson\-\_\-io\-\_\-read\-\_\-str} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$obj, char $\ast$strbuf, size\-\_\-t max\-\_\-size, size\-\_\-t $\ast$read\-\_\-chars, \hyperlink{binson__io_8h_a7c3648c1c633ffbe723b91c04713f2c0}{binson\-\_\-io\-\_\-mode\-\_\-t} mode)
+\begin{DoxyCompactList}\small\item\em Read from {\ttfamily binson\-\_\-io} up to max\-\_\-size bytes to string buffer {\ttfamily strbuf} add trailing zero terminator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Binson input/output abstraction layer implementation. Binson input/output abstraction layer header file.
+
+\begin{DoxyAuthor}{Author}
+Alexander Reshniuk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+20/11/2015 
+\end{DoxyDate}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{binson__io_8h_ac028beb6cbafefc9fa05531e14a099b1}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io@{binson\-\_\-io}}
+\index{binson\-\_\-io@{binson\-\_\-io}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf binson\-\_\-io\-\_\-} {\bf binson\-\_\-io}}}\label{binson__io_8h_ac028beb6cbafefc9fa05531e14a099b1}
+Forward declarations 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{binson__io_8h_a7c3648c1c633ffbe723b91c04713f2c0}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-mode\-\_\-t@{binson\-\_\-io\-\_\-mode\-\_\-t}}
+\index{binson\-\_\-io\-\_\-mode\-\_\-t@{binson\-\_\-io\-\_\-mode\-\_\-t}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-mode\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf binson\-\_\-io\-\_\-mode\-\_\-t}}}\label{binson__io_8h_a7c3648c1c633ffbe723b91c04713f2c0}
+Data access mode \hypertarget{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cc}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-type\-\_\-t@{binson\-\_\-io\-\_\-type\-\_\-t}}
+\index{binson\-\_\-io\-\_\-type\-\_\-t@{binson\-\_\-io\-\_\-type\-\_\-t}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-type\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf binson\-\_\-io\-\_\-type\-\_\-t}}}\label{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cc}
+Supported data source/sink types \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-U\-L\-L@{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-U\-L\-L}!binson\-\_\-io.\-h@{binson\-\_\-io.\-h}}\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-U\-L\-L@{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-U\-L\-L}}\item[{\em 
+\hypertarget{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca9666a13821ae07c77440c3b0e3d7ca08}{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-U\-L\-L}\label{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca9666a13821ae07c77440c3b0e3d7ca08}
+}]Think it /dev/null \index{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R0@{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R0}!binson\-\_\-io.\-h@{binson\-\_\-io.\-h}}\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R0@{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R0}}\item[{\em 
+\hypertarget{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca35b5f560efb575f1958af1a3b142cabe}{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R0}\label{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca35b5f560efb575f1958af1a3b142cabe}
+}]Zero-\/terminated string \index{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-U\-F\-F\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-U\-F\-F\-E\-R}!binson\-\_\-io.\-h@{binson\-\_\-io.\-h}}\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-U\-F\-F\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-U\-F\-F\-E\-R}}\item[{\em 
+\hypertarget{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca21f5fa6a0b18232d108dcb3ea05063ff}{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-U\-F\-F\-E\-R}\label{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca21f5fa6a0b18232d108dcb3ea05063ff}
+}]Memory buffer \index{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R\-E\-A\-M@{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R\-E\-A\-M}!binson\-\_\-io.\-h@{binson\-\_\-io.\-h}}\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R\-E\-A\-M@{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R\-E\-A\-M}}\item[{\em 
+\hypertarget{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca60323cce8a6acc4e228273478791e1b0}{B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R\-E\-A\-M}\label{binson__io_8h_aae753a8dc006f2ef2dfae8bcac7547cca60323cce8a6acc4e228273478791e1b0}
+}]Stdio stream (F\-I\-L\-E) \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{binson__io_8h_a40375939cd9a8bdf36497d388b30a197}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-attach\-\_\-bytebuf@{binson\-\_\-io\-\_\-attach\-\_\-bytebuf}}
+\index{binson\-\_\-io\-\_\-attach\-\_\-bytebuf@{binson\-\_\-io\-\_\-attach\-\_\-bytebuf}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-attach\-\_\-bytebuf}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-attach\-\_\-bytebuf (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{size\-\_\-t}]{buf\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_a40375939cd9a8bdf36497d388b30a197}
+
+
+Attach byte buffer to {\ttfamily binson\-\_\-io} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em buf} & uint8\-\_\-t$\ast$ Byte buffer pointer \\
+\hline
+{\em buf\-\_\-size} & size\-\_\-t Byte buffer size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_ac42072cf4b3226d18e39582d498906fb}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-attach\-\_\-fd@{binson\-\_\-io\-\_\-attach\-\_\-fd}}
+\index{binson\-\_\-io\-\_\-attach\-\_\-fd@{binson\-\_\-io\-\_\-attach\-\_\-fd}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-attach\-\_\-fd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-attach\-\_\-fd (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{int}]{fd, }
+\item[{{\bf binson\-\_\-io\-\_\-mode\-\_\-t}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_ac42072cf4b3226d18e39582d498906fb}
+
+
+Attach already existing file descriptor to {\ttfamily binson\-\_\-io} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em fd} & int File descriptor \\
+\hline
+{\em mode} & binson\-\_\-io\-\_\-mode\-\_\-t Access mode \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_a2c120aea78b89dde47f1d99d5fb259d8}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-attach\-\_\-str@{binson\-\_\-io\-\_\-attach\-\_\-str}}
+\index{binson\-\_\-io\-\_\-attach\-\_\-str@{binson\-\_\-io\-\_\-attach\-\_\-str}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-attach\-\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-attach\-\_\-str (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{char $\ast$}]{str, }
+\item[{size\-\_\-t}]{str\-\_\-size, }
+\item[{{\bf binson\-\_\-io\-\_\-mode\-\_\-t}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_a2c120aea78b89dde47f1d99d5fb259d8}
+
+
+Attach string buffer to {\ttfamily binson\-\_\-io} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em str} & char$\ast$ String buffer pointer \\
+\hline
+{\em str\-\_\-size} & size\-\_\-t String buffer size \\
+\hline
+{\em mode} & binson\-\_\-io\-\_\-mode\-\_\-t Access mode \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_a4568a1bf8373d2b2c3df799d7f6669d6}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-attach\-\_\-stream@{binson\-\_\-io\-\_\-attach\-\_\-stream}}
+\index{binson\-\_\-io\-\_\-attach\-\_\-stream@{binson\-\_\-io\-\_\-attach\-\_\-stream}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-attach\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-attach\-\_\-stream (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{F\-I\-L\-E $\ast$}]{stream}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_a4568a1bf8373d2b2c3df799d7f6669d6}
+
+
+Attach already opened {\ttfamily F\-I\-L\-E} stream to {\ttfamily binson\-\_\-io} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em stream} & F\-I\-L\-E$\ast$ Stream handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_a3948d552a8e0a733161ffd6da18f3c83}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-close@{binson\-\_\-io\-\_\-close}}
+\index{binson\-\_\-io\-\_\-close@{binson\-\_\-io\-\_\-close}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-close}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-close (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_a3948d552a8e0a733161ffd6da18f3c83}
+
+
+Close {\ttfamily binson\-\_\-io} object and free internal resources. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_aae4c608e4dd37b29b0c5ce512e4bf000}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-open\-\_\-file@{binson\-\_\-io\-\_\-open\-\_\-file}}
+\index{binson\-\_\-io\-\_\-open\-\_\-file@{binson\-\_\-io\-\_\-open\-\_\-file}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-open\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-open\-\_\-file (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{const char $\ast$}]{path, }
+\item[{{\bf binson\-\_\-io\-\_\-mode\-\_\-t}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_aae4c608e4dd37b29b0c5ce512e4bf000}
+
+
+Open file with specified access mode and attach it to {\ttfamily binson\-\_\-io} object. 
+
+Binson I\-O abstraction layer A\-P\-I calls
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em path} & const char$\ast$ File path \\
+\hline
+{\em mode} & binson\-\_\-io\-\_\-mode\-\_\-t Access mode \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_af9aff0ca4b5ddd4dec3388b97f206f74}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-printf@{binson\-\_\-io\-\_\-printf}}
+\index{binson\-\_\-io\-\_\-printf@{binson\-\_\-io\-\_\-printf}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-printf}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-printf (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_af9aff0ca4b5ddd4dec3388b97f206f74}
+
+
+Writes printf() style formated output to opened {\ttfamily binson\-\_\-io}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em format} & const char$\ast$ Format string. Format is same as used for {\ttfamily printf()} \\
+\hline
+{\em ...} & Variable list of arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_ad202d64c21b4f381b6a5635d4604442a}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-read@{binson\-\_\-io\-\_\-read}}
+\index{binson\-\_\-io\-\_\-read@{binson\-\_\-io\-\_\-read}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{uint8\-\_\-t $\ast$}]{dst\-\_\-ptr, }
+\item[{size\-\_\-t}]{max\-\_\-size, }
+\item[{size\-\_\-t $\ast$}]{read\-\_\-bytes}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_ad202d64c21b4f381b6a5635d4604442a}
+
+
+Read from {\ttfamily binson\-\_\-io} up to {\ttfamily max\-\_\-size} bytes to external buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em dst\-\_\-ptr} & uint8\-\_\-t$\ast$ Destination byte buffer \\
+\hline
+{\em max\-\_\-size} & size\-\_\-t Buffer size limit \\
+\hline
+{\em read\-\_\-bytes} & size\-\_\-t$\ast$ Number of bytes successfully read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ can't copy more than we have \hypertarget{binson__io_8h_ac268ca27c758c8743062a0668724a34e}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-read\-\_\-str@{binson\-\_\-io\-\_\-read\-\_\-str}}
+\index{binson\-\_\-io\-\_\-read\-\_\-str@{binson\-\_\-io\-\_\-read\-\_\-str}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-read\-\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-read\-\_\-str (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{char $\ast$}]{strbuf, }
+\item[{size\-\_\-t}]{max\-\_\-size, }
+\item[{size\-\_\-t $\ast$}]{read\-\_\-chars, }
+\item[{{\bf binson\-\_\-io\-\_\-mode\-\_\-t}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_ac268ca27c758c8743062a0668724a34e}
+
+
+Read from {\ttfamily binson\-\_\-io} up to max\-\_\-size bytes to string buffer {\ttfamily strbuf} add trailing zero terminator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em strbuf} & char$\ast$ Destination string buffer pointer \\
+\hline
+{\em max\-\_\-size} & size\-\_\-t String buffer size \\
+\hline
+{\em read\-\_\-chars} & size\-\_\-t$\ast$ Number of chars successfully read \\
+\hline
+{\em mode} & binson\-\_\-io\-\_\-mode\-\_\-t Specify B\-I\-N\-S\-O\-N\-\_\-\-I\-O\-\_\-\-M\-O\-D\-E\-\_\-\-A\-P\-P\-E\-N\-D to concatenate to existing string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Terminating zero \hypertarget{binson__io_8h_ae1a0acf2efe75b10bfb10d9675102103}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-vprintf@{binson\-\_\-io\-\_\-vprintf}}
+\index{binson\-\_\-io\-\_\-vprintf@{binson\-\_\-io\-\_\-vprintf}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-vprintf}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-vprintf (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{const char $\ast$}]{format, }
+\item[{va\-\_\-list}]{args}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_ae1a0acf2efe75b10bfb10d9675102103}
+
+
+Writes printf() style formated output to opened {\ttfamily binson\-\_\-io}. ({\ttfamily va\-\_\-list} argument allows to make wrappers around this function) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em format} & const char$\ast$ Format string. Format is same as used for {\ttfamily printf()} \\
+\hline
+{\em args} & va\-\_\-list Variadic arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]Implement strict overflow checks to mimic nonportable vsnprintf() \end{DoxyRefDesc}
+\hypertarget{binson__io_8h_ae6d825e2712e05fea821803db9ac568c}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-write@{binson\-\_\-io\-\_\-write}}
+\index{binson\-\_\-io\-\_\-write@{binson\-\_\-io\-\_\-write}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{uint8\-\_\-t $\ast$}]{src\-\_\-ptr, }
+\item[{size\-\_\-t}]{block\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_ae6d825e2712e05fea821803db9ac568c}
+
+
+Writes data from external byte buffer to already opened {\ttfamily binson\-\_\-io}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em src\-\_\-ptr} & uint8\-\_\-t$\ast$ Byte buffer pointer \\
+\hline
+{\em block\-\_\-size} & size\-\_\-t Number of bytes to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_aea83d0cb2257d8a5b4a1685c60fa1f96}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-write\-\_\-byte@{binson\-\_\-io\-\_\-write\-\_\-byte}}
+\index{binson\-\_\-io\-\_\-write\-\_\-byte@{binson\-\_\-io\-\_\-write\-\_\-byte}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-write\-\_\-byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-write\-\_\-byte (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{uint8\-\_\-t}]{byte}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_aea83d0cb2257d8a5b4a1685c60fa1f96}
+
+
+Write single byte to opened {\ttfamily binson\-\_\-io}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em byte} & uint8\-\_\-t Byte value to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__io_8h_a2fed830167917b7139d4fab112f6dfb2}{\index{binson\-\_\-io.\-h@{binson\-\_\-io.\-h}!binson\-\_\-io\-\_\-write\-\_\-str@{binson\-\_\-io\-\_\-write\-\_\-str}}
+\index{binson\-\_\-io\-\_\-write\-\_\-str@{binson\-\_\-io\-\_\-write\-\_\-str}!binson_io.h@{binson\-\_\-io.\-h}}
+\subsubsection[{binson\-\_\-io\-\_\-write\-\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-io\-\_\-write\-\_\-str (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{obj, }
+\item[{const char $\ast$}]{str, }
+\item[{{\bf bool}}]{write\-\_\-terminator}
+\end{DoxyParamCaption}
+)}}\label{binson__io_8h_a2fed830167917b7139d4fab112f6dfb2}
+
+
+Write zero-\/terminated string to opened {\ttfamily binson\-\_\-io}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & binson\-\_\-io$\ast$ Context \\
+\hline
+{\em str} & const char$\ast$ Source string pointer \\
+\hline
+{\em write\-\_\-terminator} & bool Zero terminator write flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}

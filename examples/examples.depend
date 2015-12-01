@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1448584719 source:/home/kotomysha/binson/binson/examples/main.c
+	<stdio.h>
+	<stdlib.h>
+
+1448584849 source:/home/kotomysha/binson/binson/examples/direct_gen.c
+	<stdio.h>
+	<stdlib.h>
+

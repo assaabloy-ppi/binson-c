@@ -1,0 +1,403 @@
+.TH "/home/kotomysha/binson/binson/src/binson_io.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson_io.h \- 
+.PP
+Binson input/output abstraction layer implementation\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'binson_config\&.h'\fP
+.br
+\fC#include 'binson_error\&.h'\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBbinson_io_\fP \fBbinson_io\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBbinson_io_type_t\fP { \fBBINSON_IO_TYPE_NULL\fP = 0, \fBBINSON_IO_TYPE_STR0\fP, \fBBINSON_IO_TYPE_BUFFER\fP, \fBBINSON_IO_TYPE_STREAM\fP }"
+.br
+.ti -1c
+.RI "enum \fBbinson_io_mode_t\fP { \fBBINSON_IO_MODE_READ\fP = 1, \fBBINSON_IO_MODE_WRITE\fP = 2, \fBBINSON_IO_MODE_APPEND\fP = 8, \fBBINSON_IO_MODE_CREATE\fP = 16 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_open_file\fP (\fBbinson_io\fP *obj, const char *path, \fBbinson_io_mode_t\fP mode)"
+.br
+.RI "\fIOpen file with specified access mode and attach it to \fCbinson_io\fP object\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_attach_stream\fP (\fBbinson_io\fP *obj, FILE *stream)"
+.br
+.RI "\fIAttach already opened \fCFILE\fP stream to \fCbinson_io\fP object\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_attach_fd\fP (\fBbinson_io\fP *obj, int fd, \fBbinson_io_mode_t\fP mode)"
+.br
+.RI "\fIAttach already existing file descriptor to \fCbinson_io\fP object\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_attach_str\fP (\fBbinson_io\fP *obj, char *str, size_t str_size, \fBbinson_io_mode_t\fP mode)"
+.br
+.RI "\fIAttach string buffer to \fCbinson_io\fP object\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_attach_bytebuf\fP (\fBbinson_io\fP *obj, uint8_t *buf, size_t buf_size)"
+.br
+.RI "\fIAttach byte buffer to \fCbinson_io\fP object\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_close\fP (\fBbinson_io\fP *obj)"
+.br
+.RI "\fIClose \fCbinson_io\fP object and free internal resources\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_write\fP (\fBbinson_io\fP *obj, uint8_t *src_ptr, size_t block_size)"
+.br
+.RI "\fIWrites data from external byte buffer to already opened \fCbinson_io\fP\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_write_str\fP (\fBbinson_io\fP *obj, const char *str, \fBbool\fP write_terminator)"
+.br
+.RI "\fIWrite zero-terminated string to opened \fCbinson_io\fP\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_write_byte\fP (\fBbinson_io\fP *obj, uint8_t byte)"
+.br
+.RI "\fIWrite single byte to opened \fCbinson_io\fP\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_vprintf\fP (\fBbinson_io\fP *obj, const char *format, va_list args)"
+.br
+.RI "\fIWrites printf() style formated output to opened \fCbinson_io\fP\&. (\fCva_list\fP argument allows to make wrappers around this function) \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_printf\fP (\fBbinson_io\fP *obj, const char *format,\&.\&.\&.)"
+.br
+.RI "\fIWrites printf() style formated output to opened \fCbinson_io\fP\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_read\fP (\fBbinson_io\fP *obj, uint8_t *dst_ptr, size_t max_size, size_t *read_bytes)"
+.br
+.RI "\fIRead from \fCbinson_io\fP up to \fCmax_size\fP bytes to external buffer\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_io_read_str\fP (\fBbinson_io\fP *obj, char *strbuf, size_t max_size, size_t *read_chars, \fBbinson_io_mode_t\fP mode)"
+.br
+.RI "\fIRead from \fCbinson_io\fP up to max_size bytes to string buffer \fCstrbuf\fP add trailing zero terminator\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Binson input/output abstraction layer implementation\&. 
+
+Binson input/output abstraction layer header file\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBbinson_io_\fP \fBbinson_io\fP"
+Forward declarations 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBbinson_io_mode_t\fP"
+Data access mode 
+.SS "enum \fBbinson_io_type_t\fP"
+Supported data source/sink types 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIBINSON_IO_TYPE_NULL \fP\fP
+Think it /dev/null 
+.TP
+\fB\fIBINSON_IO_TYPE_STR0 \fP\fP
+Zero-terminated string 
+.TP
+\fB\fIBINSON_IO_TYPE_BUFFER \fP\fP
+Memory buffer 
+.TP
+\fB\fIBINSON_IO_TYPE_STREAM \fP\fP
+Stdio stream (FILE) 
+.SH "Function Documentation"
+.PP 
+.SS "\fBbinson_res\fP binson_io_attach_bytebuf (\fBbinson_io\fP *obj, uint8_t *buf, size_tbuf_size)"
+
+.PP
+Attach byte buffer to \fCbinson_io\fP object\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIbuf\fP uint8_t* Byte buffer pointer 
+.br
+\fIbuf_size\fP size_t Byte buffer size 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_attach_fd (\fBbinson_io\fP *obj, intfd, \fBbinson_io_mode_t\fPmode)"
+
+.PP
+Attach already existing file descriptor to \fCbinson_io\fP object\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIfd\fP int File descriptor 
+.br
+\fImode\fP binson_io_mode_t Access mode 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_attach_str (\fBbinson_io\fP *obj, char *str, size_tstr_size, \fBbinson_io_mode_t\fPmode)"
+
+.PP
+Attach string buffer to \fCbinson_io\fP object\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIstr\fP char* String buffer pointer 
+.br
+\fIstr_size\fP size_t String buffer size 
+.br
+\fImode\fP binson_io_mode_t Access mode 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_attach_stream (\fBbinson_io\fP *obj, FILE *stream)"
+
+.PP
+Attach already opened \fCFILE\fP stream to \fCbinson_io\fP object\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIstream\fP FILE* Stream handle 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_close (\fBbinson_io\fP *obj)"
+
+.PP
+Close \fCbinson_io\fP object and free internal resources\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_open_file (\fBbinson_io\fP *obj, const char *path, \fBbinson_io_mode_t\fPmode)"
+
+.PP
+Open file with specified access mode and attach it to \fCbinson_io\fP object\&. Binson IO abstraction layer API calls
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIpath\fP const char* File path 
+.br
+\fImode\fP binson_io_mode_t Access mode 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_printf (\fBbinson_io\fP *obj, const char *format, \&.\&.\&.)"
+
+.PP
+Writes printf() style formated output to opened \fCbinson_io\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIformat\fP const char* Format string\&. Format is same as used for \fCprintf()\fP 
+.br
+\fI\&.\&.\&.\fP Variable list of arguments 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_read (\fBbinson_io\fP *obj, uint8_t *dst_ptr, size_tmax_size, size_t *read_bytes)"
+
+.PP
+Read from \fCbinson_io\fP up to \fCmax_size\fP bytes to external buffer\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIdst_ptr\fP uint8_t* Destination byte buffer 
+.br
+\fImax_size\fP size_t Buffer size limit 
+.br
+\fIread_bytes\fP size_t* Number of bytes successfully read 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< can't copy more than we have 
+.SS "\fBbinson_res\fP binson_io_read_str (\fBbinson_io\fP *obj, char *strbuf, size_tmax_size, size_t *read_chars, \fBbinson_io_mode_t\fPmode)"
+
+.PP
+Read from \fCbinson_io\fP up to max_size bytes to string buffer \fCstrbuf\fP add trailing zero terminator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIstrbuf\fP char* Destination string buffer pointer 
+.br
+\fImax_size\fP size_t String buffer size 
+.br
+\fIread_chars\fP size_t* Number of chars successfully read 
+.br
+\fImode\fP binson_io_mode_t Specify BINSON_IO_MODE_APPEND to concatenate to existing string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Terminating zero 
+.SS "\fBbinson_res\fP binson_io_vprintf (\fBbinson_io\fP *obj, const char *format, va_listargs)"
+
+.PP
+Writes printf() style formated output to opened \fCbinson_io\fP\&. (\fCva_list\fP argument allows to make wrappers around this function) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIformat\fP const char* Format string\&. Format is same as used for \fCprintf()\fP 
+.br
+\fIargs\fP va_list Variadic arguments 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+<
+.PP
+\fBTodo\fP
+.RS 4
+Implement strict overflow checks to mimic nonportable vsnprintf() 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_write (\fBbinson_io\fP *obj, uint8_t *src_ptr, size_tblock_size)"
+
+.PP
+Writes data from external byte buffer to already opened \fCbinson_io\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIsrc_ptr\fP uint8_t* Byte buffer pointer 
+.br
+\fIblock_size\fP size_t Number of bytes to write 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_write_byte (\fBbinson_io\fP *obj, uint8_tbyte)"
+
+.PP
+Write single byte to opened \fCbinson_io\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIbyte\fP uint8_t Byte value to write 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_io_write_str (\fBbinson_io\fP *obj, const char *str, \fBbool\fPwrite_terminator)"
+
+.PP
+Write zero-terminated string to opened \fCbinson_io\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobj\fP binson_io* Context 
+.br
+\fIstr\fP const char* Source string pointer 
+.br
+\fIwrite_terminator\fP bool Zero terminator write flag 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

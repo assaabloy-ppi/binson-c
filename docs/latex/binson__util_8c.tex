@@ -1,0 +1,111 @@
+\hypertarget{binson__util_8c}{\section{/home/kotomysha/binson/binson/src/binson\-\_\-util.c File Reference}
+\label{binson__util_8c}\index{/home/kotomysha/binson/binson/src/binson\-\_\-util.\-c@{/home/kotomysha/binson/binson/src/binson\-\_\-util.\-c}}
+}
+
+
+Utility functions implementation.  
+
+
+{\ttfamily \#include \char`\"{}binson\-\_\-util.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{binson__util_8c_a93c6b0076abdd8dbe1b052742c71877d}{binson\-\_\-util\-\_\-uint16\-\_\-swap} (uint16\-\_\-t i)
+\item 
+\hypertarget{binson__util_8c_a0424d0e8982c3af293b1763747ca6007}{int16\-\_\-t {\bfseries binson\-\_\-util\-\_\-int16\-\_\-swap} (int16\-\_\-t i)}\label{binson__util_8c_a0424d0e8982c3af293b1763747ca6007}
+
+\item 
+\hypertarget{binson__util_8c_a1f7fb76b68f0a4cbb0c5ceaba3ce6d23}{uint32\-\_\-t {\bfseries binson\-\_\-util\-\_\-uint32\-\_\-swap} (uint32\-\_\-t i)}\label{binson__util_8c_a1f7fb76b68f0a4cbb0c5ceaba3ce6d23}
+
+\item 
+\hypertarget{binson__util_8c_ac8ad55e0f2f3db3ff255ad88fadd9718}{int32\-\_\-t {\bfseries binson\-\_\-util\-\_\-int32\-\_\-swap} (int32\-\_\-t i)}\label{binson__util_8c_ac8ad55e0f2f3db3ff255ad88fadd9718}
+
+\item 
+\hypertarget{binson__util_8c_af095b20811604aacd72729a393f52edd}{int64\-\_\-t {\bfseries binson\-\_\-util\-\_\-int64\-\_\-swap} (int64\-\_\-t i)}\label{binson__util_8c_af095b20811604aacd72729a393f52edd}
+
+\item 
+\hypertarget{binson__util_8c_a31c05f4839841f76a91adfbb7a5b1630}{uint64\-\_\-t {\bfseries binson\-\_\-util\-\_\-uint64\-\_\-swap} (uint64\-\_\-t i)}\label{binson__util_8c_a31c05f4839841f76a91adfbb7a5b1630}
+
+\item 
+uint8\-\_\-t \hyperlink{binson__util_8c_ac4a458eb865b28c8e537a1d643ae109e}{binson\-\_\-util\-\_\-get\-\_\-significant\-\_\-bytes} (int64\-\_\-t i)
+\item 
+size\-\_\-t \hyperlink{binson__util_8c_a039fcef2f81116b20ff8346f8b21fa8a}{binson\-\_\-util\-\_\-pack\-\_\-integer} (int64\-\_\-t val, uint8\-\_\-t $\ast$bbuf, \hyperlink{binson__config_8h_abb452686968e48b67397da5f97445f5b}{bool} expand\-\_\-to\-\_\-next\-\_\-int)
+\begin{DoxyCompactList}\small\item\em Convert 64-\/bit arg to L\-E representation in memory buffer. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{binson__util_8c_af242dfb9a8e71512f6675697afb6c1a5}{binson\-\_\-util\-\_\-pack\-\_\-double} (double val, uint8\-\_\-t $\ast$bbuf)
+\begin{DoxyCompactList}\small\item\em Convert 64-\/bit {\ttfamily double} to L\-E representation in memory buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Utility functions implementation. \begin{DoxyAuthor}{Author}
+Alexander Reshniuk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+20/11/2015 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{binson__util_8c_ac4a458eb865b28c8e537a1d643ae109e}{\index{binson\-\_\-util.\-c@{binson\-\_\-util.\-c}!binson\-\_\-util\-\_\-get\-\_\-significant\-\_\-bytes@{binson\-\_\-util\-\_\-get\-\_\-significant\-\_\-bytes}}
+\index{binson\-\_\-util\-\_\-get\-\_\-significant\-\_\-bytes@{binson\-\_\-util\-\_\-get\-\_\-significant\-\_\-bytes}!binson_util.c@{binson\-\_\-util.\-c}}
+\subsubsection[{binson\-\_\-util\-\_\-get\-\_\-significant\-\_\-bytes}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t binson\-\_\-util\-\_\-get\-\_\-significant\-\_\-bytes (
+\begin{DoxyParamCaption}
+\item[{int64\-\_\-t}]{i}
+\end{DoxyParamCaption}
+)}}\label{binson__util_8c_ac4a458eb865b28c8e537a1d643ae109e}
+Conversion helpers (binson raw $<$-\/$>$ C style) \hypertarget{binson__util_8c_af242dfb9a8e71512f6675697afb6c1a5}{\index{binson\-\_\-util.\-c@{binson\-\_\-util.\-c}!binson\-\_\-util\-\_\-pack\-\_\-double@{binson\-\_\-util\-\_\-pack\-\_\-double}}
+\index{binson\-\_\-util\-\_\-pack\-\_\-double@{binson\-\_\-util\-\_\-pack\-\_\-double}!binson_util.c@{binson\-\_\-util.\-c}}
+\subsubsection[{binson\-\_\-util\-\_\-pack\-\_\-double}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t binson\-\_\-util\-\_\-pack\-\_\-double (
+\begin{DoxyParamCaption}
+\item[{double}]{val, }
+\item[{uint8\-\_\-t $\ast$}]{bbuf}
+\end{DoxyParamCaption}
+)}}\label{binson__util_8c_af242dfb9a8e71512f6675697afb6c1a5}
+
+
+Convert 64-\/bit {\ttfamily double} to L\-E representation in memory buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & double Value \\
+\hline
+{\em bbuf} & uint8\-\_\-t$\ast$ Destination byte buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size\-\_\-t Result width in bytes 
+\end{DoxyReturn}
+\hypertarget{binson__util_8c_a039fcef2f81116b20ff8346f8b21fa8a}{\index{binson\-\_\-util.\-c@{binson\-\_\-util.\-c}!binson\-\_\-util\-\_\-pack\-\_\-integer@{binson\-\_\-util\-\_\-pack\-\_\-integer}}
+\index{binson\-\_\-util\-\_\-pack\-\_\-integer@{binson\-\_\-util\-\_\-pack\-\_\-integer}!binson_util.c@{binson\-\_\-util.\-c}}
+\subsubsection[{binson\-\_\-util\-\_\-pack\-\_\-integer}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t binson\-\_\-util\-\_\-pack\-\_\-integer (
+\begin{DoxyParamCaption}
+\item[{int64\-\_\-t}]{val, }
+\item[{uint8\-\_\-t $\ast$}]{bbuf, }
+\item[{{\bf bool}}]{expand\-\_\-to\-\_\-next\-\_\-int}
+\end{DoxyParamCaption}
+)}}\label{binson__util_8c_a039fcef2f81116b20ff8346f8b21fa8a}
+
+
+Convert 64-\/bit arg to L\-E representation in memory buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & int64\-\_\-t Value \\
+\hline
+{\em bbuf} & uint8\-\_\-t$\ast$ Destination byte buffer \\
+\hline
+{\em expand\-\_\-to\-\_\-next\-\_\-int} & bool Expand number of bytes to next int size (e.\-g. 3-\/$>$4, 5-\/$>$8 bytes) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size\-\_\-t Result width in bytes 
+\end{DoxyReturn}
+$<$ Maps number of bytes to closes int size
+
+$<$ Zero value still requires one byte of storage \hypertarget{binson__util_8c_a93c6b0076abdd8dbe1b052742c71877d}{\index{binson\-\_\-util.\-c@{binson\-\_\-util.\-c}!binson\-\_\-util\-\_\-uint16\-\_\-swap@{binson\-\_\-util\-\_\-uint16\-\_\-swap}}
+\index{binson\-\_\-util\-\_\-uint16\-\_\-swap@{binson\-\_\-util\-\_\-uint16\-\_\-swap}!binson_util.c@{binson\-\_\-util.\-c}}
+\subsubsection[{binson\-\_\-util\-\_\-uint16\-\_\-swap}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t binson\-\_\-util\-\_\-uint16\-\_\-swap (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{i}
+\end{DoxyParamCaption}
+)}}\label{binson__util_8c_a93c6b0076abdd8dbe1b052742c71877d}
+Int endianess change functions 

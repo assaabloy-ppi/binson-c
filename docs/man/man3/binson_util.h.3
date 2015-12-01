@@ -1,0 +1,135 @@
+.TH "/home/kotomysha/binson/binson/src/binson_util.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson_util.h \- 
+.PP
+Utility functions header file\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'binson_config\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBMIN\fP(a, b)   (((a)<(b))?(a):(b))"
+.br
+.ti -1c
+.RI "#define \fBMAX\fP(a, b)   (((a)>(b))?(a):(b))"
+.br
+.ti -1c
+.RI "#define \fBSTR_HELPER\fP(x)   #x"
+.br
+.ti -1c
+.RI "#define \fBSTR\fP(x)   \fBSTR_HELPER\fP(x)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "uint16_t \fBbinson_util_uint16_swap\fP (uint16_t i)"
+.br
+.ti -1c
+.RI "int16_t \fBbinson_util_int16_swap\fP (int16_t i)"
+.br
+.ti -1c
+.RI "uint32_t \fBbinson_util_uint32_swap\fP (uint32_t i)"
+.br
+.ti -1c
+.RI "int32_t \fBbinson_util_int32_swap\fP (int32_t i)"
+.br
+.ti -1c
+.RI "int64_t \fBbinson_util_int64_swap\fP (int64_t i)"
+.br
+.ti -1c
+.RI "uint64_t \fBbinson_util_uint64_swap\fP (uint64_t i)"
+.br
+.ti -1c
+.RI "uint8_t \fBbinson_util_get_significant_bytes\fP (int64_t i)"
+.br
+.ti -1c
+.RI "size_t \fBbinson_util_pack_integer\fP (int64_t val, uint8_t *bbuf, \fBbool\fP expand_to_next_int)"
+.br
+.RI "\fIConvert 64-bit arg to LE representation in memory buffer\&. \fP"
+.ti -1c
+.RI "size_t \fBbinson_util_pack_double\fP (double val, uint8_t *bbuf)"
+.br
+.RI "\fIConvert 64-bit \fCdouble\fP to LE representation in memory buffer\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Utility functions header file\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define MIN(a, b)   (((a)<(b))?(a):(b))"
+Useful macros missing in C89 
+.SS "#define STR_HELPER(x)   #x"
+Argument stringization 
+.SH "Function Documentation"
+.PP 
+.SS "uint8_t binson_util_get_significant_bytes (int64_ti)"
+Conversion helpers (binson raw <-> C style) 
+.SS "size_t binson_util_pack_double (doubleval, uint8_t *bbuf)"
+
+.PP
+Convert 64-bit \fCdouble\fP to LE representation in memory buffer\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIval\fP double Value 
+.br
+\fIbbuf\fP uint8_t* Destination byte buffer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+size_t Result width in bytes 
+.RE
+.PP
+
+.SS "size_t binson_util_pack_integer (int64_tval, uint8_t *bbuf, \fBbool\fPexpand_to_next_int)"
+
+.PP
+Convert 64-bit arg to LE representation in memory buffer\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIval\fP int64_t Value 
+.br
+\fIbbuf\fP uint8_t* Destination byte buffer 
+.br
+\fIexpand_to_next_int\fP bool Expand number of bytes to next int size (e\&.g\&. 3->4, 5->8 bytes) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+size_t Result width in bytes 
+.RE
+.PP
+< Maps number of bytes to closes int size
+.PP
+< Zero value still requires one byte of storage 
+.SS "uint16_t binson_util_uint16_swap (uint16_ti)"
+Int endianess change functions 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

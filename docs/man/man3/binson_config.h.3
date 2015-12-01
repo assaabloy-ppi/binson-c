@@ -1,0 +1,163 @@
+.TH "/home/kotomysha/binson/binson/src/binson_config.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson_config.h \- 
+.PP
+binson-c library build configuration file  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBbool\fP   int"
+.br
+.ti -1c
+.RI "#define \fBtrue\fP   1"
+.br
+.ti -1c
+.RI "#define \fBfalse\fP   0"
+.br
+.ti -1c
+.RI "#define \fB__WORDSIZE\fP   32"
+.br
+.ti -1c
+.RI "#define \fBINT8_MAX\fP   (127)"
+.br
+.ti -1c
+.RI "#define \fBINT16_MAX\fP   (32767)"
+.br
+.ti -1c
+.RI "#define \fBINT32_MAX\fP   (2147483647)"
+.br
+.ti -1c
+.RI "#define \fBINT64_MAX\fP   0x7fffffffffffffffLL"
+.br
+.ti -1c
+.RI "#define \fBINT8_MIN\fP   (-128)"
+.br
+.ti -1c
+.RI "#define \fBINT16_MIN\fP   (-32767-1)"
+.br
+.ti -1c
+.RI "#define \fBINT32_MIN\fP   (-2147483647-1)"
+.br
+.ti -1c
+.RI "#define \fBINT64_MIN\fP   (-INT64_MAX - 1LL)"
+.br
+.ti -1c
+.RI "#define \fBUINT8_MAX\fP   (255)"
+.br
+.ti -1c
+.RI "#define \fBUINT16_MAX\fP   (65535)"
+.br
+.ti -1c
+.RI "#define \fBUINT32_MAX\fP   (4294967295U)"
+.br
+.ti -1c
+.RI "#define \fBSIZE_MAX\fP   (4294967295U)"
+.br
+.ti -1c
+.RI "#define \fBIS_LITTLE_ENDIAN\fP   (((*(short *)'xy') & 0xFF) == 'x')"
+.br
+.ti -1c
+.RI "#define \fBDEBUG\fP"
+.br
+.ti -1c
+.RI "#define \fBERROR_RING_SIZE\fP   16"
+.br
+.ti -1c
+.RI "#define \fBBINSON_CHILD_NUM_T\fP   uint8_t"
+.br
+.ti -1c
+.RI "#define \fBBINSON_NODE_NUM_T\fP   uint16_t"
+.br
+.ti -1c
+.RI "#define \fBBINSON_DEPTH_LIMIT\fP   16"
+.br
+.ti -1c
+.RI "#define \fBBINSON_WITH_JSON_OUTPUT\fP"
+.br
+.ti -1c
+.RI "#define \fBBINSON_JSON_OBJ_LENGTH_LIMIT\fP   256"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef signed char \fBint8_t\fP"
+.br
+.ti -1c
+.RI "typedef short int \fBint16_t\fP"
+.br
+.ti -1c
+.RI "typedef int \fBint32_t\fP"
+.br
+.ti -1c
+.RI "typedef long long int \fBint64_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned char \fBuint8_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned short int \fBuint16_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBuint32_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long long int \fBuint64_t\fP"
+.br
+.ti -1c
+.RI "typedef BINSON_CHILD_NUM_T \fBbinson_child_num\fP"
+.br
+.ti -1c
+.RI "typedef BINSON_NODE_NUM_T \fBbinson_node_num\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+binson-c library build configuration file 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BINSON_JSON_OBJ_LENGTH_LIMIT   256"
+Max number or chars in JSON-dumped representation of object 
+.SS "#define BINSON_WITH_JSON_OUTPUT"
+Build \fCbinson_writer\fP with JSON output support 
+.SS "#define bool   int"
+BEGIN of backport section< \fCbool\fP type backport\&. C89 have no \fCbool\fP type 
+.SS "#define DEBUG"
+Uncoment this to disable \fCassert()\fP and \fCBINSON_ASSERT()\fP support 
+.SS "#define ERROR_RING_SIZE   16"
+Size of circular error buffer 
+.SS "#define false   0"
+In C89 we have no strdint\&.h, so need to mimic it 
+.SS "#define INT8_MAX   (127)"
+Backport (from C99's \fCstrdin\&.h\fP) of range defines 
+.SS "#define IS_LITTLE_ENDIAN   (((*(short *)'xy') & 0xFF) == 'x')"
+END of backport section Detect endianness at build timecomment this for release lib builds 
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef signed char \fBint8_t\fP"
+Backport of fixed width types from C99's strdin\&.h 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

@@ -1,0 +1,62 @@
+\hypertarget{binson__parser_8h}{\section{/home/kotomysha/binson/binson/src/binson\-\_\-parser.h File Reference}
+\label{binson__parser_8h}\index{/home/kotomysha/binson/binson/src/binson\-\_\-parser.\-h@{/home/kotomysha/binson/binson/src/binson\-\_\-parser.\-h}}
+}
+
+
+Binson binary format parsing A\-P\-I header file.  
+
+
+{\ttfamily \#include \char`\"{}binson\-\_\-config.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-error.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-io.\-h\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct binson\-\_\-parser\-\_\- \hyperlink{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}{binson\-\_\-parser}
+\item 
+typedef \hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res}($\ast$ \hyperlink{binson__parser_8h_a6e1b9765849c4aaaf93cfbc8fea2c37f}{binson\-\_\-parser\-\_\-cb} )(binson\-\_\-node $\ast$node, int depth, void $\ast$param)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__parser_8h_ac6137ca7c606c6807b3be9e5be2c9dfc}{binson\-\_\-parser\-\_\-init} (\hyperlink{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}{binson\-\_\-parser} $\ast$parser, \hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$io)
+\item 
+\hypertarget{binson__parser_8h_ae54151220c5140d2a071c3736c8cbd44}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-parser\-\_\-free} (\hyperlink{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}{binson\-\_\-parser} $\ast$parser)}\label{binson__parser_8h_ae54151220c5140d2a071c3736c8cbd44}
+
+\item 
+\hypertarget{binson__parser_8h_ac83f5749ec618ed8ec898278f8d345f1}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-parser\-\_\-start} (\hyperlink{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}{binson\-\_\-parser} $\ast$parser, \hyperlink{binson__parser_8h_a6e1b9765849c4aaaf93cfbc8fea2c37f}{binson\-\_\-parser\-\_\-cb} cb, void $\ast$param)}\label{binson__parser_8h_ac83f5749ec618ed8ec898278f8d345f1}
+
+\item 
+\hypertarget{binson__parser_8h_a5d4785daf30240914388967c326d726d}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-parser\-\_\-continue} (\hyperlink{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}{binson\-\_\-parser} $\ast$parser, \hyperlink{binson__parser_8h_a6e1b9765849c4aaaf93cfbc8fea2c37f}{binson\-\_\-parser\-\_\-cb} cb, void $\ast$param)}\label{binson__parser_8h_a5d4785daf30240914388967c326d726d}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Binson binary format parsing A\-P\-I header file. \begin{DoxyAuthor}{Author}
+Alexander Reshniuk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+20/11/2015 
+\end{DoxyDate}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}{\index{binson\-\_\-parser.\-h@{binson\-\_\-parser.\-h}!binson\-\_\-parser@{binson\-\_\-parser}}
+\index{binson\-\_\-parser@{binson\-\_\-parser}!binson_parser.h@{binson\-\_\-parser.\-h}}
+\subsubsection[{binson\-\_\-parser}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct binson\-\_\-parser\-\_\- {\bf binson\-\_\-parser}}}\label{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}
+Forward declarations \hypertarget{binson__parser_8h_a6e1b9765849c4aaaf93cfbc8fea2c37f}{\index{binson\-\_\-parser.\-h@{binson\-\_\-parser.\-h}!binson\-\_\-parser\-\_\-cb@{binson\-\_\-parser\-\_\-cb}}
+\index{binson\-\_\-parser\-\_\-cb@{binson\-\_\-parser\-\_\-cb}!binson_parser.h@{binson\-\_\-parser.\-h}}
+\subsubsection[{binson\-\_\-parser\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf binson\-\_\-res}($\ast$ binson\-\_\-parser\-\_\-cb)(binson\-\_\-node $\ast$node, int depth, void $\ast$param)}}\label{binson__parser_8h_a6e1b9765849c4aaaf93cfbc8fea2c37f}
+Parsing callback declaration 
+
+\subsection{Function Documentation}
+\hypertarget{binson__parser_8h_ac6137ca7c606c6807b3be9e5be2c9dfc}{\index{binson\-\_\-parser.\-h@{binson\-\_\-parser.\-h}!binson\-\_\-parser\-\_\-init@{binson\-\_\-parser\-\_\-init}}
+\index{binson\-\_\-parser\-\_\-init@{binson\-\_\-parser\-\_\-init}!binson_parser.h@{binson\-\_\-parser.\-h}}
+\subsubsection[{binson\-\_\-parser\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-parser\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-parser} $\ast$}]{parser, }
+\item[{{\bf binson\-\_\-io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{binson__parser_8h_ac6137ca7c606c6807b3be9e5be2c9dfc}
+Binson parser A\-P\-I calls 

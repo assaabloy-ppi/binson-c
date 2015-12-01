@@ -1,0 +1,85 @@
+.TH "/home/kotomysha/binson/binson/src/binson_strstack.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson_strstack.h \- 
+.PP
+String stack implementation\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'binson_config\&.h'\fP
+.br
+\fC#include 'binson_error\&.h'\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct binson_strstack_ \fBbinson_strstack\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_strstack_init\fP (\fBbinson_strstack\fP *strbuf, char *ptr, size_t size)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_strstack_free\fP (\fBbinson_strstack\fP *strbuf)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_strstack_lease\fP (\fBbinson_strstack\fP *strbuf, char **ptr, size_t size)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_strstack_grow\fP (\fBbinson_strstack\fP *strbuf, size_t new_size)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_strstack_release\fP (\fBbinson_strstack_t\fP *strbuf, char *ptr)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_strstack_getfree\fP (\fBbinson_strstack_t\fP *strbuf)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+String stack implementation\&. 
+
+String stack header file\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015
+.RE
+.PP
+Strstack is minimum performance overhead and memleak-safe alternative to malloc's Main limitation of strstack is impossibility to release non-top string
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct binson_strstack_ \fBbinson_strstack\fP"
+Forward declarations 
+.SH "Function Documentation"
+.PP 
+.SS "\fBbinson_res\fP binson_strstack_init (\fBbinson_strstack\fP *strbuf, char *ptr, size_tsize)"
+String stack API calls 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

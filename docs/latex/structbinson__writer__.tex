@@ -1,0 +1,42 @@
+\hypertarget{structbinson__writer__}{\section{binson\-\_\-writer\-\_\- Struct Reference}
+\label{structbinson__writer__}\index{binson\-\_\-writer\-\_\-@{binson\-\_\-writer\-\_\-}}
+}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$ \hyperlink{structbinson__writer___ac3e1379fcb1bf00e4541f50350600022}{io}
+\item 
+\hyperlink{binson__writer_8h_aea4e04083f3bc47ed78011a9653609c1}{binson\-\_\-writer\-\_\-format} \hyperlink{structbinson__writer___aa87af0e0c359af37c271ef50cd1bc98b}{format}
+\item 
+uint8\-\_\-t \hyperlink{structbinson__writer___a5bbe00e2514ebaac697f3f2f8755ddbe}{sig\-\_\-stack} \mbox{[}B\-I\-N\-S\-O\-N\-\_\-\-D\-E\-P\-T\-H\-\_\-\-L\-I\-M\-I\-T\mbox{]}
+\item 
+binson\-\_\-child\-\_\-num \hyperlink{structbinson__writer___a9b3c4e8a83f930a2cb63002e26dc23b2}{idx\-\_\-stack} \mbox{[}B\-I\-N\-S\-O\-N\-\_\-\-D\-E\-P\-T\-H\-\_\-\-L\-I\-M\-I\-T\mbox{]}
+\item 
+int \hyperlink{structbinson__writer___acb5ba97551079e0b072c62c21d784ac5}{depth}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Binson writer context struct 
+
+\subsection{Field Documentation}
+\hypertarget{structbinson__writer___acb5ba97551079e0b072c62c21d784ac5}{\index{binson\-\_\-writer\-\_\-@{binson\-\_\-writer\-\_\-}!depth@{depth}}
+\index{depth@{depth}!binson_writer_@{binson\-\_\-writer\-\_\-}}
+\subsubsection[{depth}]{\setlength{\rightskip}{0pt plus 5cm}int depth}}\label{structbinson__writer___acb5ba97551079e0b072c62c21d784ac5}
+Current tree depth. Used as stack top pointer \hypertarget{structbinson__writer___aa87af0e0c359af37c271ef50cd1bc98b}{\index{binson\-\_\-writer\-\_\-@{binson\-\_\-writer\-\_\-}!format@{format}}
+\index{format@{format}!binson_writer_@{binson\-\_\-writer\-\_\-}}
+\subsubsection[{format}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-writer\-\_\-format} format}}\label{structbinson__writer___aa87af0e0c359af37c271ef50cd1bc98b}
+Current binson writer output format \hypertarget{structbinson__writer___a9b3c4e8a83f930a2cb63002e26dc23b2}{\index{binson\-\_\-writer\-\_\-@{binson\-\_\-writer\-\_\-}!idx\-\_\-stack@{idx\-\_\-stack}}
+\index{idx\-\_\-stack@{idx\-\_\-stack}!binson_writer_@{binson\-\_\-writer\-\_\-}}
+\subsubsection[{idx\-\_\-stack}]{\setlength{\rightskip}{0pt plus 5cm}binson\-\_\-child\-\_\-num idx\-\_\-stack\mbox{[}B\-I\-N\-S\-O\-N\-\_\-\-D\-E\-P\-T\-H\-\_\-\-L\-I\-M\-I\-T\mbox{]}}}\label{structbinson__writer___a9b3c4e8a83f930a2cb63002e26dc23b2}
+Tracking indexes of children \hypertarget{structbinson__writer___ac3e1379fcb1bf00e4541f50350600022}{\index{binson\-\_\-writer\-\_\-@{binson\-\_\-writer\-\_\-}!io@{io}}
+\index{io@{io}!binson_writer_@{binson\-\_\-writer\-\_\-}}
+\subsubsection[{io}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-io}$\ast$ io}}\label{structbinson__writer___ac3e1379fcb1bf00e4541f50350600022}
+Associated {\ttfamily binson\-\_\-io} struct \hypertarget{structbinson__writer___a5bbe00e2514ebaac697f3f2f8755ddbe}{\index{binson\-\_\-writer\-\_\-@{binson\-\_\-writer\-\_\-}!sig\-\_\-stack@{sig\-\_\-stack}}
+\index{sig\-\_\-stack@{sig\-\_\-stack}!binson_writer_@{binson\-\_\-writer\-\_\-}}
+\subsubsection[{sig\-\_\-stack}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t sig\-\_\-stack\mbox{[}B\-I\-N\-S\-O\-N\-\_\-\-D\-E\-P\-T\-H\-\_\-\-L\-I\-M\-I\-T\mbox{]}}}\label{structbinson__writer___a5bbe00e2514ebaac697f3f2f8755ddbe}
+When moving to next level down (starting to write new O\-B\-J\-E\-C\-T or A\-R\-R\-A\-Y) it's required to store in stack current horizontal item index to restore it on the return trip. This functionality implemented for B\-I\-N\-S\-O\-N\-\_\-\-W\-R\-I\-T\-E\-R\-\_\-\-F\-O\-R\-M\-A\-T\-\_\-\-J\-S\-O\-N\-\_\-$\ast$ modes only to keep track of commas on each level.\-Used to keep track of parents\-: O\-B\-J\-E\-C\-T or A\-R\-R\-A\-Y 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/kotomysha/binson/binson/src/\hyperlink{binson__writer_8c}{binson\-\_\-writer.\-c}\end{DoxyCompactItemize}

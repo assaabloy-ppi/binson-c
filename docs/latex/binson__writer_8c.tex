@@ -1,0 +1,481 @@
+\hypertarget{binson__writer_8c}{\section{/home/kotomysha/binson/binson/src/binson\-\_\-writer.c File Reference}
+\label{binson__writer_8c}\index{/home/kotomysha/binson/binson/src/binson\-\_\-writer.\-c@{/home/kotomysha/binson/binson/src/binson\-\_\-writer.\-c}}
+}
+
+
+Binson format writer implementation file.  
+
+
+{\ttfamily \#include \char`\"{}binson\-\_\-config.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-writer.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-util.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$assert.\-h$>$}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbinson__writer__}{binson\-\_\-writer\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{binson__writer_8c_a8ddb051f1f6feb7cd1c8c5a36a9c6d1e}{B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-O\-B\-J\-\_\-\-B\-E\-G\-I\-N}~0x40
+\item 
+\hypertarget{binson__writer_8c_a92a0aebc6930ce4ed6ead77b08ef2c0b}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-O\-B\-J\-\_\-\-E\-N\-D}~0x41}\label{binson__writer_8c_a92a0aebc6930ce4ed6ead77b08ef2c0b}
+
+\item 
+\hypertarget{binson__writer_8c_a5b0297511094a01ee041eed46b5a83bc}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-A\-R\-R\-A\-Y\-\_\-\-B\-E\-G\-I\-N}~0x42}\label{binson__writer_8c_a5b0297511094a01ee041eed46b5a83bc}
+
+\item 
+\hypertarget{binson__writer_8c_ac7c2d1a9c7f3b3f32c31f50912b37f1b}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-A\-R\-R\-A\-Y\-\_\-\-E\-N\-D}~0x43}\label{binson__writer_8c_ac7c2d1a9c7f3b3f32c31f50912b37f1b}
+
+\item 
+\hypertarget{binson__writer_8c_aacc56160d5354fca74d053d0812a3fcd}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-T\-R\-U\-E}~0x44;}\label{binson__writer_8c_aacc56160d5354fca74d053d0812a3fcd}
+
+\item 
+\hypertarget{binson__writer_8c_ab3109a846e9274d5aa8f17602cad5633}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-F\-A\-L\-S\-E}~0x45;}\label{binson__writer_8c_ab3109a846e9274d5aa8f17602cad5633}
+
+\item 
+\hypertarget{binson__writer_8c_a0263529b3f60c0ad067804273d7e9baf}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-D\-O\-U\-B\-L\-E}~0x46;}\label{binson__writer_8c_a0263529b3f60c0ad067804273d7e9baf}
+
+\item 
+\hypertarget{binson__writer_8c_a7d8ab25d1698f53559d66d1623aa3c98}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-I\-N\-T\-E\-G\-E\-R\-\_\-8}~0x10;}\label{binson__writer_8c_a7d8ab25d1698f53559d66d1623aa3c98}
+
+\item 
+\hypertarget{binson__writer_8c_a943a5a00841b9bfdadab4bdb6a80e578}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-I\-N\-T\-E\-G\-E\-R\-\_\-16}~0x11;}\label{binson__writer_8c_a943a5a00841b9bfdadab4bdb6a80e578}
+
+\item 
+\hypertarget{binson__writer_8c_a4ce7dd90885cfe1335d612f967f6d2d2}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-I\-N\-T\-E\-G\-E\-R\-\_\-32}~0x12;}\label{binson__writer_8c_a4ce7dd90885cfe1335d612f967f6d2d2}
+
+\item 
+\hypertarget{binson__writer_8c_adb0e01af1466849c3b7a78283b2ea92e}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-I\-N\-T\-E\-G\-E\-R\-\_\-64}~0x13;}\label{binson__writer_8c_adb0e01af1466849c3b7a78283b2ea92e}
+
+\item 
+\hypertarget{binson__writer_8c_aa1844a48f36333962bc5805d8b361eac}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-8}~0x14;}\label{binson__writer_8c_aa1844a48f36333962bc5805d8b361eac}
+
+\item 
+\hypertarget{binson__writer_8c_a6f6caa6ad8a37b903397e7060cc738a3}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-16}~0x15;}\label{binson__writer_8c_a6f6caa6ad8a37b903397e7060cc738a3}
+
+\item 
+\hypertarget{binson__writer_8c_aec233fd0a17e7fd4f32012068f7cfe08}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-32}~0x16;}\label{binson__writer_8c_aec233fd0a17e7fd4f32012068f7cfe08}
+
+\item 
+\hypertarget{binson__writer_8c_a1ad1490d231864509728b1f6c0522f1d}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-B\-Y\-T\-E\-S\-\_\-8}~0x18;}\label{binson__writer_8c_a1ad1490d231864509728b1f6c0522f1d}
+
+\item 
+\hypertarget{binson__writer_8c_a9fafcf29e78d449b52eb5e317dab403c}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-B\-Y\-T\-E\-S\-\_\-16}~0x19;}\label{binson__writer_8c_a9fafcf29e78d449b52eb5e317dab403c}
+
+\item 
+\hypertarget{binson__writer_8c_a505019244aa86df6f3d058ff31570daa}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-B\-Y\-T\-E\-S\-\_\-32}~0x1a;}\label{binson__writer_8c_a505019244aa86df6f3d058ff31570daa}
+
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structbinson__writer__}{binson\-\_\-writer\-\_\-} \hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_a971264c72b2dbb09f007023d052a0f9c}{binson\-\_\-writer\-\_\-init} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, \hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$io, \hyperlink{binson__writer_8h_aea4e04083f3bc47ed78011a9653609c1}{binson\-\_\-writer\-\_\-format} format)
+\begin{DoxyCompactList}\small\item\em Initilize {\ttfamily binson\-\_\-writer} context. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_aad59274a74b8f7b610ee9489db26f865}{binson\-\_\-writer\-\_\-free} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer)
+\begin{DoxyCompactList}\small\item\em Free all resources used by {\ttfamily binson\-\_\-writer} instance. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_a03cbd83e4c74cc962bff632f0163dacc}{binson\-\_\-writer\-\_\-set\-\_\-format} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, \hyperlink{binson__writer_8h_aea4e04083f3bc47ed78011a9653609c1}{binson\-\_\-writer\-\_\-format} format)
+\begin{DoxyCompactList}\small\item\em Set output format. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_a7ba75e2590da5f9e111f2b1e0136d59c}{binson\-\_\-writer\-\_\-set\-\_\-io} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, \hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$io)
+\begin{DoxyCompactList}\small\item\em Set input/output abstraction layer instance. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_af24139b4c8754248f4cd9352cc918c0e}{binson\-\_\-writer\-\_\-start} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer)
+\begin{DoxyCompactList}\small\item\em Reset current state and start new writer session. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_adf917f1a51c9b8443f56280dea1524f6}{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-begin} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer)
+\begin{DoxyCompactList}\small\item\em Write output for O\-B\-J\-E\-C\-T begin. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_a1ce802296507c4d8016fd59dec3b861d}{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-end} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer)
+\begin{DoxyCompactList}\small\item\em Write output for O\-B\-J\-E\-C\-T end. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_ac5f633eca4154c653b762062bfc70c90}{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-begin} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer)
+\begin{DoxyCompactList}\small\item\em Write output for A\-R\-R\-A\-Y begin. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_ab17b29cff92fed9fc58061c26b595099}{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-end} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer)
+\begin{DoxyCompactList}\small\item\em Write output for A\-R\-R\-A\-Y end. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_ac8f4e79a373643a4fc0948b19e9e0472}{binson\-\_\-writer\-\_\-write\-\_\-boolean} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, \hyperlink{binson__config_8h_abb452686968e48b67397da5f97445f5b}{bool} val)
+\begin{DoxyCompactList}\small\item\em Write output to io for single bool value. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_a67dd7b722613aa0ba280de67c4de92eb}{binson\-\_\-writer\-\_\-write\-\_\-integer} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, int64\-\_\-t val)
+\begin{DoxyCompactList}\small\item\em Write output to io for single {\ttfamily int8\-\_\-t} .. {\ttfamily int64\-\_\-t} value with automatic type downgrade according to real bytes used. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_a5fd1fd2cd95bc8001ce4de2ee9684af4}{binson\-\_\-writer\-\_\-write\-\_\-double} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, double val)
+\begin{DoxyCompactList}\small\item\em Write output to io for single {\ttfamily double} value. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_ad50e56a48b64f8f6f7aa1d55dd7f42c7}{write\-\_\-bytes} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, uint8\-\_\-t $\ast$src\-\_\-ptr, size\-\_\-t src\-\_\-size, uint8\-\_\-t sig)
+\begin{DoxyCompactList}\small\item\em Private helper. Single code logic for {\ttfamily \hyperlink{binson__writer_8c_a741ea7965c03b09aaf3d662a5fde4959}{binson\-\_\-writer\-\_\-write\-\_\-str()}} and {\ttfamily \hyperlink{binson__writer_8c_a1cfcc45ffde53c60d72c656b9dc50f15}{binson\-\_\-writer\-\_\-write\-\_\-bytes()}} \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_a741ea7965c03b09aaf3d662a5fde4959}{binson\-\_\-writer\-\_\-write\-\_\-str} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, const char $\ast$str)
+\begin{DoxyCompactList}\small\item\em Write S\-T\-R\-I\-N\-G object to io. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__writer_8c_a1cfcc45ffde53c60d72c656b9dc50f15}{binson\-\_\-writer\-\_\-write\-\_\-bytes} (\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, uint8\-\_\-t $\ast$src\-\_\-ptr, size\-\_\-t src\-\_\-size)
+\begin{DoxyCompactList}\small\item\em Write B\-Y\-T\-E\-S object to io. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Binson format writer implementation file. \begin{DoxyAuthor}{Author}
+Alexander Reshniuk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+20/11/2015 
+\end{DoxyDate}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{binson__writer_8c_a8ddb051f1f6feb7cd1c8c5a36a9c6d1e}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-O\-B\-J\-\_\-\-B\-E\-G\-I\-N@{B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-O\-B\-J\-\_\-\-B\-E\-G\-I\-N}}
+\index{B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-O\-B\-J\-\_\-\-B\-E\-G\-I\-N@{B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-O\-B\-J\-\_\-\-B\-E\-G\-I\-N}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-O\-B\-J\-\_\-\-B\-E\-G\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-I\-N\-S\-O\-N\-\_\-\-S\-I\-G\-\_\-\-O\-B\-J\-\_\-\-B\-E\-G\-I\-N~0x40}}\label{binson__writer_8c_a8ddb051f1f6feb7cd1c8c5a36a9c6d1e}
+$<$ Binson binary format 8-\/bit signatures 
+
+\subsection{Typedef Documentation}
+\hypertarget{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer@{binson\-\_\-writer}}
+\index{binson\-\_\-writer@{binson\-\_\-writer}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf binson\-\_\-writer\-\_\-}  {\bf binson\-\_\-writer}}}\label{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}
+Binson writer context struct 
+
+\subsection{Function Documentation}
+\hypertarget{binson__writer_8c_aad59274a74b8f7b610ee9489db26f865}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-free@{binson\-\_\-writer\-\_\-free}}
+\index{binson\-\_\-writer\-\_\-free@{binson\-\_\-writer\-\_\-free}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-free (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_aad59274a74b8f7b610ee9489db26f865}
+
+
+Free all resources used by {\ttfamily binson\-\_\-writer} instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Initial parameter validation
+
+$<$ Reset internal state
+
+$<$ Do nothing since we had no mallocs \hypertarget{binson__writer_8c_a971264c72b2dbb09f007023d052a0f9c}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-init@{binson\-\_\-writer\-\_\-init}}
+\index{binson\-\_\-writer\-\_\-init@{binson\-\_\-writer\-\_\-init}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{{\bf binson\-\_\-io} $\ast$}]{io, }
+\item[{{\bf binson\-\_\-writer\-\_\-format}}]{format}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_a971264c72b2dbb09f007023d052a0f9c}
+
+
+Initilize {\ttfamily binson\-\_\-writer} context. 
+
+Private section (ignored by doxygen) end
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em io} & binson\-\_\-io$\ast$ I\-O abstraction layer instance \\
+\hline
+{\em format} & binson\-\_\-writer\-\_\-format Output format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Initial parameter validation \hypertarget{binson__writer_8c_a03cbd83e4c74cc962bff632f0163dacc}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-set\-\_\-format@{binson\-\_\-writer\-\_\-set\-\_\-format}}
+\index{binson\-\_\-writer\-\_\-set\-\_\-format@{binson\-\_\-writer\-\_\-set\-\_\-format}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-set\-\_\-format}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-set\-\_\-format (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{{\bf binson\-\_\-writer\-\_\-format}}]{format}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_a03cbd83e4c74cc962bff632f0163dacc}
+
+
+Set output format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em format} & binson\-\_\-writer\-\_\-format Output format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Initial parameter validation \hypertarget{binson__writer_8c_a7ba75e2590da5f9e111f2b1e0136d59c}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-set\-\_\-io@{binson\-\_\-writer\-\_\-set\-\_\-io}}
+\index{binson\-\_\-writer\-\_\-set\-\_\-io@{binson\-\_\-writer\-\_\-set\-\_\-io}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-set\-\_\-io}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-set\-\_\-io (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{{\bf binson\-\_\-io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_a7ba75e2590da5f9e111f2b1e0136d59c}
+
+
+Set input/output abstraction layer instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em io} & binson\-\_\-io$\ast$ I\-O abstraction layer instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Initial parameter validation \hypertarget{binson__writer_8c_af24139b4c8754248f4cd9352cc918c0e}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-start@{binson\-\_\-writer\-\_\-start}}
+\index{binson\-\_\-writer\-\_\-start@{binson\-\_\-writer\-\_\-start}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-start (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_af24139b4c8754248f4cd9352cc918c0e}
+
+
+Reset current state and start new writer session. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Initial parameter validation \hypertarget{binson__writer_8c_ac5f633eca4154c653b762062bfc70c90}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-begin@{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-begin}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-begin@{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-begin}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-begin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-begin (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_ac5f633eca4154c653b762062bfc70c90}
+
+
+Write output for A\-R\-R\-A\-Y begin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__writer_8c_ab17b29cff92fed9fc58061c26b595099}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-end@{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-end}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-end@{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-end}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-array\-\_\-end (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_ab17b29cff92fed9fc58061c26b595099}
+
+
+Write output for A\-R\-R\-A\-Y end. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__writer_8c_ac8f4e79a373643a4fc0948b19e9e0472}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-boolean@{binson\-\_\-writer\-\_\-write\-\_\-boolean}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-boolean@{binson\-\_\-writer\-\_\-write\-\_\-boolean}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-boolean}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-boolean (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{{\bf bool}}]{val}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_ac8f4e79a373643a4fc0948b19e9e0472}
+
+
+Write output to io for single bool value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em val} & bool Value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Initial parameter validation \hypertarget{binson__writer_8c_a1cfcc45ffde53c60d72c656b9dc50f15}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-bytes@{binson\-\_\-writer\-\_\-write\-\_\-bytes}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-bytes@{binson\-\_\-writer\-\_\-write\-\_\-bytes}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-bytes}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-bytes (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{uint8\-\_\-t $\ast$}]{src\-\_\-ptr, }
+\item[{size\-\_\-t}]{src\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_a1cfcc45ffde53c60d72c656b9dc50f15}
+
+
+Write B\-Y\-T\-E\-S object to io. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em src\-\_\-ptr} & uint8\-\_\-t$\ast$ Byte buffer \\
+\hline
+{\em src\-\_\-size} & size\-\_\-t Size of data in byte buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__writer_8c_a5fd1fd2cd95bc8001ce4de2ee9684af4}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-double@{binson\-\_\-writer\-\_\-write\-\_\-double}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-double@{binson\-\_\-writer\-\_\-write\-\_\-double}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-double}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-double (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_a5fd1fd2cd95bc8001ce4de2ee9684af4}
+
+
+Write output to io for single {\ttfamily double} value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em val} & double Value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Initial parameter validation
+
+$<$ Format dependent output \hypertarget{binson__writer_8c_a67dd7b722613aa0ba280de67c4de92eb}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-integer@{binson\-\_\-writer\-\_\-write\-\_\-integer}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-integer@{binson\-\_\-writer\-\_\-write\-\_\-integer}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-integer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-integer (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{int64\-\_\-t}]{val}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_a67dd7b722613aa0ba280de67c4de92eb}
+
+
+Write output to io for single {\ttfamily int8\-\_\-t} .. {\ttfamily int64\-\_\-t} value with automatic type downgrade according to real bytes used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em val} & int64\-\_\-t Integer argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Initial parameter validation
+
+$<$ Convert value to I\-N\-T\-E\-G\-E\-R primitive and store it in specified byte buffer
+
+$<$ Format dependent output
+
+$<$\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000002}{Todo}]fix printing int64\-\_\-t in C89 \end{DoxyRefDesc}
+\hypertarget{binson__writer_8c_adf917f1a51c9b8443f56280dea1524f6}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-begin@{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-begin}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-begin@{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-begin}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-begin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-begin (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_adf917f1a51c9b8443f56280dea1524f6}
+
+
+Write output for O\-B\-J\-E\-C\-T begin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__writer_8c_a1ce802296507c4d8016fd59dec3b861d}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-end@{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-end}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-end@{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-end}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-object\-\_\-end (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_a1ce802296507c4d8016fd59dec3b861d}
+
+
+Write output for O\-B\-J\-E\-C\-T end. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__writer_8c_a741ea7965c03b09aaf3d662a5fde4959}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!binson\-\_\-writer\-\_\-write\-\_\-str@{binson\-\_\-writer\-\_\-write\-\_\-str}}
+\index{binson\-\_\-writer\-\_\-write\-\_\-str@{binson\-\_\-writer\-\_\-write\-\_\-str}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{binson\-\_\-writer\-\_\-write\-\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-writer\-\_\-write\-\_\-str (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{const char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_a741ea7965c03b09aaf3d662a5fde4959}
+
+
+Write S\-T\-R\-I\-N\-G object to io. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em str} & const char$\ast$ Source string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+\hypertarget{binson__writer_8c_ad50e56a48b64f8f6f7aa1d55dd7f42c7}{\index{binson\-\_\-writer.\-c@{binson\-\_\-writer.\-c}!write\-\_\-bytes@{write\-\_\-bytes}}
+\index{write\-\_\-bytes@{write\-\_\-bytes}!binson_writer.c@{binson\-\_\-writer.\-c}}
+\subsubsection[{write\-\_\-bytes}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} write\-\_\-bytes (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-writer} $\ast$}]{writer, }
+\item[{uint8\-\_\-t $\ast$}]{src\-\_\-ptr, }
+\item[{size\-\_\-t}]{src\-\_\-size, }
+\item[{uint8\-\_\-t}]{sig}
+\end{DoxyParamCaption}
+)}}\label{binson__writer_8c_ad50e56a48b64f8f6f7aa1d55dd7f42c7}
+
+
+Private helper. Single code logic for {\ttfamily \hyperlink{binson__writer_8c_a741ea7965c03b09aaf3d662a5fde4959}{binson\-\_\-writer\-\_\-write\-\_\-str()}} and {\ttfamily \hyperlink{binson__writer_8c_a1cfcc45ffde53c60d72c656b9dc50f15}{binson\-\_\-writer\-\_\-write\-\_\-bytes()}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & binson\-\_\-writer$\ast$ Context \\
+\hline
+{\em src\-\_\-ptr} & uint8\-\_\-t$\ast$ Byte buffer \\
+\hline
+{\em src\-\_\-size} & size\-\_\-t Size of byte buffer \\
+\hline
+{\em sig} & uint8\-\_\-t Signature to distinct S\-T\-R\-I\-N\-G / B\-Y\-T\-E\-S \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res 
+\end{DoxyReturn}
+$<$ Initial parameter validation
+
+$<$ Convert buffer size to I\-N\-T\-E\-G\-E\-R primitive and store it in specified byte buffer
+
+$<$ Format dependent output
+
+$<$ Write signature + packed length
+
+$<$ Write byte buffer
+
+$<$ Print optional first part but not value 

@@ -1,0 +1,198 @@
+\hypertarget{binson__error_8h}{\section{/home/kotomysha/binson/binson/src/binson\-\_\-error.h File Reference}
+\label{binson__error_8h}\index{/home/kotomysha/binson/binson/src/binson\-\_\-error.\-h@{/home/kotomysha/binson/binson/src/binson\-\_\-error.\-h}}
+}
+
+
+Binson error handling implementation.  
+
+
+{\ttfamily \#include \char`\"{}binson\-\_\-config.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-io.\-h\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276}{binson\-\_\-res\-\_\-} \hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276}{binson\-\_\-res\-\_\-} \{ \\*
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a92f2f824d7b26e84e7f21c58ff5eec81}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-O\-K} = 0, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-B\-R\-E\-A\-K} = 32, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-R\-E\-S\-T\-A\-R\-T}, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-D\-O\-N\-E}, 
+\\*
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a1b73b63256a2be1676e59fc75316718e}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-C\-B}, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-R\-G\-\_\-\-W\-R\-O\-N\-G}, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a5b2c54eeab0e234ca411fb7fa77c98bf}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-R\-G\-\_\-\-W\-R\-O\-N\-G\-\_\-\-C\-O\-M\-B}, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a0bb9ad2596e4cff525484769ce508a01}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-T\-R\-E\-E\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-A\-R\-R\-A\-Y} = 128, 
+\\*
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-E\-O\-F} = 256, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-B\-U\-F\-F\-E\-R}, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a81545be3c133818e6f5f83afc8bb6cf7}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-P\-A\-R\-T}, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a67b1f16a447b1f213763470b75a2361a}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}, 
+\\*
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-A\-R\-S\-E\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-S\-I\-G}, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276ab34d0ecc2c64d63f9482c88efc73088c}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-A\-R\-S\-E\-\_\-\-S\-U\-S\-P\-E\-N\-D\-E\-D}, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a7aa9f88e06a2e6de0dc04e814bbee3fd}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-F\-A\-I\-L\-E\-D} = 512, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a14c51633cfea5f37c0d9f1850c94f9ac}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-L\-I\-B\-\_\-\-V\-E\-R\-S\-I\-O\-N}, 
+\\*
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276acd43ba4b28a9fd219743f83de449057a}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-T\-\_\-\-S\-U\-P\-P\-O\-R\-T\-E\-D}, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-M\-E\-M\-O\-R\-Y}, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a6b0f81f7ebd86a0e38065502b0b5b70b}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-B\-R\-O\-K\-E\-N\-\_\-\-I\-N\-T\-\_\-\-S\-T\-R\-U\-C\-T}, 
+\hyperlink{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276aa66617576b4ab3a685d2262da445e8e0}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-S\-T\-R\-E\-A\-M}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__error_8h_ab82526e8d038004b54c7e8b237595321}{binson\-\_\-error\-\_\-init} (\hyperlink{structbinson__io__}{binson\-\_\-io} $\ast$io)
+\begin{DoxyCompactList}\small\item\em Init error handling context. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__error_8h_a9a52cfc68b33b412f4a6e6c18e8a5732}{binson\-\_\-error\-\_\-report} (\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} res, const char $\ast$file, unsigned int line, char $\ast$data, size\-\_\-t data\-\_\-len)
+\begin{DoxyCompactList}\small\item\em Store error details in circular error queue. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__error_8h_a5c8eba681bec6447121f6c1a1b39e836}{binson\-\_\-error\-\_\-dump} ()
+\begin{DoxyCompactList}\small\item\em Dump all stored errors to attached I\-O. \end{DoxyCompactList}\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__error_8h_afbace78954b97ceefad2fe006ef00c6b}{binson\-\_\-error\-\_\-clear\-\_\-all} ()
+\begin{DoxyCompactList}\small\item\em Clear all errors from ring buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Binson error handling implementation. Binson error handling header file.
+
+\begin{DoxyAuthor}{Author}
+Alexander Reshniuk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+20/11/2015 
+\end{DoxyDate}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!binson\-\_\-res@{binson\-\_\-res}}
+\index{binson\-\_\-res@{binson\-\_\-res}!binson_error.h@{binson\-\_\-error.\-h}}
+\subsubsection[{binson\-\_\-res}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf binson\-\_\-res\-\_\-}  {\bf binson\-\_\-res}}}\label{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}
+Binson library error codes 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276}{\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!binson\-\_\-res\-\_\-@{binson\-\_\-res\-\_\-}}
+\index{binson\-\_\-res\-\_\-@{binson\-\_\-res\-\_\-}!binson_error.h@{binson\-\_\-error.\-h}}
+\subsubsection[{binson\-\_\-res\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf binson\-\_\-res\-\_\-}}}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276}
+Binson library error codes \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-O\-K@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-O\-K}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-O\-K@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-O\-K}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a92f2f824d7b26e84e7f21c58ff5eec81}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-O\-K}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a92f2f824d7b26e84e7f21c58ff5eec81}
+}]traversal control codes set by callbacks \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-C\-B@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-C\-B}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-C\-B@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-C\-B}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a1b73b63256a2be1676e59fc75316718e}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-T\-R\-A\-V\-E\-R\-S\-A\-L\-\_\-\-C\-B}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a1b73b63256a2be1676e59fc75316718e}
+}]problem in traversal's callback binson A\-P\-I calls argument errors \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-R\-G\-\_\-\-W\-R\-O\-N\-G\-\_\-\-C\-O\-M\-B@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-R\-G\-\_\-\-W\-R\-O\-N\-G\-\_\-\-C\-O\-M\-B}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-R\-G\-\_\-\-W\-R\-O\-N\-G\-\_\-\-C\-O\-M\-B@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-R\-G\-\_\-\-W\-R\-O\-N\-G\-\_\-\-C\-O\-M\-B}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a5b2c54eeab0e234ca411fb7fa77c98bf}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-R\-G\-\_\-\-W\-R\-O\-N\-G\-\_\-\-C\-O\-M\-B}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a5b2c54eeab0e234ca411fb7fa77c98bf}
+}]invalid argument combination tree access errors \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-T\-R\-E\-E\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-A\-R\-R\-A\-Y@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-T\-R\-E\-E\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-A\-R\-R\-A\-Y}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-T\-R\-E\-E\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-A\-R\-R\-A\-Y@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-T\-R\-E\-E\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-A\-R\-R\-A\-Y}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a0bb9ad2596e4cff525484769ce508a01}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-T\-R\-E\-E\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-A\-R\-R\-A\-Y}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a0bb9ad2596e4cff525484769ce508a01}
+}]unable to access A\-R\-R\-A\-Y item specified binson raw data input errors \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-P\-A\-R\-T@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-P\-A\-R\-T}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-P\-A\-R\-T@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-P\-A\-R\-T}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a81545be3c133818e6f5f83afc8bb6cf7}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-P\-A\-R\-T}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a81545be3c133818e6f5f83afc8bb6cf7}
+}]partial content \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a67b1f16a447b1f213763470b75a2361a}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-O\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a67b1f16a447b1f213763470b75a2361a}
+}]binson parsing errors \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-A\-R\-S\-E\-\_\-\-S\-U\-S\-P\-E\-N\-D\-E\-D@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-A\-R\-S\-E\-\_\-\-S\-U\-S\-P\-E\-N\-D\-E\-D}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-A\-R\-S\-E\-\_\-\-S\-U\-S\-P\-E\-N\-D\-E\-D@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-A\-R\-S\-E\-\_\-\-S\-U\-S\-P\-E\-N\-D\-E\-D}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276ab34d0ecc2c64d63f9482c88efc73088c}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-P\-A\-R\-S\-E\-\_\-\-S\-U\-S\-P\-E\-N\-D\-E\-D}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276ab34d0ecc2c64d63f9482c88efc73088c}
+}]Used from callback to postpone parsing \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-F\-A\-I\-L\-E\-D@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-F\-A\-I\-L\-E\-D}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-F\-A\-I\-L\-E\-D@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-F\-A\-I\-L\-E\-D}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a7aa9f88e06a2e6de0dc04e814bbee3fd}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-F\-A\-I\-L\-E\-D}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a7aa9f88e06a2e6de0dc04e814bbee3fd}
+}]String is not vilid U\-T\-F-\/8 string internal library errors/failures codes \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-L\-I\-B\-\_\-\-V\-E\-R\-S\-I\-O\-N@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-L\-I\-B\-\_\-\-V\-E\-R\-S\-I\-O\-N}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-L\-I\-B\-\_\-\-V\-E\-R\-S\-I\-O\-N@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-L\-I\-B\-\_\-\-V\-E\-R\-S\-I\-O\-N}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a14c51633cfea5f37c0d9f1850c94f9ac}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-L\-I\-B\-\_\-\-V\-E\-R\-S\-I\-O\-N}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a14c51633cfea5f37c0d9f1850c94f9ac}
+}]binary lib version don't match headers version \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-T\-\_\-\-S\-U\-P\-P\-O\-R\-T\-E\-D@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-T\-\_\-\-S\-U\-P\-P\-O\-R\-T\-E\-D}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-T\-\_\-\-S\-U\-P\-P\-O\-R\-T\-E\-D@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-T\-\_\-\-S\-U\-P\-P\-O\-R\-T\-E\-D}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276acd43ba4b28a9fd219743f83de449057a}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-T\-\_\-\-S\-U\-P\-P\-O\-R\-T\-E\-D}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276acd43ba4b28a9fd219743f83de449057a}
+}]feature not supported in this binson model type or still not implemented in library \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-B\-R\-O\-K\-E\-N\-\_\-\-I\-N\-T\-\_\-\-S\-T\-R\-U\-C\-T@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-B\-R\-O\-K\-E\-N\-\_\-\-I\-N\-T\-\_\-\-S\-T\-R\-U\-C\-T}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-B\-R\-O\-K\-E\-N\-\_\-\-I\-N\-T\-\_\-\-S\-T\-R\-U\-C\-T@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-B\-R\-O\-K\-E\-N\-\_\-\-I\-N\-T\-\_\-\-S\-T\-R\-U\-C\-T}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a6b0f81f7ebd86a0e38065502b0b5b70b}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-B\-R\-O\-K\-E\-N\-\_\-\-I\-N\-T\-\_\-\-S\-T\-R\-U\-C\-T}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276a6b0f81f7ebd86a0e38065502b0b5b70b}
+}]internal structure consistency is broken \index{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-S\-T\-R\-E\-A\-M@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-S\-T\-R\-E\-A\-M}!binson\-\_\-error.\-h@{binson\-\_\-error.\-h}}\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-S\-T\-R\-E\-A\-M@{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-S\-T\-R\-E\-A\-M}}\item[{\em 
+\hypertarget{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276aa66617576b4ab3a685d2262da445e8e0}{B\-I\-N\-S\-O\-N\-\_\-\-R\-E\-S\-\_\-\-E\-R\-R\-O\-R\-\_\-\-S\-T\-R\-E\-A\-M}\label{binson__error_8h_a0642fda7aa765a77f4ef0c84b5677276aa66617576b4ab3a685d2262da445e8e0}
+}]stream/file access or read/write error \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{binson__error_8h_afbace78954b97ceefad2fe006ef00c6b}{\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!binson\-\_\-error\-\_\-clear\-\_\-all@{binson\-\_\-error\-\_\-clear\-\_\-all}}
+\index{binson\-\_\-error\-\_\-clear\-\_\-all@{binson\-\_\-error\-\_\-clear\-\_\-all}!binson_error.h@{binson\-\_\-error.\-h}}
+\subsubsection[{binson\-\_\-error\-\_\-clear\-\_\-all}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-error\-\_\-clear\-\_\-all (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{binson__error_8h_afbace78954b97ceefad2fe006ef00c6b}
+
+
+Clear all errors from ring buffer. 
+
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res 
+\end{DoxyReturn}
+\hypertarget{binson__error_8h_a5c8eba681bec6447121f6c1a1b39e836}{\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!binson\-\_\-error\-\_\-dump@{binson\-\_\-error\-\_\-dump}}
+\index{binson\-\_\-error\-\_\-dump@{binson\-\_\-error\-\_\-dump}!binson_error.h@{binson\-\_\-error.\-h}}
+\subsubsection[{binson\-\_\-error\-\_\-dump}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-error\-\_\-dump (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{binson__error_8h_a5c8eba681bec6447121f6c1a1b39e836}
+
+
+Dump all stored errors to attached I\-O. 
+
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res Result code 
+\end{DoxyReturn}
+$<$ Newest error dump first
+
+$<$ Roll back dumped error record \hypertarget{binson__error_8h_ab82526e8d038004b54c7e8b237595321}{\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!binson\-\_\-error\-\_\-init@{binson\-\_\-error\-\_\-init}}
+\index{binson\-\_\-error\-\_\-init@{binson\-\_\-error\-\_\-init}!binson_error.h@{binson\-\_\-error.\-h}}
+\subsubsection[{binson\-\_\-error\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-error\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{binson__error_8h_ab82526e8d038004b54c7e8b237595321}
+
+
+Init error handling context. 
+
+Binson error handling A\-P\-I calls
+
+
+\begin{DoxyParams}{Parameters}
+{\em io} & binson\-\_\-io$\ast$ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res 
+\end{DoxyReturn}
+\hypertarget{binson__error_8h_a9a52cfc68b33b412f4a6e6c18e8a5732}{\index{binson\-\_\-error.\-h@{binson\-\_\-error.\-h}!binson\-\_\-error\-\_\-report@{binson\-\_\-error\-\_\-report}}
+\index{binson\-\_\-error\-\_\-report@{binson\-\_\-error\-\_\-report}!binson_error.h@{binson\-\_\-error.\-h}}
+\subsubsection[{binson\-\_\-error\-\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-error\-\_\-report (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-res}}]{res, }
+\item[{const char $\ast$}]{file, }
+\item[{unsigned int}]{line, }
+\item[{char $\ast$}]{data, }
+\item[{size\-\_\-t}]{data\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{binson__error_8h_a9a52cfc68b33b412f4a6e6c18e8a5732}
+
+
+Store error details in circular error queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em res} & binson\-\_\-res \\
+\hline
+{\em file} & const char$\ast$ \\
+\hline
+{\em line} & unsigned int \\
+\hline
+{\em data} & char$\ast$ \\
+\hline
+{\em data\-\_\-len} & size\-\_\-t \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binson\-\_\-res 
+\end{DoxyReturn}
+$<$ Find next head position in ring
+
+$<$ Store error details
+
+$<$ Fix tail position if ring is full 

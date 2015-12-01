@@ -1,0 +1,386 @@
+.TH "/home/kotomysha/binson/binson/src/binson_writer.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson_writer.h \- 
+.PP
+Binson format writer API header file\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'binson_config\&.h'\fP
+.br
+\fC#include 'binson_error\&.h'\fP
+.br
+\fC#include 'binson_io\&.h'\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBbinson_writer_\fP \fBbinson_writer\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBbinson_writer_format\fP { \fBBINSON_WRITER_FORMAT_RAW\fP = 0, \fBBINSON_WRITER_FORMAT_HEX\fP, \fBBINSON_WRITER_FORMAT_JSON\fP, \fBBINSON_WRITER_FORMAT_JSON_NICE\fP, \fBBINSON_WRITER_FORMAT_LAST\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_init\fP (\fBbinson_writer\fP *writer, \fBbinson_io\fP *io, \fBbinson_writer_format\fP format)"
+.br
+.RI "\fIInitilize \fCbinson_writer\fP context\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_free\fP (\fBbinson_writer\fP *writer)"
+.br
+.RI "\fIFree all resources used by \fCbinson_writer\fP instance\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_set_format\fP (\fBbinson_writer\fP *writer, \fBbinson_writer_format\fP format)"
+.br
+.RI "\fISet output format\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_set_io\fP (\fBbinson_writer\fP *writer, \fBbinson_io\fP *io)"
+.br
+.RI "\fISet input/output abstraction layer instance\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_start\fP (\fBbinson_writer\fP *writer)"
+.br
+.RI "\fIReset current state and start new writer session\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_object_begin\fP (\fBbinson_writer\fP *writer)"
+.br
+.RI "\fIWrite output for OBJECT begin\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_object_end\fP (\fBbinson_writer\fP *writer)"
+.br
+.RI "\fIWrite output for OBJECT end\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_array_begin\fP (\fBbinson_writer\fP *writer)"
+.br
+.RI "\fIWrite output for ARRAY begin\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_array_end\fP (\fBbinson_writer\fP *writer)"
+.br
+.RI "\fIWrite output for ARRAY end\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_boolean\fP (\fBbinson_writer\fP *writer, \fBbool\fP val)"
+.br
+.RI "\fIWrite output to io for single bool value\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_integer\fP (\fBbinson_writer\fP *writer, int64_t val)"
+.br
+.RI "\fIWrite output to io for single \fCint8_t\fP \&.\&. \fCint64_t\fP value with automatic type downgrade according to real bytes used\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_double\fP (\fBbinson_writer\fP *writer, double val)"
+.br
+.RI "\fIWrite output to io for single \fCdouble\fP value\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_str\fP (\fBbinson_writer\fP *writer, const char *str)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_writer_write_bytes\fP (\fBbinson_writer\fP *writer, uint8_t *src_ptr, size_t src_size)"
+.br
+.RI "\fIWrite BYTES object to io\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Binson format writer API header file\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBbinson_writer_\fP \fBbinson_writer\fP"
+Forward declarations 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBbinson_writer_format\fP"
+Binson writer output formats enum type 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIBINSON_WRITER_FORMAT_RAW \fP\fP
+Raw binary Binson format (see Binson specs) 
+.TP
+\fB\fIBINSON_WRITER_FORMAT_HEX \fP\fP
+Hex string representation, e\&.g\&. '0x41 0x33 0x18 0x40' 
+.TP
+\fB\fIBINSON_WRITER_FORMAT_JSON \fP\fP
+JSON text format without extra white spaces 
+.TP
+\fB\fIBINSON_WRITER_FORMAT_JSON_NICE \fP\fP
+JSON text format with white space indents 
+.TP
+\fB\fIBINSON_WRITER_FORMAT_LAST \fP\fP
+Enum terminator\&. Need for arg validation 
+.SH "Function Documentation"
+.PP 
+.SS "\fBbinson_res\fP binson_writer_free (\fBbinson_writer\fP *writer)"
+
+.PP
+Free all resources used by \fCbinson_writer\fP instance\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Initial parameter validation
+.PP
+< Reset internal state
+.PP
+< Do nothing since we had no mallocs 
+.SS "\fBbinson_res\fP binson_writer_init (\fBbinson_writer\fP *writer, \fBbinson_io\fP *io, \fBbinson_writer_format\fPformat)"
+
+.PP
+Initilize \fCbinson_writer\fP context\&. Binson/JSON low-level output API calls
+.PP
+Private section (ignored by doxygen) end
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.br
+\fIio\fP binson_io* IO abstraction layer instance 
+.br
+\fIformat\fP binson_writer_format Output format 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Initial parameter validation 
+.SS "\fBbinson_res\fP binson_writer_set_format (\fBbinson_writer\fP *writer, \fBbinson_writer_format\fPformat)"
+
+.PP
+Set output format\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.br
+\fIformat\fP binson_writer_format Output format 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Initial parameter validation 
+.SS "\fBbinson_res\fP binson_writer_set_io (\fBbinson_writer\fP *writer, \fBbinson_io\fP *io)"
+
+.PP
+Set input/output abstraction layer instance\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.br
+\fIio\fP binson_io* IO abstraction layer instance 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Initial parameter validation 
+.SS "\fBbinson_res\fP binson_writer_start (\fBbinson_writer\fP *writer)"
+
+.PP
+Reset current state and start new writer session\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Initial parameter validation 
+.SS "\fBbinson_res\fP binson_writer_write_array_begin (\fBbinson_writer\fP *writer)"
+
+.PP
+Write output for ARRAY begin\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_writer_write_array_end (\fBbinson_writer\fP *writer)"
+
+.PP
+Write output for ARRAY end\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_writer_write_boolean (\fBbinson_writer\fP *writer, \fBbool\fPval)"
+
+.PP
+Write output to io for single bool value\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.br
+\fIval\fP bool Value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Initial parameter validation 
+.SS "\fBbinson_res\fP binson_writer_write_bytes (\fBbinson_writer\fP *writer, uint8_t *src_ptr, size_tsrc_size)"
+
+.PP
+Write BYTES object to io\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.br
+\fIsrc_ptr\fP uint8_t* Byte buffer 
+.br
+\fIsrc_size\fP size_t Size of data in byte buffer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_writer_write_double (\fBbinson_writer\fP *writer, doubleval)"
+
+.PP
+Write output to io for single \fCdouble\fP value\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.br
+\fIval\fP double Value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Initial parameter validation
+.PP
+< Format dependent output 
+.SS "\fBbinson_res\fP binson_writer_write_integer (\fBbinson_writer\fP *writer, int64_tval)"
+
+.PP
+Write output to io for single \fCint8_t\fP \&.\&. \fCint64_t\fP value with automatic type downgrade according to real bytes used\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.br
+\fIval\fP int64_t Integer argument 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+< Initial parameter validation
+.PP
+< Convert value to INTEGER primitive and store it in specified byte buffer
+.PP
+< Format dependent output
+.PP
+<
+.PP
+\fBTodo\fP
+.RS 4
+fix printing int64_t in C89 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_writer_write_object_begin (\fBbinson_writer\fP *writer)"
+
+.PP
+Write output for OBJECT begin\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_writer_write_object_end (\fBbinson_writer\fP *writer)"
+
+.PP
+Write output for OBJECT end\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwriter\fP binson_writer* Context 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+binson_res Result code 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

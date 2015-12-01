@@ -1,0 +1,392 @@
+\hypertarget{binson_8h}{\section{/home/kotomysha/binson/binson/src/binson.h File Reference}
+\label{binson_8h}\index{/home/kotomysha/binson/binson/src/binson.\-h@{/home/kotomysha/binson/binson/src/binson.\-h}}
+}
+
+
+Binson-\/c library public A\-P\-I implementation file.  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdarg.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-config.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-error.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-writer.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-io.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{binson_8h_accc34fed4cc3676ccbe24cf9639bbc60}{B\-I\-N\-S\-O\-N\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}~0
+\item 
+\hypertarget{binson_8h_a5a70c2b2c260e4a5c57fb484e5005f48}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-M\-I\-N\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}~0}\label{binson_8h_a5a70c2b2c260e4a5c57fb484e5005f48}
+
+\item 
+\hypertarget{binson_8h_a6c1d73a4f9c174add7ea652e5193a191}{\#define {\bfseries B\-I\-N\-S\-O\-N\-\_\-\-M\-I\-C\-R\-O\-\_\-\-V\-E\-R\-S\-I\-O\-N}~1}\label{binson_8h_a6c1d73a4f9c174add7ea652e5193a191}
+
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structbinson__}{binson\-\_\-} \hyperlink{binson_8h_a3d07f0baf91b0890feabd81363a6cf53}{binson}
+\item 
+\hypertarget{binson_8h_a60fa3b4047215d7393e9acd7bc97588f}{typedef struct binson\-\_\-node\-\_\- {\bfseries binson\-\_\-node}}\label{binson_8h_a60fa3b4047215d7393e9acd7bc97588f}
+
+\item 
+\hypertarget{binson_8h_a5febe9c5b3a6b60d028259fddc5b88c5}{typedef struct binson\-\_\-node\-\_\-key\-\_\- {\bfseries binson\-\_\-node\-\_\-key}}\label{binson_8h_a5febe9c5b3a6b60d028259fddc5b88c5}
+
+\item 
+\hypertarget{binson_8h_a9cf5a017b965ca40fddbcff17b88757a}{typedef struct binson\-\_\-node\-\_\-val\-\_\- {\bfseries binson\-\_\-node\-\_\-val}}\label{binson_8h_a9cf5a017b965ca40fddbcff17b88757a}
+
+\item 
+\hypertarget{binson_8h_adc5755dd0326a866d95de374c1a9fbbc}{typedef struct \\*
+\hyperlink{structbinson__traverse__cb__status__}{binson\-\_\-traverse\-\_\-cb\-\_\-status\-\_\-} {\bfseries binson\-\_\-traverse\-\_\-cb\-\_\-status}}\label{binson_8h_adc5755dd0326a866d95de374c1a9fbbc}
+
+\item 
+\hypertarget{binson_8h_ad8c844114b13f8247e681de0fd24c1e9}{typedef struct \\*
+\hyperlink{structbinson__traverse__cb__param__}{binson\-\_\-traverse\-\_\-cb\-\_\-param\-\_\-} {\bfseries binson\-\_\-traverse\-\_\-cb\-\_\-param}}\label{binson_8h_ad8c844114b13f8247e681de0fd24c1e9}
+
+\item 
+typedef \hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res}($\ast$ \hyperlink{binson_8h_aadc86103563258d06b46396f6097f228}{binson\-\_\-traverse\-\_\-callback} )(\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$node, \hyperlink{structbinson__traverse__cb__status__}{binson\-\_\-traverse\-\_\-cb\-\_\-status} $\ast$status, void $\ast$param)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{binson_8h_a60ffe9b8062798661e80fb5e653a26a9}{binson\-\_\-node\-\_\-type} \{ \\*
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N} = 0, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-E\-C\-T}, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-R\-R\-A\-Y}, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-O\-O\-L\-E\-A\-N}, 
+\\*
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-I\-N\-T\-E\-G\-E\-R}, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-O\-U\-B\-L\-E}, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-R\-I\-N\-G}, 
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-B\-Y\-T\-E\-S}
+ \}
+\item 
+enum \hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38f}{binson\-\_\-traverse\-\_\-method} \{ \\*
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R} = 0, 
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}, 
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}, 
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R} = 0, 
+\\*
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}, 
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}
+ \}
+\item 
+enum \hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38f}{binson\-\_\-traverse\-\_\-method} \{ \\*
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R} = 0, 
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}, 
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}, 
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R} = 0, 
+\\*
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}, 
+\hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}
+ \}
+\item 
+enum \hyperlink{binson_8h_ab501064f394fe221de93ef8a06adaa73}{binson\-\_\-traverse\-\_\-dir} \{ \\*
+{\bfseries B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N} = 0, 
+\hyperlink{binson_8h_ab501064f394fe221de93ef8a06adaa73a82d89141311b8ee37c62dccd2ce7b8d3}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-D\-O\-W\-N}, 
+\hyperlink{binson_8h_ab501064f394fe221de93ef8a06adaa73a3d4c94697ccb71a53d81641c42c4c9c4}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-U\-P}, 
+\hyperlink{binson_8h_ab501064f394fe221de93ef8a06adaa73a813af18b04a1caf008f52e55eb7dcff6}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-R\-I\-G\-H\-T}, 
+\\*
+\hyperlink{binson_8h_ab501064f394fe221de93ef8a06adaa73a8e1a7a0d268dc46a12a9daf4d8a730bc}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-L\-E\-F\-T}, 
+\hyperlink{binson_8h_ab501064f394fe221de93ef8a06adaa73a0601aef4a79e1a73eaa749b8fe242e7a}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-N\-O\-N\-E}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{binson_8h_adc31f78b23ee061f21a33270e9b64285}{binson\-\_\-lib\-\_\-get\-\_\-version} ()
+\begin{DoxyCompactList}\small\item\em Return current installed binson lib version. \end{DoxyCompactList}\item 
+\hyperlink{binson__config_8h_abb452686968e48b67397da5f97445f5b}{bool} \hyperlink{binson_8h_abf23100ebb6b4309bc95456611613019}{binson\-\_\-lib\-\_\-is\-\_\-compatible} ()
+\begin{DoxyCompactList}\small\item\em Check if headers matches binson lib version installed. \end{DoxyCompactList}\item 
+\hypertarget{binson_8h_a60b5597de5053db225923ea153608a5e}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-init} (\hyperlink{structbinson__}{binson} $\ast$obj, \hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$writer, \hyperlink{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}{binson\-\_\-parser} $\ast$parser)}\label{binson_8h_a60b5597de5053db225923ea153608a5e}
+
+\item 
+\hypertarget{binson_8h_abdc37c6b675e3269332f1436419aec4c}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-free} (\hyperlink{structbinson__}{binson} $\ast$obj)}\label{binson_8h_abdc37c6b675e3269332f1436419aec4c}
+
+\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson_8h_a7b43f7b5fbbe22bb606a8977432d8aaf}{binson\-\_\-get\-\_\-root} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$$\ast$node\-\_\-ptr)
+\item 
+\hypertarget{binson_8h_a5dc4a72a0593731d57ebd081fc52aac9}{\hyperlink{binson__writer_8c_a08ee70963c9d42673922089ac1850d74}{binson\-\_\-writer} $\ast$ {\bfseries binson\-\_\-get\-\_\-writer} (\hyperlink{structbinson__}{binson} $\ast$obj)}\label{binson_8h_a5dc4a72a0593731d57ebd081fc52aac9}
+
+\item 
+\hypertarget{binson_8h_aa210dfb1660de426df81d531572591df}{\hyperlink{binson__parser_8h_a224e3556eb4cf748d6270f78690ebe8e}{binson\-\_\-parser} $\ast$ {\bfseries binson\-\_\-get\-\_\-parser} (\hyperlink{structbinson__}{binson} $\ast$obj)}\label{binson_8h_aa210dfb1660de426df81d531572591df}
+
+\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson_8h_a6fc06b4fb41dd2b48f302c74407ba621}{binson\-\_\-node\-\_\-add\-\_\-object\-\_\-empty} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$parent, binson\-\_\-node\-\_\-key key, binson\-\_\-node $\ast$$\ast$dst)
+\item 
+\hypertarget{binson_8h_ad22fa51dc324e6172bd0a42c6b9df3cf}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-add\-\_\-array\-\_\-empty} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$parent, binson\-\_\-node\-\_\-key key, binson\-\_\-node $\ast$$\ast$dst)}\label{binson_8h_ad22fa51dc324e6172bd0a42c6b9df3cf}
+
+\item 
+\hypertarget{binson_8h_aa0b5d8b36a507391d1e6cdfb581599ae}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-add\-\_\-boolean} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$parent, binson\-\_\-node $\ast$$\ast$dst, \hyperlink{binson__config_8h_abb452686968e48b67397da5f97445f5b}{bool} val)}\label{binson_8h_aa0b5d8b36a507391d1e6cdfb581599ae}
+
+\item 
+\hypertarget{binson_8h_a206e5e3934aa35d7cf4bdc79cd351268}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-add\-\_\-integer} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$parent, binson\-\_\-node $\ast$$\ast$dst, int64\-\_\-t val)}\label{binson_8h_a206e5e3934aa35d7cf4bdc79cd351268}
+
+\item 
+\hypertarget{binson_8h_a18a978ad89aa4ca7fe49ee5243aca9c8}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-add\-\_\-double} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$parent, binson\-\_\-node $\ast$$\ast$dst, double val)}\label{binson_8h_a18a978ad89aa4ca7fe49ee5243aca9c8}
+
+\item 
+\hypertarget{binson_8h_a37d3f176ac23aa441956a7de049c3ee9}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-add\-\_\-str} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$parent, binson\-\_\-node $\ast$$\ast$dst, const char $\ast$val)}\label{binson_8h_a37d3f176ac23aa441956a7de049c3ee9}
+
+\item 
+\hypertarget{binson_8h_ae89e442edaf5e8cf21026ff1180a4bb8}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-add\-\_\-bytes} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$parent, binson\-\_\-node $\ast$$\ast$dst, uint8\-\_\-t src\-\_\-ptr, size\-\_\-t src\-\_\-size)}\label{binson_8h_ae89e442edaf5e8cf21026ff1180a4bb8}
+
+\item 
+\hypertarget{binson_8h_a666bc8114686155f380df78e873da6e4}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-clone} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$parent, binson\-\_\-node $\ast$$\ast$dst, binson\-\_\-node $\ast$node, const char $\ast$new\-\_\-key)}\label{binson_8h_a666bc8114686155f380df78e873da6e4}
+
+\item 
+\hypertarget{binson_8h_a0e0d8b204ee99bb431fed0d1aa7357b6}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-clone\-\_\-tree} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$node, const char $\ast$new\-\_\-key)}\label{binson_8h_a0e0d8b204ee99bb431fed0d1aa7357b6}
+
+\item 
+\hypertarget{binson_8h_afbe980840664039cf4624ca0d66db174}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-remove} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$node)}\label{binson_8h_afbe980840664039cf4624ca0d66db174}
+
+\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson_8h_a71d62edab64cf83c8d3ae3efdba824c6}{binson\-\_\-serialize} (\hyperlink{structbinson__}{binson} $\ast$obj)
+\item 
+\hypertarget{binson_8h_ab076b3b5d3c1e39d9714b028c5486d4e}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-deserialize} (\hyperlink{structbinson__}{binson} $\ast$obj, \hyperlink{binson__config_8h_abb452686968e48b67397da5f97445f5b}{bool} validate\-\_\-only)}\label{binson_8h_ab076b3b5d3c1e39d9714b028c5486d4e}
+
+\item 
+\hyperlink{binson_8h_a60ffe9b8062798661e80fb5e653a26a9}{binson\-\_\-node\-\_\-type} \hyperlink{binson_8h_a54344c348ad6330d09d49da994847453}{binson\-\_\-node\-\_\-get\-\_\-type} (binson\-\_\-node $\ast$node)
+\item 
+\hypertarget{binson_8h_a6cff1ab59aad88b1794973dc1edc23af}{binson\-\_\-node\-\_\-key $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-key} (binson\-\_\-node $\ast$node)}\label{binson_8h_a6cff1ab59aad88b1794973dc1edc23af}
+
+\item 
+\hypertarget{binson_8h_a0ac20833a19537e8251a533cc4d21de1}{binson\-\_\-node\-\_\-val $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-val} (binson\-\_\-node $\ast$node)}\label{binson_8h_a0ac20833a19537e8251a533cc4d21de1}
+
+\item 
+\hyperlink{binson__config_8h_abb452686968e48b67397da5f97445f5b}{bool} \hyperlink{binson_8h_a3d14d925a0f1e27ea6e456a9c39ad1ce}{binson\-\_\-node\-\_\-is\-\_\-leaf\-\_\-type} (binson\-\_\-node $\ast$node)
+\item 
+binson\-\_\-depth \hyperlink{binson_8h_a52c8278e8162e256974283e351482ee9}{binson\-\_\-node\-\_\-get\-\_\-depth} (binson\-\_\-node $\ast$node)
+\item 
+\hypertarget{binson_8h_a28acf257eab56a74bfb1c1fef0c45154}{binson\-\_\-node $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-parent} (binson\-\_\-node $\ast$node)}\label{binson_8h_a28acf257eab56a74bfb1c1fef0c45154}
+
+\item 
+\hypertarget{binson_8h_ac13bc00ef808016fdef9591feb9ff713}{binson\-\_\-node $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-prev} (binson\-\_\-node $\ast$node)}\label{binson_8h_ac13bc00ef808016fdef9591feb9ff713}
+
+\item 
+\hypertarget{binson_8h_a263ba9b51c0e443bad4e0015f72e7aec}{binson\-\_\-node $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-next} (binson\-\_\-node $\ast$node)}\label{binson_8h_a263ba9b51c0e443bad4e0015f72e7aec}
+
+\item 
+\hypertarget{binson_8h_a8dd77fdde3d60fdf72dfcd5a865a141c}{binson\-\_\-node $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-first\-\_\-sibling} (binson\-\_\-node $\ast$node)}\label{binson_8h_a8dd77fdde3d60fdf72dfcd5a865a141c}
+
+\item 
+\hypertarget{binson_8h_a6c9b752bc7158fd389fa5f3acefbc8dd}{binson\-\_\-node $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-last\-\_\-sibling} (binson\-\_\-node $\ast$node)}\label{binson_8h_a6c9b752bc7158fd389fa5f3acefbc8dd}
+
+\item 
+\hypertarget{binson_8h_a443c4311c07cc24cf4e2f682e047e127}{binson\-\_\-node $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-first\-\_\-child} (binson\-\_\-node $\ast$node)}\label{binson_8h_a443c4311c07cc24cf4e2f682e047e127}
+
+\item 
+\hypertarget{binson_8h_a07a18b2ee4b0ee0ee782e4d81b7f5a95}{binson\-\_\-node $\ast$ {\bfseries binson\-\_\-node\-\_\-get\-\_\-last\-\_\-child} (binson\-\_\-node $\ast$node)}\label{binson_8h_a07a18b2ee4b0ee0ee782e4d81b7f5a95}
+
+\item 
+\hypertarget{binson_8h_a8cd2803adbb99554e01ef2610aa48ffd}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-get\-\_\-child\-\_\-by\-\_\-idx} ()}\label{binson_8h_a8cd2803adbb99554e01ef2610aa48ffd}
+
+\item 
+\hypertarget{binson_8h_a2b067c55ee8b7ba273157e20e7c217c0}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-get\-\_\-child\-\_\-by\-\_\-key} ()}\label{binson_8h_a2b067c55ee8b7ba273157e20e7c217c0}
+
+\item 
+\hypertarget{binson_8h_aa9926fa54fde04ed32634d449f862fb6}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-get\-\_\-sibling\-\_\-count} ()}\label{binson_8h_aa9926fa54fde04ed32634d449f862fb6}
+
+\item 
+\hypertarget{binson_8h_acd60ce884a1cff9ed248a7e2a92f33d5}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-node\-\_\-get\-\_\-child\-\_\-count} ()}\label{binson_8h_acd60ce884a1cff9ed248a7e2a92f33d5}
+
+\item 
+\hypertarget{binson_8h_a4a3ea8fb1a99e3b67c1bd94385e4682a}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-traverse} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$root\-\_\-node, \hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38f}{binson\-\_\-traverse\-\_\-method} t\-\_\-method, binson\-\_\-depth max\-\_\-depth, \hyperlink{binson_8h_aadc86103563258d06b46396f6097f228}{binson\-\_\-traverse\-\_\-callback} cb, void $\ast$param)}\label{binson_8h_a4a3ea8fb1a99e3b67c1bd94385e4682a}
+
+\item 
+\hypertarget{binson_8h_ab8d5d57ac01887cbfcb448a74a5127fc}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-traverse\-\_\-first} (\hyperlink{structbinson__}{binson} $\ast$obj, binson\-\_\-node $\ast$root\-\_\-node, \hyperlink{binson_8h_afd64bb93284c9a93185ff16f28c8a38f}{binson\-\_\-traverse\-\_\-method} t\-\_\-method, binson\-\_\-depth max\-\_\-depth, \hyperlink{binson_8h_aadc86103563258d06b46396f6097f228}{binson\-\_\-traverse\-\_\-callback} cb, \hyperlink{structbinson__traverse__cb__status__}{binson\-\_\-traverse\-\_\-cb\-\_\-status} $\ast$status, void $\ast$param)}\label{binson_8h_ab8d5d57ac01887cbfcb448a74a5127fc}
+
+\item 
+\hypertarget{binson_8h_acba08575d66d0f819071f6958cc2f149}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-traverse\-\_\-next} (\hyperlink{structbinson__traverse__cb__status__}{binson\-\_\-traverse\-\_\-cb\-\_\-status} $\ast$status)}\label{binson_8h_acba08575d66d0f819071f6958cc2f149}
+
+\item 
+\hypertarget{binson_8h_a7f025ee5a99b04d25f7697ee5100a7b9}{\hyperlink{binson__config_8h_abb452686968e48b67397da5f97445f5b}{bool} {\bfseries binson\-\_\-traverse\-\_\-is\-\_\-done} (\hyperlink{structbinson__traverse__cb__status__}{binson\-\_\-traverse\-\_\-cb\-\_\-status} $\ast$status)}\label{binson_8h_a7f025ee5a99b04d25f7697ee5100a7b9}
+
+\item 
+\hypertarget{binson_8h_aca8eab4076e7be8dc29557e5b2a91e93}{binson\-\_\-node $\ast$ {\bfseries binson\-\_\-traverse\-\_\-get\-\_\-current\-\_\-node} (\hyperlink{structbinson__traverse__cb__status__}{binson\-\_\-traverse\-\_\-cb\-\_\-status} $\ast$status)}\label{binson_8h_aca8eab4076e7be8dc29557e5b2a91e93}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Binson-\/c library public A\-P\-I implementation file. Binson-\/c library public A\-P\-I header file.
+
+\begin{DoxyAuthor}{Author}
+Alexander Reshniuk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+20/11/2015 
+\end{DoxyDate}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{binson_8h_accc34fed4cc3676ccbe24cf9639bbc60}{\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N@{B\-I\-N\-S\-O\-N\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}}
+\index{B\-I\-N\-S\-O\-N\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N@{B\-I\-N\-S\-O\-N\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}!binson.h@{binson.\-h}}
+\subsubsection[{B\-I\-N\-S\-O\-N\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-I\-N\-S\-O\-N\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N~0}}\label{binson_8h_accc34fed4cc3676ccbe24cf9639bbc60}
+Binson-\/c library version (major.\-minor.\-micro) 
+
+\subsection{Typedef Documentation}
+\hypertarget{binson_8h_a3d07f0baf91b0890feabd81363a6cf53}{\index{binson.\-h@{binson.\-h}!binson@{binson}}
+\index{binson@{binson}!binson.h@{binson.\-h}}
+\subsubsection[{binson}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf binson\-\_\-} {\bf binson}}}\label{binson_8h_a3d07f0baf91b0890feabd81363a6cf53}
+Forward declarations \hypertarget{binson_8h_aadc86103563258d06b46396f6097f228}{\index{binson.\-h@{binson.\-h}!binson\-\_\-traverse\-\_\-callback@{binson\-\_\-traverse\-\_\-callback}}
+\index{binson\-\_\-traverse\-\_\-callback@{binson\-\_\-traverse\-\_\-callback}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-traverse\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf binson\-\_\-res}($\ast$ binson\-\_\-traverse\-\_\-callback)({\bf binson} $\ast$obj, binson\-\_\-node $\ast$node, {\bf binson\-\_\-traverse\-\_\-cb\-\_\-status} $\ast$status, void $\ast$param)}}\label{binson_8h_aadc86103563258d06b46396f6097f228}
+Binson tree traversal A\-P\-I calls 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{binson_8h_a60ffe9b8062798661e80fb5e653a26a9}{\index{binson.\-h@{binson.\-h}!binson\-\_\-node\-\_\-type@{binson\-\_\-node\-\_\-type}}
+\index{binson\-\_\-node\-\_\-type@{binson\-\_\-node\-\_\-type}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-node\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf binson\-\_\-node\-\_\-type}}}\label{binson_8h_a60ffe9b8062798661e80fb5e653a26a9}
+Supported node types \hypertarget{binson_8h_ab501064f394fe221de93ef8a06adaa73}{\index{binson.\-h@{binson.\-h}!binson\-\_\-traverse\-\_\-dir@{binson\-\_\-traverse\-\_\-dir}}
+\index{binson\-\_\-traverse\-\_\-dir@{binson\-\_\-traverse\-\_\-dir}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-traverse\-\_\-dir}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf binson\-\_\-traverse\-\_\-dir}}}\label{binson_8h_ab501064f394fe221de93ef8a06adaa73}
+Binson D\-O\-M tree traversal direction \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-D\-O\-W\-N@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-D\-O\-W\-N}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-D\-O\-W\-N@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-D\-O\-W\-N}}\item[{\em 
+\hypertarget{binson_8h_ab501064f394fe221de93ef8a06adaa73a82d89141311b8ee37c62dccd2ce7b8d3}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-D\-O\-W\-N}\label{binson_8h_ab501064f394fe221de93ef8a06adaa73a82d89141311b8ee37c62dccd2ce7b8d3}
+}]Indicates last processed node was parent of current processing node \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-U\-P@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-U\-P}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-U\-P@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-U\-P}}\item[{\em 
+\hypertarget{binson_8h_ab501064f394fe221de93ef8a06adaa73a3d4c94697ccb71a53d81641c42c4c9c4}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-U\-P}\label{binson_8h_ab501064f394fe221de93ef8a06adaa73a3d4c94697ccb71a53d81641c42c4c9c4}
+}]Indicates last processed node was child of current processing node \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-R\-I\-G\-H\-T@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-R\-I\-G\-H\-T}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-R\-I\-G\-H\-T@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-R\-I\-G\-H\-T}}\item[{\em 
+\hypertarget{binson_8h_ab501064f394fe221de93ef8a06adaa73a813af18b04a1caf008f52e55eb7dcff6}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-R\-I\-G\-H\-T}\label{binson_8h_ab501064f394fe221de93ef8a06adaa73a813af18b04a1caf008f52e55eb7dcff6}
+}]Indicates last processed node was left neighbor of current processing node \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-L\-E\-F\-T@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-L\-E\-F\-T}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-L\-E\-F\-T@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-L\-E\-F\-T}}\item[{\em 
+\hypertarget{binson_8h_ab501064f394fe221de93ef8a06adaa73a8e1a7a0d268dc46a12a9daf4d8a730bc}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-L\-E\-F\-T}\label{binson_8h_ab501064f394fe221de93ef8a06adaa73a8e1a7a0d268dc46a12a9daf4d8a730bc}
+}]Indicates last processed node was right neighbor of current processing node \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-N\-O\-N\-E@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-N\-O\-N\-E}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-N\-O\-N\-E@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-N\-O\-N\-E}}\item[{\em 
+\hypertarget{binson_8h_ab501064f394fe221de93ef8a06adaa73a0601aef4a79e1a73eaa749b8fe242e7a}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-D\-I\-R\-\_\-\-N\-O\-N\-E}\label{binson_8h_ab501064f394fe221de93ef8a06adaa73a0601aef4a79e1a73eaa749b8fe242e7a}
+}]Indicates {\ttfamily B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R} processing of empty node \end{description}
+\end{Desc}
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38f}{\index{binson.\-h@{binson.\-h}!binson\-\_\-traverse\-\_\-method@{binson\-\_\-traverse\-\_\-method}}
+\index{binson\-\_\-traverse\-\_\-method@{binson\-\_\-traverse\-\_\-method}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-traverse\-\_\-method}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf binson\-\_\-traverse\-\_\-method}}}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38f}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}
+}]Process parents before children \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}
+}]Process children before parents \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}
+}]Process parents before children and then one more time after all children \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}
+}]Process parents before children \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}
+}]Process children before parents \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}
+}]Process parents before children and then one more time after all children \end{description}
+\end{Desc}
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38f}{\index{binson.\-h@{binson.\-h}!binson\-\_\-traverse\-\_\-method@{binson\-\_\-traverse\-\_\-method}}
+\index{binson\-\_\-traverse\-\_\-method@{binson\-\_\-traverse\-\_\-method}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-traverse\-\_\-method}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf binson\-\_\-traverse\-\_\-method}}}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38f}
+Binson D\-O\-M tree traversal type \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}
+}]Process parents before children \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}
+}]Process children before parents \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}
+}]Process parents before children and then one more time after all children \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-R\-E\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38faf788810b7906e5c83ae5019e91508304}
+}]Process parents before children \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-P\-O\-S\-T\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa74b779dab4a6bb75187a837899e979f9}
+}]Process children before parents \index{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}!binson.\-h@{binson.\-h}}\index{binson.\-h@{binson.\-h}!B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R@{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}}\item[{\em 
+\hypertarget{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}{B\-I\-N\-S\-O\-N\-\_\-\-T\-R\-A\-V\-E\-R\-S\-E\-\_\-\-B\-O\-T\-H\-O\-R\-D\-E\-R}\label{binson_8h_afd64bb93284c9a93185ff16f28c8a38fa26497250149c84320a74fdd9c9efcf80}
+}]Process parents before children and then one more time after all children \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{binson_8h_a7b43f7b5fbbe22bb606a8977432d8aaf}{\index{binson.\-h@{binson.\-h}!binson\-\_\-get\-\_\-root@{binson\-\_\-get\-\_\-root}}
+\index{binson\-\_\-get\-\_\-root@{binson\-\_\-get\-\_\-root}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-get\-\_\-root}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-get\-\_\-root (
+\begin{DoxyParamCaption}
+\item[{{\bf binson} $\ast$}]{obj, }
+\item[{binson\-\_\-node $\ast$$\ast$}]{node\-\_\-ptr}
+\end{DoxyParamCaption}
+)}}\label{binson_8h_a7b43f7b5fbbe22bb606a8977432d8aaf}
+Binson context getters/setters \hypertarget{binson_8h_adc31f78b23ee061f21a33270e9b64285}{\index{binson.\-h@{binson.\-h}!binson\-\_\-lib\-\_\-get\-\_\-version@{binson\-\_\-lib\-\_\-get\-\_\-version}}
+\index{binson\-\_\-lib\-\_\-get\-\_\-version@{binson\-\_\-lib\-\_\-get\-\_\-version}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-lib\-\_\-get\-\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t binson\-\_\-lib\-\_\-get\-\_\-version (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{binson_8h_adc31f78b23ee061f21a33270e9b64285}
+
+
+Return current installed binson lib version. 
+
+General purpose binson library A\-P\-I calls
+
+\begin{DoxyReturn}{Returns}
+uint32\-\_\-t 
+\end{DoxyReturn}
+\hypertarget{binson_8h_abf23100ebb6b4309bc95456611613019}{\index{binson.\-h@{binson.\-h}!binson\-\_\-lib\-\_\-is\-\_\-compatible@{binson\-\_\-lib\-\_\-is\-\_\-compatible}}
+\index{binson\-\_\-lib\-\_\-is\-\_\-compatible@{binson\-\_\-lib\-\_\-is\-\_\-compatible}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-lib\-\_\-is\-\_\-compatible}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} binson\-\_\-lib\-\_\-is\-\_\-compatible (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{binson_8h_abf23100ebb6b4309bc95456611613019}
+
+
+Check if headers matches binson lib version installed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{binson_8h_a6fc06b4fb41dd2b48f302c74407ba621}{\index{binson.\-h@{binson.\-h}!binson\-\_\-node\-\_\-add\-\_\-object\-\_\-empty@{binson\-\_\-node\-\_\-add\-\_\-object\-\_\-empty}}
+\index{binson\-\_\-node\-\_\-add\-\_\-object\-\_\-empty@{binson\-\_\-node\-\_\-add\-\_\-object\-\_\-empty}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-node\-\_\-add\-\_\-object\-\_\-empty}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-node\-\_\-add\-\_\-object\-\_\-empty (
+\begin{DoxyParamCaption}
+\item[{{\bf binson} $\ast$}]{obj, }
+\item[{binson\-\_\-node $\ast$}]{parent, }
+\item[{binson\-\_\-node\-\_\-key}]{key, }
+\item[{binson\-\_\-node $\ast$$\ast$}]{dst}
+\end{DoxyParamCaption}
+)}}\label{binson_8h_a6fc06b4fb41dd2b48f302c74407ba621}
+Node/tree creation/removal \hypertarget{binson_8h_a52c8278e8162e256974283e351482ee9}{\index{binson.\-h@{binson.\-h}!binson\-\_\-node\-\_\-get\-\_\-depth@{binson\-\_\-node\-\_\-get\-\_\-depth}}
+\index{binson\-\_\-node\-\_\-get\-\_\-depth@{binson\-\_\-node\-\_\-get\-\_\-depth}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-node\-\_\-get\-\_\-depth}]{\setlength{\rightskip}{0pt plus 5cm}binson\-\_\-depth binson\-\_\-node\-\_\-get\-\_\-depth (
+\begin{DoxyParamCaption}
+\item[{binson\-\_\-node $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{binson_8h_a52c8278e8162e256974283e351482ee9}
+Tree level getters \hypertarget{binson_8h_a54344c348ad6330d09d49da994847453}{\index{binson.\-h@{binson.\-h}!binson\-\_\-node\-\_\-get\-\_\-type@{binson\-\_\-node\-\_\-get\-\_\-type}}
+\index{binson\-\_\-node\-\_\-get\-\_\-type@{binson\-\_\-node\-\_\-get\-\_\-type}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-node\-\_\-get\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-node\-\_\-type} binson\-\_\-node\-\_\-get\-\_\-type (
+\begin{DoxyParamCaption}
+\item[{binson\-\_\-node $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{binson_8h_a54344c348ad6330d09d49da994847453}
+Node level getters/setters \hypertarget{binson_8h_a3d14d925a0f1e27ea6e456a9c39ad1ce}{\index{binson.\-h@{binson.\-h}!binson\-\_\-node\-\_\-is\-\_\-leaf\-\_\-type@{binson\-\_\-node\-\_\-is\-\_\-leaf\-\_\-type}}
+\index{binson\-\_\-node\-\_\-is\-\_\-leaf\-\_\-type@{binson\-\_\-node\-\_\-is\-\_\-leaf\-\_\-type}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-node\-\_\-is\-\_\-leaf\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} binson\-\_\-node\-\_\-is\-\_\-leaf\-\_\-type (
+\begin{DoxyParamCaption}
+\item[{binson\-\_\-node $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{binson_8h_a3d14d925a0f1e27ea6e456a9c39ad1ce}
+
+\begin{DoxyParams}{Parameters}
+{\em node} & binson\-\_\-node$\ast$ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{binson_8h_a71d62edab64cf83c8d3ae3efdba824c6}{\index{binson.\-h@{binson.\-h}!binson\-\_\-serialize@{binson\-\_\-serialize}}
+\index{binson\-\_\-serialize@{binson\-\_\-serialize}!binson.h@{binson.\-h}}
+\subsubsection[{binson\-\_\-serialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-serialize (
+\begin{DoxyParamCaption}
+\item[{{\bf binson} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{binson_8h_a71d62edab64cf83c8d3ae3efdba824c6}
+Serialization/deserialization 

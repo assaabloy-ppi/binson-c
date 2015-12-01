@@ -1,0 +1,73 @@
+\hypertarget{binson__strstack_8h}{\section{/home/kotomysha/binson/binson/src/binson\-\_\-strstack.h File Reference}
+\label{binson__strstack_8h}\index{/home/kotomysha/binson/binson/src/binson\-\_\-strstack.\-h@{/home/kotomysha/binson/binson/src/binson\-\_\-strstack.\-h}}
+}
+
+
+String stack implementation.  
+
+
+{\ttfamily \#include \char`\"{}binson\-\_\-config.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}binson\-\_\-error.\-h\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct binson\-\_\-strstack\-\_\- \hyperlink{binson__strstack_8h_a53e611f07a2acf848d6d1ad45827b4d6}{binson\-\_\-strstack}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} \hyperlink{binson__strstack_8h_a17cb128d7b5b20efc4bbd6b58bd989de}{binson\-\_\-strstack\-\_\-init} (\hyperlink{binson__strstack_8h_a53e611f07a2acf848d6d1ad45827b4d6}{binson\-\_\-strstack} $\ast$strbuf, char $\ast$ptr, size\-\_\-t size)
+\item 
+\hypertarget{binson__strstack_8h_af1181451c78dd5023fffa578742175a4}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-strstack\-\_\-free} (\hyperlink{binson__strstack_8h_a53e611f07a2acf848d6d1ad45827b4d6}{binson\-\_\-strstack} $\ast$strbuf)}\label{binson__strstack_8h_af1181451c78dd5023fffa578742175a4}
+
+\item 
+\hypertarget{binson__strstack_8h_adf0a47537e3aba5057811fc70c33d3de}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-strstack\-\_\-lease} (\hyperlink{binson__strstack_8h_a53e611f07a2acf848d6d1ad45827b4d6}{binson\-\_\-strstack} $\ast$strbuf, char $\ast$$\ast$ptr, size\-\_\-t size)}\label{binson__strstack_8h_adf0a47537e3aba5057811fc70c33d3de}
+
+\item 
+\hypertarget{binson__strstack_8h_a25be38fdbffb9b0988668734eb65a8ca}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-strstack\-\_\-grow} (\hyperlink{binson__strstack_8h_a53e611f07a2acf848d6d1ad45827b4d6}{binson\-\_\-strstack} $\ast$strbuf, size\-\_\-t new\-\_\-size)}\label{binson__strstack_8h_a25be38fdbffb9b0988668734eb65a8ca}
+
+\item 
+\hypertarget{binson__strstack_8h_ac976ef51cb9df943f246d6b5a400e17e}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-strstack\-\_\-release} (\hyperlink{struct__binson__strstack__t}{binson\-\_\-strstack\-\_\-t} $\ast$strbuf, char $\ast$ptr)}\label{binson__strstack_8h_ac976ef51cb9df943f246d6b5a400e17e}
+
+\item 
+\hypertarget{binson__strstack_8h_ab14d1e801f5c759099869f9022d944ae}{\hyperlink{binson__error_8h_acd4f170ba20fd1c501b1aa5b8e9ca893}{binson\-\_\-res} {\bfseries binson\-\_\-strstack\-\_\-getfree} (\hyperlink{struct__binson__strstack__t}{binson\-\_\-strstack\-\_\-t} $\ast$strbuf)}\label{binson__strstack_8h_ab14d1e801f5c759099869f9022d944ae}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+String stack implementation. String stack header file.
+
+\begin{DoxyAuthor}{Author}
+Alexander Reshniuk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+20/11/2015
+\end{DoxyDate}
+Strstack is minimum performance overhead and memleak-\/safe alternative to malloc's Main limitation of strstack is impossibility to release non-\/top string
+
+\begin{DoxyAuthor}{Author}
+Alexander Reshniuk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+20/11/2015 
+\end{DoxyDate}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{binson__strstack_8h_a53e611f07a2acf848d6d1ad45827b4d6}{\index{binson\-\_\-strstack.\-h@{binson\-\_\-strstack.\-h}!binson\-\_\-strstack@{binson\-\_\-strstack}}
+\index{binson\-\_\-strstack@{binson\-\_\-strstack}!binson_strstack.h@{binson\-\_\-strstack.\-h}}
+\subsubsection[{binson\-\_\-strstack}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct binson\-\_\-strstack\-\_\- {\bf binson\-\_\-strstack}}}\label{binson__strstack_8h_a53e611f07a2acf848d6d1ad45827b4d6}
+Forward declarations 
+
+\subsection{Function Documentation}
+\hypertarget{binson__strstack_8h_a17cb128d7b5b20efc4bbd6b58bd989de}{\index{binson\-\_\-strstack.\-h@{binson\-\_\-strstack.\-h}!binson\-\_\-strstack\-\_\-init@{binson\-\_\-strstack\-\_\-init}}
+\index{binson\-\_\-strstack\-\_\-init@{binson\-\_\-strstack\-\_\-init}!binson_strstack.h@{binson\-\_\-strstack.\-h}}
+\subsubsection[{binson\-\_\-strstack\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf binson\-\_\-res} binson\-\_\-strstack\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf binson\-\_\-strstack} $\ast$}]{strbuf, }
+\item[{char $\ast$}]{ptr, }
+\item[{size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{binson__strstack_8h_a17cb128d7b5b20efc4bbd6b58bd989de}
+String stack A\-P\-I calls 

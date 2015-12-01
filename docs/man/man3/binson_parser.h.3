@@ -1,0 +1,74 @@
+.TH "/home/kotomysha/binson/binson/src/binson_parser.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson_parser.h \- 
+.PP
+Binson binary format parsing API header file\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'binson_config\&.h'\fP
+.br
+\fC#include 'binson_error\&.h'\fP
+.br
+\fC#include 'binson_io\&.h'\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct binson_parser_ \fBbinson_parser\fP"
+.br
+.ti -1c
+.RI "typedef \fBbinson_res\fP(* \fBbinson_parser_cb\fP )(binson_node *node, int depth, void *param)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_parser_init\fP (\fBbinson_parser\fP *parser, \fBbinson_io\fP *io)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_parser_free\fP (\fBbinson_parser\fP *parser)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_parser_start\fP (\fBbinson_parser\fP *parser, \fBbinson_parser_cb\fP cb, void *param)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_parser_continue\fP (\fBbinson_parser\fP *parser, \fBbinson_parser_cb\fP cb, void *param)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Binson binary format parsing API header file\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct binson_parser_ \fBbinson_parser\fP"
+Forward declarations 
+.SS "typedef \fBbinson_res\fP(* binson_parser_cb)(binson_node *node, int depth, void *param)"
+Parsing callback declaration 
+.SH "Function Documentation"
+.PP 
+.SS "\fBbinson_res\fP binson_parser_init (\fBbinson_parser\fP *parser, \fBbinson_io\fP *io)"
+Binson parser API calls 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

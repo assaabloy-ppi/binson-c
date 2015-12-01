@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="binson-c" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/binson" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-pedantic-errors" />
+					<Add option="-pedantic" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-ansi" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/binson" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="AUTHORS" />
+		<Unit filename="COPYING" />
+		<Unit filename="COPYING.LESSER" />
+		<Unit filename="README.md" />
+		<Unit filename="src/binson.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="src/binson_config.h" />
+		<Unit filename="src/binson_error.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_error.h" />
+		<Unit filename="src/binson_io.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_io.h" />
+		<Unit filename="src/binson_parser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_parser.h" />
+		<Unit filename="src/binson_strstack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_strstack.h" />
+		<Unit filename="src/binson_utf8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_utf8.h" />
+		<Unit filename="src/binson_util.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_util.h" />
+		<Unit filename="src/binson_writer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_writer.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project output_directory="docs" />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output binary_toc="1" />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

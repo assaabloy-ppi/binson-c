@@ -1,0 +1,65 @@
+.TH "/home/kotomysha/binson/binson/src/binson_utf8.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson_utf8.h \- 
+.PP
+UTF-8 utility functions implementation\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'binson_config\&.h'\fP
+.br
+\fC#include 'binson_error\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "size_t \fBbinson_utf8_strlen_bytes\fP (const char *str)"
+.br
+.ti -1c
+.RI "size_t \fBbinson_utf8_strlen_chars\fP (const char *str)"
+.br
+.ti -1c
+.RI "\fBbool\fP \fBbinson_utf8_is_equal\fP (const char *str1, const char *str2)"
+.br
+.ti -1c
+.RI "\fBbool\fP \fBbinson_utf8_is_less\fP (const char *str_left, const char *str_right)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_utf8_escape\fP (char *dst, const char *str)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_utf8_unescape\fP (char *dst, const char *str)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_utf8_validate\fP (const char *str)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+UTF-8 utility functions implementation\&. 
+
+UTF-8 utility functions header file\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "size_t binson_utf8_strlen_bytes (const char *str)"
+UTF-8 string helpers 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

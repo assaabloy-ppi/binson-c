@@ -1,0 +1,360 @@
+.TH "/home/kotomysha/binson/binson/src/binson.h" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/kotomysha/binson/binson/src/binson.h \- 
+Binson-c library public API implementation file\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdarg\&.h>\fP
+.br
+\fC#include 'binson_config\&.h'\fP
+.br
+\fC#include 'binson_error\&.h'\fP
+.br
+\fC#include 'binson_writer\&.h'\fP
+.br
+\fC#include 'binson_io\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBBINSON_MAJOR_VERSION\fP   0"
+.br
+.ti -1c
+.RI "#define \fBBINSON_MINOR_VERSION\fP   0"
+.br
+.ti -1c
+.RI "#define \fBBINSON_MICRO_VERSION\fP   1"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBbinson_\fP \fBbinson\fP"
+.br
+.ti -1c
+.RI "typedef struct binson_node_ \fBbinson_node\fP"
+.br
+.ti -1c
+.RI "typedef struct binson_node_key_ \fBbinson_node_key\fP"
+.br
+.ti -1c
+.RI "typedef struct binson_node_val_ \fBbinson_node_val\fP"
+.br
+.ti -1c
+.RI "typedef struct 
+.br
+\fBbinson_traverse_cb_status_\fP \fBbinson_traverse_cb_status\fP"
+.br
+.ti -1c
+.RI "typedef struct 
+.br
+\fBbinson_traverse_cb_param_\fP \fBbinson_traverse_cb_param\fP"
+.br
+.ti -1c
+.RI "typedef \fBbinson_res\fP(* \fBbinson_traverse_callback\fP )(\fBbinson\fP *obj, binson_node *node, \fBbinson_traverse_cb_status\fP *status, void *param)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBbinson_node_type\fP { \fBBINSON_TYPE_UNKNOWN\fP = 0, \fBBINSON_TYPE_OBJECT\fP, \fBBINSON_TYPE_ARRAY\fP, \fBBINSON_TYPE_BOOLEAN\fP, \fBBINSON_TYPE_INTEGER\fP, \fBBINSON_TYPE_DOUBLE\fP, \fBBINSON_TYPE_STRING\fP, \fBBINSON_TYPE_BYTES\fP }"
+.br
+.ti -1c
+.RI "enum \fBbinson_traverse_method\fP { \fBBINSON_TRAVERSE_PREORDER\fP = 0, \fBBINSON_TRAVERSE_POSTORDER\fP, \fBBINSON_TRAVERSE_BOTHORDER\fP, \fBBINSON_TRAVERSE_PREORDER\fP = 0, \fBBINSON_TRAVERSE_POSTORDER\fP, \fBBINSON_TRAVERSE_BOTHORDER\fP }"
+.br
+.ti -1c
+.RI "enum \fBbinson_traverse_method\fP { \fBBINSON_TRAVERSE_PREORDER\fP = 0, \fBBINSON_TRAVERSE_POSTORDER\fP, \fBBINSON_TRAVERSE_BOTHORDER\fP, \fBBINSON_TRAVERSE_PREORDER\fP = 0, \fBBINSON_TRAVERSE_POSTORDER\fP, \fBBINSON_TRAVERSE_BOTHORDER\fP }"
+.br
+.ti -1c
+.RI "enum \fBbinson_traverse_dir\fP { \fBBINSON_TRAVERSE_DIR_UNKNOWN\fP = 0, \fBBINSON_TRAVERSE_DIR_DOWN\fP, \fBBINSON_TRAVERSE_DIR_UP\fP, \fBBINSON_TRAVERSE_DIR_RIGHT\fP, \fBBINSON_TRAVERSE_DIR_LEFT\fP, \fBBINSON_TRAVERSE_DIR_NONE\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "uint32_t \fBbinson_lib_get_version\fP ()"
+.br
+.RI "\fIReturn current installed binson lib version\&. \fP"
+.ti -1c
+.RI "\fBbool\fP \fBbinson_lib_is_compatible\fP ()"
+.br
+.RI "\fICheck if headers matches binson lib version installed\&. \fP"
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_init\fP (\fBbinson\fP *obj, \fBbinson_writer\fP *writer, \fBbinson_parser\fP *parser)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_free\fP (\fBbinson\fP *obj)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_get_root\fP (\fBbinson\fP *obj, binson_node **node_ptr)"
+.br
+.ti -1c
+.RI "\fBbinson_writer\fP * \fBbinson_get_writer\fP (\fBbinson\fP *obj)"
+.br
+.ti -1c
+.RI "\fBbinson_parser\fP * \fBbinson_get_parser\fP (\fBbinson\fP *obj)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_add_object_empty\fP (\fBbinson\fP *obj, binson_node *parent, binson_node_key key, binson_node **dst)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_add_array_empty\fP (\fBbinson\fP *obj, binson_node *parent, binson_node_key key, binson_node **dst)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_add_boolean\fP (\fBbinson\fP *obj, binson_node *parent, binson_node **dst, \fBbool\fP val)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_add_integer\fP (\fBbinson\fP *obj, binson_node *parent, binson_node **dst, int64_t val)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_add_double\fP (\fBbinson\fP *obj, binson_node *parent, binson_node **dst, double val)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_add_str\fP (\fBbinson\fP *obj, binson_node *parent, binson_node **dst, const char *val)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_add_bytes\fP (\fBbinson\fP *obj, binson_node *parent, binson_node **dst, uint8_t src_ptr, size_t src_size)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_clone\fP (\fBbinson\fP *obj, binson_node *parent, binson_node **dst, binson_node *node, const char *new_key)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_clone_tree\fP (\fBbinson\fP *obj, binson_node *node, const char *new_key)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_remove\fP (\fBbinson\fP *obj, binson_node *node)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_serialize\fP (\fBbinson\fP *obj)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_deserialize\fP (\fBbinson\fP *obj, \fBbool\fP validate_only)"
+.br
+.ti -1c
+.RI "\fBbinson_node_type\fP \fBbinson_node_get_type\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node_key * \fBbinson_node_get_key\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node_val * \fBbinson_node_get_val\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "\fBbool\fP \fBbinson_node_is_leaf_type\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_depth \fBbinson_node_get_depth\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node * \fBbinson_node_get_parent\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node * \fBbinson_node_get_prev\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node * \fBbinson_node_get_next\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node * \fBbinson_node_get_first_sibling\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node * \fBbinson_node_get_last_sibling\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node * \fBbinson_node_get_first_child\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "binson_node * \fBbinson_node_get_last_child\fP (binson_node *node)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_get_child_by_idx\fP ()"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_get_child_by_key\fP ()"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_get_sibling_count\fP ()"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_node_get_child_count\fP ()"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_traverse\fP (\fBbinson\fP *obj, binson_node *root_node, \fBbinson_traverse_method\fP t_method, binson_depth max_depth, \fBbinson_traverse_callback\fP cb, void *param)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_traverse_first\fP (\fBbinson\fP *obj, binson_node *root_node, \fBbinson_traverse_method\fP t_method, binson_depth max_depth, \fBbinson_traverse_callback\fP cb, \fBbinson_traverse_cb_status\fP *status, void *param)"
+.br
+.ti -1c
+.RI "\fBbinson_res\fP \fBbinson_traverse_next\fP (\fBbinson_traverse_cb_status\fP *status)"
+.br
+.ti -1c
+.RI "\fBbool\fP \fBbinson_traverse_is_done\fP (\fBbinson_traverse_cb_status\fP *status)"
+.br
+.ti -1c
+.RI "binson_node * \fBbinson_traverse_get_current_node\fP (\fBbinson_traverse_cb_status\fP *status)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Binson-c library public API implementation file\&. 
+
+Binson-c library public API header file\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Alexander Reshniuk 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+20/11/2015 
+.RE
+.PP
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BINSON_MAJOR_VERSION   0"
+Binson-c library version (major\&.minor\&.micro) 
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBbinson_\fP \fBbinson\fP"
+Forward declarations 
+.SS "typedef \fBbinson_res\fP(* binson_traverse_callback)(\fBbinson\fP *obj, binson_node *node, \fBbinson_traverse_cb_status\fP *status, void *param)"
+Binson tree traversal API calls 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBbinson_node_type\fP"
+Supported node types 
+.SS "enum \fBbinson_traverse_dir\fP"
+Binson DOM tree traversal direction 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIBINSON_TRAVERSE_DIR_DOWN \fP\fP
+Indicates last processed node was parent of current processing node 
+.TP
+\fB\fIBINSON_TRAVERSE_DIR_UP \fP\fP
+Indicates last processed node was child of current processing node 
+.TP
+\fB\fIBINSON_TRAVERSE_DIR_RIGHT \fP\fP
+Indicates last processed node was left neighbor of current processing node 
+.TP
+\fB\fIBINSON_TRAVERSE_DIR_LEFT \fP\fP
+Indicates last processed node was right neighbor of current processing node 
+.TP
+\fB\fIBINSON_TRAVERSE_DIR_NONE \fP\fP
+Indicates \fCBINSON_TRAVERSE_BOTHORDER\fP processing of empty node 
+.SS "enum \fBbinson_traverse_method\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIBINSON_TRAVERSE_PREORDER \fP\fP
+Process parents before children 
+.TP
+\fB\fIBINSON_TRAVERSE_POSTORDER \fP\fP
+Process children before parents 
+.TP
+\fB\fIBINSON_TRAVERSE_BOTHORDER \fP\fP
+Process parents before children and then one more time after all children 
+.TP
+\fB\fIBINSON_TRAVERSE_PREORDER \fP\fP
+Process parents before children 
+.TP
+\fB\fIBINSON_TRAVERSE_POSTORDER \fP\fP
+Process children before parents 
+.TP
+\fB\fIBINSON_TRAVERSE_BOTHORDER \fP\fP
+Process parents before children and then one more time after all children 
+.SS "enum \fBbinson_traverse_method\fP"
+Binson DOM tree traversal type 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIBINSON_TRAVERSE_PREORDER \fP\fP
+Process parents before children 
+.TP
+\fB\fIBINSON_TRAVERSE_POSTORDER \fP\fP
+Process children before parents 
+.TP
+\fB\fIBINSON_TRAVERSE_BOTHORDER \fP\fP
+Process parents before children and then one more time after all children 
+.TP
+\fB\fIBINSON_TRAVERSE_PREORDER \fP\fP
+Process parents before children 
+.TP
+\fB\fIBINSON_TRAVERSE_POSTORDER \fP\fP
+Process children before parents 
+.TP
+\fB\fIBINSON_TRAVERSE_BOTHORDER \fP\fP
+Process parents before children and then one more time after all children 
+.SH "Function Documentation"
+.PP 
+.SS "\fBbinson_res\fP binson_get_root (\fBbinson\fP *obj, binson_node **node_ptr)"
+Binson context getters/setters 
+.SS "uint32_t binson_lib_get_version ()"
+
+.PP
+Return current installed binson lib version\&. General purpose binson library API calls
+.PP
+\fBReturns:\fP
+.RS 4
+uint32_t 
+.RE
+.PP
+
+.SS "\fBbool\fP binson_lib_is_compatible (void)"
+
+.PP
+Check if headers matches binson lib version installed\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+bool 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_node_add_object_empty (\fBbinson\fP *obj, binson_node *parent, binson_node_keykey, binson_node **dst)"
+Node/tree creation/removal 
+.SS "binson_depth binson_node_get_depth (binson_node *node)"
+Tree level getters 
+.SS "\fBbinson_node_type\fP binson_node_get_type (binson_node *node)"
+Node level getters/setters 
+.SS "\fBbool\fP binson_node_is_leaf_type (binson_node *node)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fInode\fP binson_node* 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+bool 
+.RE
+.PP
+
+.SS "\fBbinson_res\fP binson_serialize (\fBbinson\fP *obj)"
+Serialization/deserialization 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.

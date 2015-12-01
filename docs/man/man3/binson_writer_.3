@@ -1,0 +1,46 @@
+.TH "binson_writer_" 3 "Tue Dec 1 2015" "binson-c" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+binson_writer_ \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "\fBbinson_io\fP * \fBio\fP"
+.br
+.ti -1c
+.RI "\fBbinson_writer_format\fP \fBformat\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBsig_stack\fP [BINSON_DEPTH_LIMIT]"
+.br
+.ti -1c
+.RI "binson_child_num \fBidx_stack\fP [BINSON_DEPTH_LIMIT]"
+.br
+.ti -1c
+.RI "int \fBdepth\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Binson writer context struct 
+.SH "Field Documentation"
+.PP 
+.SS "int depth"
+Current tree depth\&. Used as stack top pointer 
+.SS "\fBbinson_writer_format\fP format"
+Current binson writer output format 
+.SS "binson_child_num idx_stack[BINSON_DEPTH_LIMIT]"
+Tracking indexes of children 
+.SS "\fBbinson_io\fP* io"
+Associated \fCbinson_io\fP struct 
+.SS "uint8_t sig_stack[BINSON_DEPTH_LIMIT]"
+When moving to next level down (starting to write new OBJECT or ARRAY) it's required to store in stack current horizontal item index to restore it on the return trip\&. This functionality implemented for BINSON_WRITER_FORMAT_JSON_* modes only to keep track of commas on each level\&.Used to keep track of parents: OBJECT or ARRAY 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for binson-c from the source code\&.
