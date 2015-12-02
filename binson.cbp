@@ -63,10 +63,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/binson_parser.h" />
-		<Unit filename="src/binson_strstack.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/binson_strstack.h" />
 		<Unit filename="src/binson_utf8.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -36,9 +36,11 @@
  *
  ***********************************************/
 
+#include "binson_config.h"
 #include "binson_parser.h"
 
+typedef struct binson_parser_
+{
+ int dummy;
 
-/**
- *  TBD
- */
+} binson_parser_;

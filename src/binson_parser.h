@@ -52,6 +52,11 @@ extern "C" {
  */
 typedef struct binson_parser_  binson_parser;
 
+#ifndef binson_node_DEFINED
+typedef struct binson_node_  binson_node;
+# define binson_node_DEFINED
+#endif
+
 /**
  *  Parsing callback declaration
  */

@@ -61,4 +61,4 @@ binson_res  binson_utf8_validate( const char* str );
 }
 #endif
 
-#endif // BINSON_UTF8_H_INCLUDED
+#endif /* BINSON_UTF8_H_INCLUDED */

@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1449062851 source:/home/kotomysha/binson/binson-c/src/binson.c
+	<stdlib.h>
+	<string.h>
+	<float.h>
+	<assert.h>
+	"binson.h"
+	"binson_error.h"
+	"binson_io.h"
+	"binson_util.h"
+	"binson_writer.h"
+	"binson_parser.h"
+
+1449062663 /home/kotomysha/binson/binson-c/src/binson.h
+	<stdio.h>
+	<stdarg.h>
+	"binson_config.h"
+	"binson_error.h"
+	"binson_io.h"
+	"binson_writer.h"
+	"binson_parser.h"
+
+1449013498 /home/kotomysha/binson/binson-c/src/binson_config.h
+
+1449062927 /home/kotomysha/binson/binson-c/src/binson_error.h
+	<stddef.h>
+	"binson_config.h"
+
+1449016519 /home/kotomysha/binson/binson-c/src/binson_io.h
+	"binson_config.h"
+	"binson_error.h"
+	"binson_config.h"
+	"binson_error.h"
+
+1448974065 /home/kotomysha/binson/binson-c/src/binson_writer.h
+	"binson_config.h"
+	"binson_error.h"
+	"binson_io.h"
+
+1449016635 /home/kotomysha/binson/binson-c/src/binson_parser.h
+	"binson_config.h"
+	"binson_error.h"
+	"binson_io.h"
+
+1449015107 /home/kotomysha/binson/binson-c/src/binson_util.h
+	"binson_config.h"
+
+1449062979 source:/home/kotomysha/binson/binson-c/src/binson_error.c
+	"binson_error.h"
+

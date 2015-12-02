@@ -36,20 +36,7 @@
  *
  ***********************************************/
 
-#include <binson_error.h>
-
-#define BINSON_ERROR_REPORT(res)     (binson_error_report( res,  __FILE__, __LINE__, NULL, 0 ))
-
-#define FAILED(res)   ((res == BINSON_RES_OK)? 0 : (BINSON_ERROR_REPORT(res), 1))
-#define SUCCESS(res)  (!FAILED(res))
-
-#ifdef NDEBUG
-# define BINSON_ASSERT( expr ) ((void)0)
-#else
-# define BINSON_ASSERT( exp ) \
-                    ( (exp) ? (void)0 : (binson_error_report( BINSON_RES_ERROR_ASSERT_FAILED, __FILE__, __LINE__, #exp, sizeof(#exp)), \
-                                        binson_error_dump(), abort()))
-#endif
+#include "binson_error.h"
 
 /**
  *  Binson error rec flags (possible values of flag member)
@@ -70,7 +57,7 @@ typedef struct binson_error_rec_ {
     char*                   code_str;  /**< Optional. If not NULL, point to detailed code description */
 
     unsigned int            line;
-    char*                   file;
+    const char*             file;
     char*                   data;
     size_t                  data_len;
 
@@ -92,7 +79,7 @@ typedef struct _binson_error {
 /**
  *  Dummy guard union which must produce compiler warnings/errors in case of incorrect porting
  */
-static union
+static union dummy_
 {
     char   int8_t_incorrect[sizeof(  int8_t) == 1];
     char  uint8_t_incorrect[sizeof( uint8_t) == 1];

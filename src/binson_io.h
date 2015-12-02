@@ -39,7 +39,11 @@
 #ifndef BINSON_IO_H_INCLUDED
 #define BINSON_IO_H_INCLUDED
 
+#include <stdio.h>
+#include <stdarg.h>
+
 #include "binson_config.h"
+#include "binson_error.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,7 +55,10 @@ extern "C" {
 /**
  *  Forward declarations
  */
+#ifndef binson_io_DEFINED
 typedef struct binson_io_  binson_io;
+# define binson_io_DEFINED
+#endif
 
 /**
  *  Supported data source/sink types
@@ -62,7 +69,7 @@ typedef enum {
   BINSON_IO_TYPE_BUFFER,        /**< Memory buffer */
   BINSON_IO_TYPE_STREAM         /**< Stdio stream (FILE) */
 
-} binson_io_type_t;
+} binson_io_type;
 
 /**
  *  Data access mode
@@ -74,15 +81,15 @@ typedef enum {
 
   BINSON_IO_MODE_CREATE = 16
 
-} binson_io_mode_t;
+} binson_io_mode;
 
 /**
  *  Binson IO abstraction layer API calls
  */
-binson_res  binson_io_open_file( binson_io *obj, const char* path, binson_io_mode_t mode );
+binson_res  binson_io_open_file( binson_io *obj, const char* path, binson_io_mode mode );
 binson_res  binson_io_attach_stream( binson_io *obj, FILE *stream );
-binson_res  binson_io_attach_fd( binson_io *obj, int fd, binson_io_mode_t mode  );
-binson_res  binson_io_attach_str( binson_io *obj, char* str, size_t str_size, binson_io_mode_t mode );
+/*binson_res  binson_io_attach_fd( binson_io *obj, int fd, binson_io_mode mode  );*/
+binson_res  binson_io_attach_str( binson_io *obj, char* str, size_t str_size, binson_io_mode mode );
 binson_res  binson_io_attach_bytebuf( binson_io *obj, uint8_t *buf, size_t buf_size);
 binson_res  binson_io_close( binson_io *obj );
 
@@ -94,10 +101,10 @@ binson_res  binson_io_vprintf( binson_io *obj, const char* format, va_list args 
 binson_res  binson_io_printf( binson_io *obj, const char* format, ... );
 
 binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, size_t *read_bytes );
-binson_res  binson_io_read_str( binson_io *obj, char* strbuf, size_t max_size, size_t *read_chars, binson_io_mode_t mode );
+binson_res  binson_io_read_str( binson_io *obj, char* strbuf, size_t max_size, size_t *read_chars, binson_io_mode mode );
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // BINSON_IO_H_INCLUDED
+#endif /* BINSON_IO_H_INCLUDED */

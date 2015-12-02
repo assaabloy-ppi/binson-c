@@ -38,48 +38,49 @@
 
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdarg.h>
 
-#include <binson_io.h>
+#include "binson_io.h"
 
 /**< String buffer access struct */
-typedef struct _binson_io_strbuf_struct_t {
+typedef struct _binson_io_strbuf_struct {
 
   char      *ptr;
   size_t     buf_size;
   size_t     cursor;
 
-} binson_io_strbuf_struct_t;
+} binson_io_strbuf_struct;
 
 /**< Memory byte buffer access struct */
-typedef struct _binson_io_bytebuf_struct_t {
+typedef struct _binson_io_bytebuf_struct {
 
   uint8_t   *ptr;
   size_t     buf_size;
   size_t     cursor;
 
-} binson_io_bytebuf_struct_t;
+} binson_io_bytebuf_struct;
 
 /**< Union of supported storage structs */
-typedef union _binson_io_struct_t {
+typedef union _binson_io_struct {
 
-  binson_io_strbuf_struct_t       *strbuf;
-  binson_io_bytebuf_struct_t      *bytebuf;
-  FILE                            *stream;
+  binson_io_strbuf_struct       strbuf;
+  binson_io_bytebuf_struct      bytebuf;
+  FILE                          *stream;
 
-} binson_io_struct_t;
+} binson_io_struct;
 
 /**< Binson IO context */
 typedef struct binson_io_ {
 
-  binson_io_type_t    type;
-  binson_io_mode_t    mode;
-  binson_io_struct_t  handle;
+  binson_io_type    type;
+  binson_io_mode    mode;
+  binson_io_struct  handle;
 
-  binson_res          status;   /**< Last input/output operation result */
-  int                 errno;    /**< Last errno value for this object */
+  binson_res          status;        /**< Last input/output operation result */
+  int                 errno_copy;    /**< Last errno value for this object */
 
-} binson_io;
+} binson_io_;
 
 /** \brief Open file with specified access mode and attach it to \c binson_io object
  *
@@ -88,7 +89,7 @@ typedef struct binson_io_ {
  * \param mode binson_io_mode_t   Access mode
  * \return binson_res             Result code
  */
-binson_res  binson_io_open_file( binson_io *obj, const char* path, binson_io_mode_t mode )
+binson_res  binson_io_open_file( binson_io *obj, const char* path, binson_io_mode mode )
 {
   char m[3] = {0};
 
@@ -99,14 +100,14 @@ binson_res  binson_io_open_file( binson_io *obj, const char* path, binson_io_mod
   obj->mode = mode;
 
   if (mode & BINSON_IO_MODE_READ)
-    strcat(&m, "r");
+    strcat(m, "r");
   else
-    if (mode & BINSON_IO_MODE_APPEND))
-      strcat(&m, "a");
+    if (mode & BINSON_IO_MODE_APPEND)
+      strcat(m, "a");
     else
-      strcat(&m, "w");
+      strcat(m, "w");
 
-  return binson_io_attach_stream( obj, fopen(path, &m) );
+  return binson_io_attach_stream( obj, fopen(path, m) );
 }
 
 /** \brief Attach already opened \c FILE stream to \c binson_io object
@@ -124,7 +125,7 @@ binson_res  binson_io_attach_stream( binson_io *obj, FILE *stream )
 
   obj->handle.stream = stream;
   obj->status = (!obj->handle.stream)? BINSON_RES_OK :BINSON_RES_ERROR_STREAM;
-  obj->errno = errno;
+  obj->errno_copy = errno;
 
   return BINSON_RES_OK;
 }
@@ -137,7 +138,7 @@ binson_res  binson_io_attach_stream( binson_io *obj, FILE *stream )
  * \return binson_res             Result code
  *
  */
-binson_res  binson_io_attach_fd( binson_io *obj, int fd, binson_io_mode_t mode  )
+/*binson_res  binson_io_attach_fd( binson_io *obj, int fd, binson_io_mode mode  )
 {
   char m[3] = {0};
 
@@ -147,15 +148,15 @@ binson_res  binson_io_attach_fd( binson_io *obj, int fd, binson_io_mode_t mode  
   obj->mode = mode;
 
   if (mode & BINSON_IO_MODE_READ)
-    strcat(&m, "r");
+    strcat(m, "r");
   else
-    if (mode & BINSON_IO_MODE_APPEND))
-      strcat(&m, "a");
+    if (mode & BINSON_IO_MODE_APPEND)
+      strcat(m, "a");
     else
-      strcat(&m, "w")
+      strcat(m, "w");
 
   return binson_io_attach_stream( obj, fdopen(fd, &m) );
-}
+}*/
 
 /** \brief Attach string buffer to \c binson_io object
  *
@@ -165,7 +166,7 @@ binson_res  binson_io_attach_fd( binson_io *obj, int fd, binson_io_mode_t mode  
  * \param mode binson_io_mode_t   Access mode
  * \return binson_res             Result code
  */
-binson_res  binson_io_attach_str( binson_io *obj, char* str, size_t str_size, binson_io_mode_t mode )
+binson_res  binson_io_attach_str( binson_io *obj, char* str, size_t str_size, binson_io_mode mode )
 {
   if (!obj || !str || !str_size)
     return BINSON_RES_ERROR_ARG_WRONG;
@@ -213,18 +214,18 @@ binson_res  binson_io_close( binson_io *obj )
   if (!obj)
     return BINSON_RES_ERROR_ARG_WRONG;
 
-  if (obj->type = BINSON_IO_TYPE_STREAM)
+  if (obj->type == BINSON_IO_TYPE_STREAM)
     res = fclose(obj->handle.stream);
 
   if (res)
   {
     obj->status = BINSON_RES_ERROR_STREAM;
-    obj->errno = errno;
+    obj->errno_copy = errno;
   }
   else
     obj->status = BINSON_RES_OK;
 
-  obj->type = BINSON_IO_TYPE_UNKNOWN;
+  obj->type = BINSON_IO_TYPE_NULL;
   obj->handle.stream = NULL;
 
   return  obj->status;
@@ -266,7 +267,7 @@ binson_res  binson_io_write( binson_io *obj, uint8_t *src_ptr, size_t block_size
       }
       break;
 
-    case BINSON_IO_TYPE_UNKNOWN:
+    case BINSON_IO_TYPE_NULL:
     default:
     return BINSON_RES_ERROR_BROKEN_INT_STRUCT;
   }
@@ -308,6 +309,9 @@ binson_res  binson_io_write_byte( binson_io *obj, uint8_t byte )
 binson_res  binson_io_vprintf( binson_io *obj, const char* format, va_list args )
 {
   int written = 0;
+
+  if (!obj )
+    return BINSON_RES_ERROR_ARG_WRONG;
 
   switch (obj->type)
   {
@@ -362,7 +366,7 @@ binson_res  binson_io_printf( binson_io *obj, const char* format, ... )
 binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, size_t *read_bytes )
 {
   binson_res  res = BINSON_RES_OK;
-  size_t      ctn;
+  size_t      cnt;
 
   if (!obj || !dst_ptr)
     return BINSON_RES_ERROR_ARG_WRONG;
@@ -374,7 +378,7 @@ binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, s
   {
     case BINSON_IO_TYPE_STREAM:
       *read_bytes = fread(dst_ptr, 1, max_size, obj->handle.stream );
-      res = (block_size == written)? BINSON_RES_OK : BINSON_RES_ERROR_STREAM;
+      res = (*read_bytes == max_size )? BINSON_RES_OK : BINSON_RES_ERROR_STREAM;
     break;
 
     case BINSON_IO_TYPE_STR0:
@@ -386,7 +390,7 @@ binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, s
         obj->handle.bytebuf.cursor += cnt;
         break;
 
-    case BINSON_IO_TYPE_UNKNOWN:
+    case BINSON_IO_TYPE_NULL:
     default:
     return BINSON_RES_ERROR_BROKEN_INT_STRUCT;
   }
@@ -404,7 +408,7 @@ binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, s
  * \param mode binson_io_mode_t   Specify BINSON_IO_MODE_APPEND to concatenate to existing string
  * \return binson_res             Result code
  */
-binson_res  binson_io_read_str( binson_io *obj, char* strbuf, size_t max_size, size_t *read_chars, binson_io_mode_t mode  )
+binson_res  binson_io_read_str( binson_io *obj, char* strbuf, size_t max_size, size_t *read_chars, binson_io_mode mode  )
 {
   binson_res res = BINSON_RES_OK;
   size_t len = 0;

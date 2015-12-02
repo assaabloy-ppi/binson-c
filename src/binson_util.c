@@ -38,49 +38,16 @@
 
 #include "binson_util.h"
 
-
-uint16_t binson_util_uint16_swap( uint16_t i )
-{
-    return (i << 8) | (i >> 8 );
-}
-
-
-int16_t binson_util_int16_swap( int16_t i )
-{
-    return (i << 8) | ((i >> 8) & 0xff);
-}
-
-uint32_t binson_util_uint32_swap( uint32_t i )
-{
-    i = ((i << 8) & 0xff00ff00 ) | ((i >> 8) & 0xff00ff );
-    return (i << 16) | (i >> 16);
-}
-
-int32_t binson_util_int32_swap( int32_t i )
-{
-    i = ((i << 8) & 0xff00ff00) | ((i >> 8) & 0xff00ff );
-    return (i << 16) | ((i >> 16) & 0xffff);
-}
-
-int64_t binson_util_int64_swap( int64_t i )
-{
-    i = ((i << 8) & 0xff00ff00ff00ff00ull ) | ((i >> 8) & 0x00ff00ff00ff00ffull );
-    i = ((i << 16) & 0xffff0000ffff0000ull ) | ((i >> 16) & 0x0000ffff0000ffffull );
-    return (i << 32) | ((i >> 32) & 0xffffffffull);
-}
-
-uint64_t binson_util_uint64_swap( uint64_t i )
-{
-    i = ((i << 8) & 0xff00ff00ff00ff00ull ) | ((i >> 8) & 0x00ff00ff00ff00ffull );
-    i = ((i << 16) & 0xffff0000ffff0000ull ) | ((i >> 16) & 0x0000ffff0000ffffull );
-    return (i << 32) | (i >> 32);
-}
-
+/** \brief
+ *
+ * \param i int64_t
+ * \return uint8_t
+ */
 uint8_t binson_util_get_significant_bytes( int64_t i )
 {
   int cnt, idx=0;
 
-  i = (i<0)? -i:i;   // remove sign
+  i = (i<0)? -i:i;   /* remove sign */
 
   for (cnt=1; cnt<=9; cnt++)
   {
@@ -89,19 +56,11 @@ uint8_t binson_util_get_significant_bytes( int64_t i )
     i >>= 8;
   }
 
-  if (!idx)  // zero value still needs one byte to be stored
+  if (!idx)  /* zero value still needs one byte to be stored */
     idx = 1;
 
   return idx;
 }
-
-/*
-bool is_LE_arch() {  // detect LE/BE arch
-    int i = 1;
-    char *p = (char *)&i;
-
-    return (p[0] == 1)? true:false;
-}*/
 
 /** \brief Convert 64-bit arg to LE representation in memory buffer
  *
@@ -112,12 +71,13 @@ bool is_LE_arch() {  // detect LE/BE arch
  */
 size_t binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int )
 {
+  int i;
   const uint8_t int_map[] = { 1, 1, 2, 4, 4, 8, 8, 8, 8 }; /**< Maps number of bytes to closes int size */
 
   size_t size, empty_cnt = 0;
   bool neg = (val<0);
 
-  for (int i=0; i<sizeof(int64_t); i++)
+  for (i=0; i<sizeof(int64_t); i++)
   {
      bbuf[i] = val & 0xff;
      empty_cnt = (bbuf[i] == (neg? 0xff:0x00))? empty_cnt+1 : 0;

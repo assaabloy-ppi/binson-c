@@ -141,4 +141,4 @@ typedef  BINSON_NODE_NUM_T   binson_node_num;
 }
 #endif
 
-#endif // BINSON_CONFIG_H_INCLUDED
+#endif /* BINSON_CONFIG_H_INCLUDED */

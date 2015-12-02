@@ -48,22 +48,22 @@
 #define BINSON_SIG_ARRAY_BEGIN    0x42
 #define BINSON_SIG_ARRAY_END      0x43
 
-#define BINSON_SIG_TRUE           0x44;
-#define BINSON_SIG_FALSE          0x45;
-#define BINSON_SIG_DOUBLE         0x46;
+#define BINSON_SIG_TRUE           0x44
+#define BINSON_SIG_FALSE          0x45
+#define BINSON_SIG_DOUBLE         0x46
 
-#define BINSON_SIG_INTEGER_8      0x10;
-#define BINSON_SIG_INTEGER_16     0x11;
-#define BINSON_SIG_INTEGER_32     0x12;
-#define BINSON_SIG_INTEGER_64     0x13;
+#define BINSON_SIG_INTEGER_8      0x10
+#define BINSON_SIG_INTEGER_16     0x11
+#define BINSON_SIG_INTEGER_32     0x12
+#define BINSON_SIG_INTEGER_64     0x13
 
-#define BINSON_SIG_STRING_8       0x14;
-#define BINSON_SIG_STRING_16      0x15;
-#define BINSON_SIG_STRING_32      0x16;
+#define BINSON_SIG_STRING_8       0x14
+#define BINSON_SIG_STRING_16      0x15
+#define BINSON_SIG_STRING_32      0x16
 
-#define BINSON_SIG_BYTES_8        0x18;
-#define BINSON_SIG_BYTES_16       0x19;
-#define BINSON_SIG_BYTES_32       0x1a;
+#define BINSON_SIG_BYTES_8        0x18
+#define BINSON_SIG_BYTES_16       0x19
+#define BINSON_SIG_BYTES_32       0x1a
 
 /**
  *  Binson writer context struct
@@ -84,7 +84,7 @@ typedef struct binson_writer_
   int                   depth;                         /**< Current tree depth. Used as stack top pointer */
 #endif
 
-} binson_writer;
+} binson_writer_;
 
 /**<  \cond Private section (ignored by doxygen) begin */
 #ifdef BINSON_WITH_JSON_OUTPUT
@@ -103,7 +103,7 @@ typedef struct binson_writer_
 void build_json_fmt_str( char* buf, uint8_t parent_sig, char *modifier, bool need_quotes )
 {
   sprintf(buf, "%s%s%%s%s", (parent_sig == BINSON_SIG_OBJ_BEGIN)? "\"%s\": " : "",
-                           (need_quote)? "\"" : "", modifier, (need_quote)? "\"" : "" );
+                           (need_quotes)? "\"" : "", modifier, (need_quotes)? "\"" : "" );
 }
 
 /** \brief Private helper. Writes comma separator with indents for \c BINSON_WRITER_FORMAT_JSON_NICE format
@@ -113,16 +113,19 @@ void build_json_fmt_str( char* buf, uint8_t parent_sig, char *modifier, bool nee
  */
 binson_res  write_separator( binson_writer *writer )
 {
+  int i;
+
   if (writer->idx_stack[writer->depth-1] > 0)
-    binson_io_write_str( io, ", " );
+    binson_io_write_str( writer->io, ", ", true );
 
   if (writer->format == BINSON_WRITER_FORMAT_JSON_NICE)
   {
-    binson_io_write_byte( io, (uint8_t)'\n' );
-    for (int i=0; i<writer->depth*BINSON_WRITER_INDENT_FACTOR; i++)   /**<  Indent white spaces */
+    binson_io_write_byte( writer->io, (uint8_t)'\n' );
+    for (i=0; i<writer->depth*BINSON_WRITER_INDENT_FACTOR; i++)   /**<  Indent white spaces */
     {
-      binson_io_write_byte( io, (uint8_t)' ' );
+      binson_io_write_byte( writer->io, (uint8_t)' ' );
     }
+    binson_io_write_byte( writer->io, '\0' );
   }
 
   return BINSON_RES_OK;
@@ -167,19 +170,19 @@ binson_res  write_frame_sig( binson_writer *writer, uint8_t sig  )
   switch (writer->format)
   {
     case BINSON_WRITER_FORMAT_RAW:
-      res = binson_io_write_byte( io, sig );
+      res = binson_io_write_byte( writer->io, sig );
     break;
 
     case BINSON_WRITER_FORMAT_HEX:
-      res = binson_io_write_str( io, STR(sig) " ", true );
+      res = binson_io_write_str( writer->io, STR(sig) " ", true );
     break;
 
 #ifdef BINSON_WITH_JSON_OUTPUT
     case BINSON_WRITER_FORMAT_JSON:
     case BINSON_WRITER_FORMAT_JSON_NICE:
       res = write_separator( writer );
-      res = binson_io_write_str( io, sig == BINSON_SIG_OBJ_BEGIN? "{ ": (sig == BINSON_SIG_OBJ_END? "} " :
-                                    (sig == BINSON_SIG_ARRAY_BEGIN? "[ " : (sig == BINSON_SIG_ARRAY_END? "" : "] "))));
+      res = binson_io_write_str( writer->io, sig == BINSON_SIG_OBJ_BEGIN? "{ ": (sig == BINSON_SIG_OBJ_END? "} " :
+                                            (sig == BINSON_SIG_ARRAY_BEGIN? "[ " : (sig == BINSON_SIG_ARRAY_END? "" : "] "))), true );
     break;
 #endif
 
@@ -345,11 +348,11 @@ binson_res  binson_writer_write_boolean( binson_writer *writer, bool val )
   switch (writer->format)
   {
     case BINSON_WRITER_FORMAT_RAW:
-      res = binson_io_write_byte( io, val? BINSON_SIG_TRUE : BINSON_SIG_FALSE );
+      res = binson_io_write_byte( writer->io, val? BINSON_SIG_TRUE : BINSON_SIG_FALSE );
     break;
 
     case BINSON_WRITER_FORMAT_HEX:
-      res = binson_io_write_str( io, val? STR(BINSON_SIG_TRUE)" " : STR(BINSON_SIG_FALSE)" ", true );
+      res = binson_io_write_str( writer->io, val? STR(BINSON_SIG_TRUE)" " : STR(BINSON_SIG_FALSE)" ", true );
     break;
 
 #ifdef BINSON_WITH_JSON_OUTPUT
@@ -359,8 +362,8 @@ binson_res  binson_writer_write_boolean( binson_writer *writer, bool val )
         char fmt[ sizeof("\"%s\": \"%s\"") ];
 
         res = write_separator( writer );
-        build_json_fmt_str( &fmt, writer->sig_stack[writer->depth-1], "s", false );
-        res = binson_io_printf( writer->io, &fmt, val? "true" : "false" );
+        build_json_fmt_str( fmt, writer->sig_stack[writer->depth-1], "s", false );
+        res = binson_io_printf( writer->io, fmt, val? "true" : "false" );
       }
     break;
 #endif
@@ -381,18 +384,19 @@ binson_res  binson_writer_write_boolean( binson_writer *writer, bool val )
  */
 binson_res  binson_writer_write_integer( binson_writer *writer, int64_t val )
 {
-  const uint8_t binson_int_map[] = { BINSON_SIG_INTEGER_8,   // for 0 bytes of int data
-                                     BINSON_SIG_INTEGER_8,   // for 1 bytes of int data
-                                     BINSON_SIG_INTEGER_16,  // for 2 bytes of int data
-                                     BINSON_SIG_INTEGER_32,  // for 3 bytes of int data
-                                     BINSON_SIG_INTEGER_32,  // for 4 bytes of int data
-                                     BINSON_SIG_INTEGER_64,  // for 5 bytes of int data
-                                     BINSON_SIG_INTEGER_64,  // for 6 bytes of int data
-                                     BINSON_SIG_INTEGER_64,  // for 7 bytes of int data
-                                     BINSON_SIG_INTEGER_64 } // for 8 bytes of int data
+  const uint8_t binson_int_map[] = { BINSON_SIG_INTEGER_8,      /* for 0 bytes of int data */
+                                     BINSON_SIG_INTEGER_8,      /* for 1 bytes of int data */
+                                     BINSON_SIG_INTEGER_16,     /* for 2 bytes of int data */
+                                     BINSON_SIG_INTEGER_32,     /* for 3 bytes of int data */
+                                     BINSON_SIG_INTEGER_32,     /* for 4 bytes of int data */
+                                     BINSON_SIG_INTEGER_64,     /* for 5 bytes of int data */
+                                     BINSON_SIG_INTEGER_64,     /* for 6 bytes of int data */
+                                     BINSON_SIG_INTEGER_64,     /* for 7 bytes of int data */
+                                     BINSON_SIG_INTEGER_64 };   /* for 8 bytes of int data */
   binson_res  res = BINSON_RES_OK;
   uint8_t     bbuf[sizeof(int64_t)+1];
   uint8_t     bsize;
+  int         i;
 
   /**< Initial parameter validation */
   if (!writer)
@@ -410,11 +414,11 @@ binson_res  binson_writer_write_integer( binson_writer *writer, int64_t val )
   switch (writer->format)
   {
     case BINSON_WRITER_FORMAT_RAW:
-      res = binson_io_write( writer->io, &bbuf, bsize+1 );
+      res = binson_io_write( writer->io, bbuf, bsize+1 );
       break;
 
     case BINSON_WRITER_FORMAT_HEX:
-      for (int i=0; i<bsize+1; i++)
+      for (i=0; i<bsize+1; i++)
         res = binson_io_printf( writer->io, "%02x ", bbuf[i] );
       break;
 
@@ -425,8 +429,8 @@ binson_res  binson_writer_write_integer( binson_writer *writer, int64_t val )
         char fmt[ sizeof("\"%s\": \"%s\"") ];
 
         res = write_separator( writer );
-        build_json_fmt_str( &fmt, writer->sig_stack[writer->depth-1], "ld", false );
-        res = binson_io_printf( writer->io, &fmt, val );    /**< \todo fix printing int64_t in C89 */
+        build_json_fmt_str( fmt, writer->sig_stack[writer->depth-1], "ld", false );
+        res = binson_io_printf( writer->io, fmt, val );    /**< \todo fix printing int64_t in C89 */
       }
     break;
 #endif
@@ -448,6 +452,7 @@ binson_res  binson_writer_write_double( binson_writer *writer, double val )
 {
   binson_res  res = BINSON_RES_OK;
   uint8_t     bbuf[sizeof(double)+1];
+  int         i;
 
  /**< Initial parameter validation */
   if (!writer)
@@ -464,12 +469,12 @@ binson_res  binson_writer_write_double( binson_writer *writer, double val )
   switch (writer->format)
   {
     case BINSON_WRITER_FORMAT_RAW:
-      res = binson_io_write( writer->io, &bbuf, sizeof(double)+1 );
+      res = binson_io_write( writer->io, bbuf, sizeof(double)+1 );
       break;
 
     case BINSON_WRITER_FORMAT_HEX:
-      for (int i=0; i<sizeof(double)+1; i++)
-        res = binson_io_printf( writer->io, "%02x ", bbuf[i] );
+      for (i=0; i<sizeof(double)+1; i++)
+        res = binson_io_printf( writer->io, "%02x ", &bbuf[i] );
       break;
 
 #ifdef BINSON_WITH_JSON_OUTPUT
@@ -479,8 +484,8 @@ binson_res  binson_writer_write_double( binson_writer *writer, double val )
         char fmt[ sizeof("\"%s\": \"%s\"") ];
 
         res = write_separator( writer );
-        build_json_fmt_str( &fmt, writer->sig_stack[writer->depth-1], "f", false );
-        res = binson_io_printf( writer->io, &fmt, val );
+        build_json_fmt_str( fmt, writer->sig_stack[writer->depth-1], "f", false );
+        res = binson_io_printf( writer->io, fmt, val );
       }
     break;
 #endif
@@ -502,21 +507,22 @@ binson_res  binson_writer_write_double( binson_writer *writer, double val )
  */
 binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_size, uint8_t sig )
 {
-  const uint8_t binson_str_map[] = {BINSON_SIG_STRING_8,   // for 0 bytes of int data
-                                    BINSON_SIG_STRING_8,   // for 1 bytes of int data
-                                    BINSON_SIG_STRING_16,  // for 2 bytes of int data
-                                    BINSON_SIG_STRING_32,  // for 3 bytes of int data
-                                    BINSON_SIG_STRING_32}  // for 3 bytes of int data
+  const uint8_t binson_str_map[] = {BINSON_SIG_STRING_8,    /* for 0 bytes of int data */
+                                    BINSON_SIG_STRING_8,    /* for 1 bytes of int data */
+                                    BINSON_SIG_STRING_16,   /* for 2 bytes of int data */
+                                    BINSON_SIG_STRING_32,   /* for 3 bytes of int data */
+                                    BINSON_SIG_STRING_32};  /* for 3 bytes of int data */
 
-  const uint8_t binson_bytes_map[] = {BINSON_SIG_BYTES_8,   // for 0 bytes of int data
-                                      BINSON_SIG_BYTES_8,   // for 1 bytes of int data
-                                      BINSON_SIG_BYTES_16,  // for 2 bytes of int data
-                                      BINSON_SIG_BYTES_32,  // for 3 bytes of int data
-                                      BINSON_SIG_BYTES_32}  // for 3 bytes of int data
+  const uint8_t binson_bytes_map[] = {BINSON_SIG_BYTES_8,   /* for 0 bytes of int data */
+                                      BINSON_SIG_BYTES_8,   /* for 1 bytes of int data */
+                                      BINSON_SIG_BYTES_16,  /* for 2 bytes of int data */
+                                      BINSON_SIG_BYTES_32,  /* for 3 bytes of int data */
+                                      BINSON_SIG_BYTES_32}; /* for 3 bytes of int data */
 
   binson_res  res = BINSON_RES_OK;
   uint8_t     bbuf[sizeof(int64_t)+1];
   uint8_t     bsize;
+  int         i, j;
 
   /**< Initial parameter validation */
   if (!writer)
@@ -534,15 +540,15 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
   switch (writer->format)
   {
     case BINSON_WRITER_FORMAT_RAW:
-      res = binson_io_write( writer->io, &bbuf, bsize+1 );       /**< Write signature + packed length */
-      res = binson_io_write( writer->io, &src_ptr, src_size );   /**< Write byte buffer */
+      res = binson_io_write( writer->io, bbuf, bsize+1 );       /**< Write signature + packed length */
+      res = binson_io_write( writer->io, src_ptr, src_size );   /**< Write byte buffer */
       break;
 
     case BINSON_WRITER_FORMAT_HEX:
-      for (int i=0; i<bsize+1; i++)
+      for (i=0; i<bsize+1; i++)
         res = binson_io_printf( writer->io, "%02x ", bbuf[i] );
 
-      for (int j=0; j<src_size; j++)
+      for (j=0; j<src_size; j++)
         res = binson_io_printf( writer->io, "%02x ", src_ptr[j] );
       break;
 
@@ -553,13 +559,13 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
         char fmt[ sizeof("\"%s\": \"%s\"") ];
 
         res = write_separator( writer );
-        build_json_fmt_str( &fmt, writer->sig_stack[writer->depth-1], "", false ); /**< Print optional first part but not value */
+        build_json_fmt_str( fmt, writer->sig_stack[writer->depth-1], "", false ); /**< Print optional first part but not value */
         res = binson_io_write_byte(writer->io, '\"');
 
-        for (int i=0; i<bsize+1; i++)
+        for (i=0; i<bsize+1; i++)
           res = binson_io_printf( writer->io, "%02x ", bbuf[i] );
 
-        for (int j=0; j<src_size; j++)
+        for (j=0; j<src_size; j++)
           res = binson_io_printf( writer->io, "%02x ", src_ptr[j] );
 
         res = binson_io_write_byte(writer->io, '\"');
@@ -580,7 +586,7 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
  * \param str const char*         Source string
  * \return binson_res             Result code
  */
-binson_res  binson_writer_write_str( binson_writer *writer, const char* str );
+binson_res  binson_writer_write_str( binson_writer *writer, const char* str )
 {
   return write_bytes( writer, (uint8_t *)str,  strlen(str), BINSON_SIG_STRING_8 );
 }

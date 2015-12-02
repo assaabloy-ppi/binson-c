@@ -39,11 +39,32 @@
 #ifndef BINSON_ERROR_H_INCLUDED
 #define BINSON_ERROR_H_INCLUDED
 
+#include <stddef.h>
 #include "binson_config.h"
-#include "binson_io.h"
 
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+#define BINSON_ERROR_REPORT(res)     (binson_error_report( res,  __FILE__, __LINE__, NULL, 0 ))
+
+#define FAILED(res)   ((res == BINSON_RES_OK)? 0 : (BINSON_ERROR_REPORT(res), 1))
+#define SUCCESS(res)  (!FAILED(res))
+
+#ifdef NDEBUG
+# define BINSON_ASSERT( expr ) ((void)0)
+#else
+# define BINSON_ASSERT( exp ) \
+                    ( (exp) ? (void)0 : (binson_error_report( BINSON_RES_ERROR_ASSERT_FAILED, __FILE__, __LINE__, #exp, sizeof(#exp)), \
+                                        binson_error_dump(), abort()))
+#endif
+
+/**
+ *  Forward declarations
+ */
+#ifndef binson_io_DEFINED
+typedef struct binson_io_  binson_io;
+# define binson_io_DEFINED
 #endif
 
 /**
@@ -74,10 +95,11 @@ typedef enum binson_res_ {
     /**< binson parsing errors */
     BINSON_RES_ERROR_PARSE_INVALID_SIG,
     BINSON_RES_ERROR_PARSE_SUSPENDED,       /**< Used from callback to postpone parsing */
-    BINSON_RES_ERROR_PARSE_INVALID_STR     /**< String is not vilid UTF-8 string */
+    BINSON_RES_ERROR_PARSE_INVALID_STR,     /**< String is not vilid UTF-8 string */
 
     /**< internal library errors/failures codes */
     BINSON_RES_ERROR_ASSERT_FAILED      = 512,
+    BINSON_RES_ERROR_TYPE_UNKNOWN,        /**< unknown node type used */
     BINSON_RES_ERROR_LIB_VERSION,         /**< binary lib version don't match headers version */
     BINSON_RES_ERROR_NOT_SUPPORTED,       /**< feature not supported in this binson model type or still not implemented in library */
     BINSON_RES_ERROR_OUT_OF_MEMORY,
@@ -98,4 +120,4 @@ binson_res     binson_error_clear_all();
 }
 #endif
 
-#endif // BINSON_ERROR_H_INCLUDED
+#endif /* BINSON_ERROR_H_INCLUDED */

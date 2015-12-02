@@ -39,6 +39,8 @@
 #ifndef BINSON_UTIL_H_INCLUDED
 #define BINSON_UTIL_H_INCLUDED
 
+#include <stddef.h>
+
 #include "binson_config.h"
 
 #ifdef __cplusplus
@@ -58,16 +60,6 @@ extern "C" {
 #define STR(x) STR_HELPER(x)
 
 /**
- *  Int endianess change functions
- */
-uint16_t  binson_util_uint16_swap( uint16_t i );
-int16_t   binson_util_int16_swap( int16_t i );
-uint32_t  binson_util_uint32_swap( uint32_t i );
-int32_t   binson_util_int32_swap( int32_t i );
-int64_t   binson_util_int64_swap( int64_t i );
-uint64_t  binson_util_uint64_swap( uint64_t i );
-
-/**
  *  Conversion helpers (binson raw <-> C style)
  */
 uint8_t   binson_util_get_significant_bytes( int64_t i );
@@ -78,4 +70,4 @@ size_t    binson_util_pack_double( double val, uint8_t *bbuf );
 }
 #endif
 
-#endif // BINSON_UTIL_H_INCLUDED
+#endif /* BINSON_UTIL_H_INCLUDED */
