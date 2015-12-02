@@ -71,7 +71,7 @@ uint8_t binson_util_get_significant_bytes( int64_t i )
  */
 size_t binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int )
 {
-  int i;
+  size_t i;
   const uint8_t int_map[] = { 1, 1, 2, 4, 4, 8, 8, 8, 8 }; /**< Maps number of bytes to closes int size */
 
   size_t size, empty_cnt = 0;

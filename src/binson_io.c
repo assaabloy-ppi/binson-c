@@ -42,6 +42,7 @@
 #include <stdarg.h>
 
 #include "binson_io.h"
+#include "binson_util.h"
 
 /**< String buffer access struct */
 typedef struct _binson_io_strbuf_struct {
@@ -175,7 +176,7 @@ binson_res  binson_io_attach_str( binson_io *obj, char* str, size_t str_size, bi
   obj->mode = mode;
   obj->handle.strbuf.ptr = str;
   obj->handle.strbuf.buf_size = str_size;
-  obj->handle.strbuf.cursor = (mode & BINSON_IO_MODE_APPEND)? strnlen(str, str_size) : 0;
+  obj->handle.strbuf.cursor = (mode & BINSON_IO_MODE_APPEND)? strlen(str) : 0;
   obj->status = BINSON_RES_OK;
 
   return BINSON_RES_OK;

@@ -349,6 +349,9 @@ binson_res _binson_cb_lookup_key( binson *obj, binson_node *node, binson_travers
    binson_traverse_cb_param *p = (binson_traverse_cb_param *)param;
    binson_child_num  requested_idx = p->in_param.idx;
 
+   if (!obj || !node || !status || !param)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
    if (status->child_num == requested_idx)
    {
      p->out_param.node = node;
@@ -373,6 +376,10 @@ binson_res binson_cb_lookup_idx( binson *obj, binson_node *node, binson_traverse
    binson_traverse_cb_param *p = (binson_traverse_cb_param *)param;
    const char *requested_key = p->in_param.key;
 
+   if (!obj || !node || !status || !param)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+
    if (!strcmp(requested_key, node->key))
    {
      p->out_param.node = node;
@@ -396,6 +403,9 @@ binson_res binson_cb_count( binson *obj, binson_node *node, binson_traverse_cb_s
 {
   binson_traverse_cb_param *p = (binson_traverse_cb_param *)param;
 
+   if (!obj || !node || !status || !param)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
   if (!status->done && status->current_node == status->root_node)  /* initialize counter in case of 1st iteration */
     p->out_param.node_num = 0;
 
@@ -414,9 +424,12 @@ binson_res binson_cb_count( binson *obj, binson_node *node, binson_traverse_cb_s
  */
 binson_res binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param )
 {
+  binson_traverse_cb_param *p = (binson_traverse_cb_param *)param;
   binson_res  res = BINSON_RES_OK;
 
-  if (!obj || !node || !status || !status->current_node)
+  UNUSED(p);
+
+  if (!obj || !node || !status || !status->current_node )
     return BINSON_RES_ERROR_ARG_WRONG;
 
   switch (status->current_node->type)
@@ -476,6 +489,9 @@ binson_res binson_cb_key_compare( binson *obj, binson_node *node, binson_travers
 {
   binson_traverse_cb_param   *p = (binson_traverse_cb_param *)param;
 
+  if (!obj || !node || !status || !param)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
   p->out_param.cmp_res = strcmp(node->key, p->in_param.key);  /* is ok for UTF-8 strings since strcmp() preserves lexicographic order */
 
   return BINSON_RES_OK;
@@ -491,6 +507,12 @@ binson_res binson_cb_key_compare( binson *obj, binson_node *node, binson_travers
  */
 binson_res binson_cb_remove( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param )
 {
+  binson_traverse_cb_param   *p = (binson_traverse_cb_param *)param;
+  UNUSED(p);
+
+  if (!obj || !node || !status)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
   /* frees node's key memory */
   if (node->key)
   {
@@ -668,6 +690,11 @@ binson_res  binson_serialize( binson *obj )
  */
 binson_res  binson_deserialize( binson *obj, bool validate_only )
 {
+  if (!obj)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  UNUSED(validate_only);
+
   return BINSON_RES_ERROR_NOT_SUPPORTED;
 }
 
@@ -680,7 +707,7 @@ binson_res  binson_deserialize( binson *obj, bool validate_only )
 binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_traverse_method t_method, int max_depth, \
                                      binson_traverse_callback cb, binson_traverse_cb_status *status, void* param )
 {
-    binson_res res;
+    binson_res res = BINSON_RES_OK;
 
     if (status->done)
       return BINSON_RES_TRAVERSAL_DONE;
@@ -755,7 +782,7 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
         return status->cb( status->obj, status->current_node, status, status->param );
     }
 
-    return BINSON_RES_OK;
+    return res;
 }
 
 /* \brief Continue tree traversal and process next available

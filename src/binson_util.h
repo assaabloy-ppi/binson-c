@@ -53,6 +53,8 @@ extern "C" {
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
+#define UNUSED(x) (void)(x)   /* for unused variable suppression */
+
 /**
  *  Argument stringization
  */

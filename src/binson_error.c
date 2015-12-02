@@ -36,7 +36,11 @@
  *
  ***********************************************/
 
+#include <string.h>
+
 #include "binson_error.h"
+#include "binson_io.h"
+#include "binson_util.h"
 
 /**
  *  Binson error rec flags (possible values of flag member)
@@ -89,7 +93,7 @@ static union dummy_
     char uint32_t_incorrect[sizeof(uint32_t) == 4];
     char  int64_t_incorrect[sizeof( int64_t) == 8];
     char uint64_t_incorrect[sizeof(uint64_t) == 8];
-};
+} dummy_;
 
 /** \brief Private helper. Get global/static instance of \c binson_error*
  *
@@ -98,7 +102,7 @@ static union dummy_
  */
 binson_error*  get_context()
 {
-  static binson_error ERR = { {0}, 0, 0, NULL };    /**< The only instance per process exists ! */
+  static binson_error ERR = { {{0}}, 0, 0, NULL };    /**< The only instance per process exists ! */
   return &ERR;
 }
 
@@ -110,6 +114,8 @@ binson_error*  get_context()
 binson_res  binson_error_init( binson_io *io )
 {
   binson_error* err = get_context();
+
+  UNUSED(dummy_);
 
   memset( err, 0, sizeof(binson_error) );
   err->io = io;
@@ -157,7 +163,7 @@ binson_res binson_error_dump()
 {
   binson_error*      err = get_context();
   binson_error_rec*  rec;
-  binson_res         res;
+  binson_res         res = BINSON_RES_OK;
 
   while (err->head != err->tail)
   {

@@ -36,6 +36,8 @@
  *
  ***********************************************/
 
+#include <string.h>
+
 #include "binson_config.h"
 #include "binson_writer.h"
 #include "binson_util.h"
@@ -102,7 +104,7 @@ typedef struct binson_writer_
  */
 void build_json_fmt_str( char* buf, uint8_t parent_sig, char *modifier, bool need_quotes )
 {
-  sprintf(buf, "%s%s%%s%s", (parent_sig == BINSON_SIG_OBJ_BEGIN)? "\"%s\": " : "",
+  sprintf(buf, "%s%s%%%s%s", (parent_sig == BINSON_SIG_OBJ_BEGIN)? "\"%s\": " : "",
                            (need_quotes)? "\"" : "", modifier, (need_quotes)? "\"" : "" );
 }
 
@@ -452,7 +454,7 @@ binson_res  binson_writer_write_double( binson_writer *writer, double val )
 {
   binson_res  res = BINSON_RES_OK;
   uint8_t     bbuf[sizeof(double)+1];
-  int         i;
+  size_t      i;
 
  /**< Initial parameter validation */
   if (!writer)
@@ -521,8 +523,7 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
 
   binson_res  res = BINSON_RES_OK;
   uint8_t     bbuf[sizeof(int64_t)+1];
-  uint8_t     bsize;
-  int         i, j;
+  size_t      bsize, i, j;
 
   /**< Initial parameter validation */
   if (!writer)
