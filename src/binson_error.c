@@ -162,11 +162,12 @@ binson_res  binson_error_report( binson_res res, const char* file, unsigned int 
 binson_res binson_error_dump()
 {
   binson_error*      err = get_context();
-  binson_error_rec*  rec;
   binson_res         res = BINSON_RES_OK;
 
   while (err->head != err->tail)
   {
+    binson_error_rec*  rec;
+
     rec = &err->ring[err->head];   /**< Newest error dump first */
     res = binson_io_printf( err->io, "res=0x%04x, l=%d, f=%s, d=\"%s\"\n", rec->code, rec->line, rec->file, rec->data );
     err->head = (err->head == 0)? ERROR_RING_SIZE-1 : err->head-1;  /**< Roll back dumped error record */

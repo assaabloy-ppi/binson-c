@@ -40,6 +40,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include "binson_io.h"
 #include "binson_util.h"
@@ -82,6 +83,32 @@ typedef struct binson_io_ {
   int                 errno_copy;    /**< Last errno value for this object */
 
 } binson_io_;
+
+/** \brief Allocate new \c binson_io context object
+ *
+ * \param io binson_io*
+ * \return binson_res
+ *
+ */
+binson_res  binson_io_new( binson_io **pio )
+{
+  *pio = (binson_io *)malloc(sizeof(binson_io_));
+  return BINSON_RES_OK;
+}
+
+/** \brief Free \c binson_io context object
+ *
+ * \param io binson_io*
+ * \return binson_res
+ *
+ */
+binson_res  binson_io_free( binson_io *io )
+{
+  if (io)
+    free(io);
+
+  return BINSON_RES_OK;
+}
 
 /** \brief Open file with specified access mode and attach it to \c binson_io object
  *
@@ -285,7 +312,7 @@ binson_res  binson_io_write( binson_io *obj, uint8_t *src_ptr, size_t block_size
  */
 binson_res  binson_io_write_str( binson_io *obj, const char* str, bool write_terminator )
 {
-   return binson_io_write(obj, (uint8_t *)str, strlen(str) + write_terminator? 1:0);
+   return binson_io_write(obj, (uint8_t *)str, strlen(str) + (write_terminator? 1:0));
 }
 
 /** \brief Write single byte to opened \c binson_io

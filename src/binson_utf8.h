@@ -53,8 +53,8 @@ size_t      binson_utf8_strlen_chars( const char* str );
 bool        binson_utf8_is_equal( const char* str1,  const char* str2 );
 bool        binson_utf8_is_less( const char* str_left, const char* str_right );
 
-binson_res  binson_utf8_escape( char* dst, const char* str );
-binson_res  binson_utf8_unescape( char* dst, const char* str );
+binson_res  binson_utf8_encode( char* dst, const char* str );
+binson_res  binson_utf8_decode( char* dst, const char* str );
 binson_res  binson_utf8_validate( const char* str );
 
 #ifdef __cplusplus

@@ -20,6 +20,7 @@
 					<Add option="-Wall" />
 					<Add option="-ansi" />
 					<Add option="-g" />
+					<Add option="-fPIC" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -31,6 +32,7 @@
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-fPIC" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -40,15 +42,23 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="AUTHORS" />
-		<Unit filename="COPYING" />
-		<Unit filename="COPYING.LESSER" />
-		<Unit filename="README.md" />
+		<Unit filename="AUTHORS">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="COPYING">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="COPYING.LESSER">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="README.md">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/binson.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/binson.h">
-			<Option target="&lt;{~None~}&gt;" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="src/binson_config.h" />
 		<Unit filename="src/binson_error.c">

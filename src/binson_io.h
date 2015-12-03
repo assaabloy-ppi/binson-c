@@ -86,6 +86,9 @@ typedef enum {
 /**
  *  Binson IO abstraction layer API calls
  */
+binson_res  binson_io_new( binson_io **pio );
+binson_res  binson_io_free( binson_io *io );
+
 binson_res  binson_io_open_file( binson_io *obj, const char* path, binson_io_mode mode );
 binson_res  binson_io_attach_stream( binson_io *obj, FILE *stream );
 /*binson_res  binson_io_attach_fd( binson_io *obj, int fd, binson_io_mode mode  );*/

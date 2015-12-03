@@ -209,9 +209,11 @@ binson_res  binson_init( binson *obj, binson_writer *writer, binson_parser *pars
   obj->error_io   = error_io;
 
   res = binson_error_init( error_io );
+  if (FAILED(res)) return res;
 
   /* add empty root OBJECT */
   res = binson_node_add_empty( obj, NULL, BINSON_TYPE_OBJECT, NULL, &obj->root );
+  if (FAILED(res)) return res;
 
   return res;
 }
@@ -432,40 +434,40 @@ binson_res binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_st
   if (!obj || !node || !status || !status->current_node )
     return BINSON_RES_ERROR_ARG_WRONG;
 
-  switch (status->current_node->type)
+  switch (node->type)
   {
     case BINSON_TYPE_OBJECT:
       if (status->dir == BINSON_TRAVERSE_DIR_UP)
         res = binson_writer_write_object_end( obj->writer );
       else
-        res = binson_writer_write_object_begin( obj->writer );
+        res = binson_writer_write_object_begin( obj->writer, node->key );
     break;
 
     case BINSON_TYPE_ARRAY:
       if (status->dir == BINSON_TRAVERSE_DIR_UP)
         res = binson_writer_write_array_end( obj->writer );
       else
-        res = binson_writer_write_array_begin( obj->writer );
+        res = binson_writer_write_array_begin( obj->writer, node->key );
     break;
 
     case BINSON_TYPE_BOOLEAN:
-      res = binson_writer_write_boolean( obj->writer, node->val.b_data );
+      res = binson_writer_write_boolean( obj->writer, node->key, node->val.b_data );
     break;
 
     case BINSON_TYPE_INTEGER:
-      res = binson_writer_write_integer( obj->writer, node->val.i_data );
+      res = binson_writer_write_integer( obj->writer, node->key, node->val.i_data );
     break;
 
     case BINSON_TYPE_DOUBLE:
-      res = binson_writer_write_double( obj->writer, node->val.d_data );
+      res = binson_writer_write_double( obj->writer, node->key, node->val.d_data );
     break;
 
     case BINSON_TYPE_STRING:
-      res = binson_writer_write_str( obj->writer, (const char*)node->val.v_data.ptr );
+      res = binson_writer_write_str( obj->writer, node->key, (const char*)node->val.v_data.ptr );
     break;
 
     case BINSON_TYPE_BYTES:
-      res = binson_writer_write_bytes( obj->writer, node->val.v_data.ptr, node->val.v_data.size );
+      res = binson_writer_write_bytes( obj->writer, node->key, node->val.v_data.ptr, node->val.v_data.size );
     break;
 
     case BINSON_TYPE_UNKNOWN:

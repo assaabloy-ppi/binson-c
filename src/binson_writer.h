@@ -69,21 +69,21 @@ typedef enum {
 /**
  *  Binson/JSON low-level output API calls
  */
-binson_res  binson_writer_init( binson_writer *writer, binson_io *io, binson_writer_format format );
+binson_res  binson_writer_new( binson_writer **pwriter, binson_io *io, binson_writer_format format );
 binson_res  binson_writer_free( binson_writer *writer );
 binson_res  binson_writer_set_format( binson_writer *writer, binson_writer_format format );
 binson_res  binson_writer_set_io( binson_writer *writer, binson_io *io );
-
 binson_res  binson_writer_start( binson_writer *writer );
-binson_res  binson_writer_write_object_begin( binson_writer *writer );
+
+binson_res  binson_writer_write_object_begin( binson_writer *writer, const char* key );
 binson_res  binson_writer_write_object_end( binson_writer *writer );
-binson_res  binson_writer_write_array_begin( binson_writer *writer );
+binson_res  binson_writer_write_array_begin( binson_writer *writer, const char* key );
 binson_res  binson_writer_write_array_end( binson_writer *writer );
-binson_res  binson_writer_write_boolean( binson_writer *writer, bool val );
-binson_res  binson_writer_write_integer( binson_writer *writer, int64_t val );
-binson_res  binson_writer_write_double( binson_writer *writer, double val );
-binson_res  binson_writer_write_str( binson_writer *writer, const char* str );
-binson_res  binson_writer_write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_size );
+binson_res  binson_writer_write_boolean( binson_writer *writer, const char* key, bool val );
+binson_res  binson_writer_write_integer( binson_writer *writer, const char* key, int64_t val );
+binson_res  binson_writer_write_double( binson_writer *writer, const char* key, double val );
+binson_res  binson_writer_write_str( binson_writer *writer, const char* key, const char* str );
+binson_res  binson_writer_write_bytes( binson_writer *writer, const char* key, uint8_t *src_ptr,  size_t src_size );
 
 #ifdef __cplusplus
 }

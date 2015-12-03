@@ -7,3 +7,50 @@
 	<stdio.h>
 	<stdlib.h>
 
+1448587381 source:/home/kotomysha/binson/binson-c/examples/api_dump.c
+
+1449093961 source:/home/kotomysha/binson/binson-c/examples/direct_gen.c
+	<stdio.h>
+	<stdlib.h>
+	"../src/binson.h"
+
+1449062663 /home/kotomysha/binson/binson-c/src/binson.h
+	<stdio.h>
+	<stdarg.h>
+	"binson_config.h"
+	"binson_error.h"
+	"binson_io.h"
+	"binson_writer.h"
+	"binson_parser.h"
+
+1449013498 /home/kotomysha/binson/binson-c/src/binson_config.h
+
+1449077908 /home/kotomysha/binson/binson-c/src/binson_error.h
+	<stddef.h>
+	"binson_config.h"
+
+1449100245 /home/kotomysha/binson/binson-c/src/binson_io.h
+	<stdio.h>
+	<stdarg.h>
+	"binson_config.h"
+	"binson_error.h"
+	"binson_config.h"
+	"binson_error.h"
+
+1449100457 /home/kotomysha/binson/binson-c/src/binson_writer.h
+	"binson_config.h"
+	"binson_error.h"
+	"binson_io.h"
+
+1449016635 /home/kotomysha/binson/binson-c/src/binson_parser.h
+	"binson_config.h"
+	"binson_error.h"
+	"binson_io.h"
+
+1448588921 source:/home/kotomysha/binson/binson-c/examples/parse_with_cb.c
+
+1449100559 source:/home/kotomysha/binson/binson-c/examples/writer_standalone.c
+	<stdio.h>
+	<stdlib.h>
+	"../src/binson_writer.h"
+
