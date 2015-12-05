@@ -68,6 +68,9 @@ uint8_t   binson_util_get_significant_bytes( int64_t i );
 size_t    binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int );
 size_t    binson_util_pack_double( double val, uint8_t *bbuf );
 
+uint8_t  binson_util_hexx_to_byte( const char *src);
+
+
 #ifdef __cplusplus
 }
 #endif

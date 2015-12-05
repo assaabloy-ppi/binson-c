@@ -48,6 +48,10 @@ extern "C" {
 /**
  *  UTF-8 string helpers
  */
+size_t u8_unescape(uint8_t *buf, size_t sz, uint8_t *src);
+bool is_utf8( uint8_t* string);
+
+
 size_t      binson_utf8_strlen_bytes( const char* str );
 size_t      binson_utf8_strlen_chars( const char* str );
 bool        binson_utf8_is_equal( const char* str1,  const char* str2 );

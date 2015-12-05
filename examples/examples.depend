@@ -23,7 +23,7 @@
 	"binson_writer.h"
 	"binson_parser.h"
 
-1449013498 /home/kotomysha/binson/binson-c/src/binson_config.h
+1449266489 /home/kotomysha/binson/binson-c/src/binson_config.h
 
 1449077908 /home/kotomysha/binson/binson-c/src/binson_error.h
 	<stddef.h>
@@ -37,7 +37,7 @@
 	"binson_config.h"
 	"binson_error.h"
 
-1449100457 /home/kotomysha/binson/binson-c/src/binson_writer.h
+1449176848 /home/kotomysha/binson/binson-c/src/binson_writer.h
 	"binson_config.h"
 	"binson_error.h"
 	"binson_io.h"
@@ -49,8 +49,10 @@
 
 1448588921 source:/home/kotomysha/binson/binson-c/examples/parse_with_cb.c
 
-1449100559 source:/home/kotomysha/binson/binson-c/examples/writer_standalone.c
+1449319089 source:/home/kotomysha/binson/binson-c/examples/writer_standalone.c
 	<stdio.h>
 	<stdlib.h>
+	<float.h>
+	<math.h>
 	"../src/binson_writer.h"
 

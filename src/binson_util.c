@@ -97,7 +97,14 @@ size_t binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next
  */
 size_t binson_util_pack_double( double val, uint8_t *bbuf )
 {
-  binson_util_pack_integer(  (int64_t)val, bbuf, false );
+  union {
+    double dval;
+    int64_t ival;
+  } utmp;
+
+  utmp.dval = val;
+
+  binson_util_pack_integer( utmp.ival, bbuf, false );
   return sizeof(double);
 }
 

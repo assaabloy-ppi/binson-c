@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1449062851 source:/home/kotomysha/binson/binson-c/src/binson.c
+1449182217 source:/home/kotomysha/binson/binson-c/src/binson.c
 	<stdlib.h>
 	<string.h>
 	<float.h>
@@ -20,19 +20,21 @@
 	"binson_writer.h"
 	"binson_parser.h"
 
-1449013498 /home/kotomysha/binson/binson-c/src/binson_config.h
+1449266489 /home/kotomysha/binson/binson-c/src/binson_config.h
 
-1449062927 /home/kotomysha/binson/binson-c/src/binson_error.h
+1449077908 /home/kotomysha/binson/binson-c/src/binson_error.h
 	<stddef.h>
 	"binson_config.h"
 
-1449016519 /home/kotomysha/binson/binson-c/src/binson_io.h
+1449100245 /home/kotomysha/binson/binson-c/src/binson_io.h
+	<stdio.h>
+	<stdarg.h>
 	"binson_config.h"
 	"binson_error.h"
 	"binson_config.h"
 	"binson_error.h"
 
-1448974065 /home/kotomysha/binson/binson-c/src/binson_writer.h
+1449176848 /home/kotomysha/binson/binson-c/src/binson_writer.h
 	"binson_config.h"
 	"binson_error.h"
 	"binson_io.h"
@@ -42,9 +44,48 @@
 	"binson_error.h"
 	"binson_io.h"
 
-1449015107 /home/kotomysha/binson/binson-c/src/binson_util.h
+1449270424 /home/kotomysha/binson/binson-c/src/binson_util.h
+	<stddef.h>
 	"binson_config.h"
 
-1449062979 source:/home/kotomysha/binson/binson-c/src/binson_error.c
+1449075344 source:/home/kotomysha/binson/binson-c/src/binson_error.c
+	<string.h>
 	"binson_error.h"
+	"binson_io.h"
+	"binson_util.h"
+
+1449100237 source:/home/kotomysha/binson/binson-c/src/binson_io.c
+	<errno.h>
+	<stdio.h>
+	<string.h>
+	<stdarg.h>
+	<stdlib.h>
+	"binson_io.h"
+	"binson_util.h"
+
+1449017940 source:/home/kotomysha/binson/binson-c/src/binson_parser.c
+	"binson_config.h"
+	"binson_parser.h"
+
+1449318094 source:/home/kotomysha/binson/binson-c/src/binson_utf8.c
+	<stdlib.h>
+	<string.h>
+	"binson_config.h"
+	"binson_utf8.h"
+
+1449319269 /home/kotomysha/binson/binson-c/src/binson_utf8.h
+	"binson_config.h"
+	"binson_error.h"
+
+1449271224 source:/home/kotomysha/binson/binson-c/src/binson_util.c
+	"binson_util.h"
+
+1449319185 source:/home/kotomysha/binson/binson-c/src/binson_writer.c
+	<string.h>
+	<stdlib.h>
+	"binson_config.h"
+	"binson_writer.h"
+	"binson_util.h"
+	"binson_utf8.h"
+	<assert.h>
 

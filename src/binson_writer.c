@@ -42,6 +42,7 @@
 #include "binson_config.h"
 #include "binson_writer.h"
 #include "binson_util.h"
+#include "binson_utf8.h"
 
 #include <assert.h>
 
@@ -553,6 +554,10 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
   binson_res  res = BINSON_RES_OK;
   uint8_t     bbuf[sizeof(int64_t)+1];
   size_t      bsize, i, j;
+  bool        encoded = false;
+
+  uint8_t     *src_utf8_ptr   = src_ptr;     /* utf8 validated/converted string */
+  size_t      src_utf8_size   = src_size;    /* utf8 validated/converted string size */
 
   /**< Initial parameter validation */
   if (!writer)
@@ -562,29 +567,39 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
   writer->idx_stack[writer->depth]++;
 #endif
 
+  /* UTF-8 checks & conversion */
+  if (sig == BINSON_SIG_STRING_8 && !is_utf8( src_ptr ) )
+  {
+      encoded = true;
+      src_utf8_ptr = (uint8_t*) malloc(4*src_size+2);
+      /*strcpy((char*)src_utf8_ptr, (char*)src_ptr);*/
+      src_utf8_size = u8_unescape( src_utf8_ptr, 4*src_size+2, src_ptr );
+
+  }
+
   /**< Convert buffer size to INTEGER primitive and store it in specified byte buffer */
-  bsize = binson_util_pack_integer( src_size, &bbuf[1], true );
+  bsize = binson_util_pack_integer( src_utf8_size, &bbuf[1], true );
   bbuf[0] = (sig == BINSON_SIG_STRING_8)? binson_str_map[bsize] : binson_bytes_map[bsize];
 
   /**< Format dependent output */
   switch (writer->format)
   {
     case BINSON_WRITER_FORMAT_RAW:
-      res = binson_io_write( writer->io, bbuf, bsize+1 );       /**< Write signature + packed length */
-      res = binson_io_write( writer->io, src_ptr, src_size );   /**< Write byte buffer */
+      res = binson_io_write( writer->io, bbuf, bsize+1 );                 /**< Write signature + packed length */
+      res = binson_io_write( writer->io, src_utf8_ptr, src_utf8_size );   /**< Write byte buffer */
       break;
 
     case BINSON_WRITER_FORMAT_HEX:
       for (i=0; i<bsize+1; i++)
       {
         res = binson_io_printf( writer->io, "%02x ", bbuf[i] );
-        if (FAILED(res)) return res;
+        if (FAILED(res)) break;
       }
 
-      for (j=0; j<src_size; j++)
+      for (j=0; j<src_utf8_size; j++)
       {
-        res = binson_io_printf( writer->io, "%02x ", src_ptr[j] );
-        if (FAILED(res)) return res;
+        res = binson_io_printf( writer->io, "%02x ", src_utf8_ptr[j] );
+        if (FAILED(res)) break;
       }
       res = binson_io_write_str( writer->io, "\n", true );
       break;
@@ -594,35 +609,39 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
     case BINSON_WRITER_FORMAT_JSON_NICE:
         if (sig == BINSON_SIG_STRING_8)  /* STRING object */
         {
-          res = binson_io_printf( writer->io, "\"%s\"", (char*)src_ptr );
-          if (FAILED(res)) return res;
+          res = binson_io_printf( writer->io, "\"%s\"", (char*)src_utf8_ptr );
+          if (FAILED(res)) break;
         }
         else /* BYTES object */
         {
           res = binson_io_write_byte(writer->io, '\"');
-          if (FAILED(res)) return res;
+          if (FAILED(res)) break;
 
           for (i=0; i<bsize+1; i++)
           {
             res = binson_io_printf( writer->io, "%02x ", bbuf[i] );
-            if (FAILED(res)) return res;
+            if (FAILED(res)) break;
           }
 
           for (j=0; j<src_size; j++)
           {
             res = binson_io_printf( writer->io, "%02x ", src_ptr[j] );
-            if (FAILED(res)) return res;
+            if (FAILED(res)) break;
           }
 
           res = binson_io_write_byte(writer->io, '\"');
-          if (FAILED(res)) return res;
+          if (FAILED(res)) break;
         }
     break;
 #endif
 
     default:
-      return BINSON_RES_ERROR_ARG_WRONG;
+      res =  BINSON_RES_ERROR_ARG_WRONG; break;
   }
+
+  /* UTF-8 encoding needed some malloc's */
+  if (encoded)
+    free(src_utf8_ptr);
 
   return res;
 }
