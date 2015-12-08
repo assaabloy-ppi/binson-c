@@ -129,12 +129,22 @@ typedef unsigned long long int	uint64_t;
 #define BINSON_CHILD_NUM_T      uint8_t
 #define BINSON_NODE_NUM_T       uint16_t
 
+typedef  uint32_t            binson_raw_offset;
+typedef  uint32_t            binson_raw_size;
+typedef  uint32_t            binson_size;
+typedef  uint8_t             binson_depth;
+
+
 typedef  BINSON_CHILD_NUM_T  binson_child_num;
 typedef  BINSON_NODE_NUM_T   binson_node_num;
 
 #define BINSON_DEPTH_LIMIT       16
 
-#define BINSON_WITH_JSON_OUTPUT                /**< Build \c binson_writer with JSON output support */
+#define  WITH_BINSON_PARSER_MODE_RAW           /**< Build with 'raw' model functionality */
+#define  WITH_BINSON_PARSER_MODE_SMART         /**< Build with 'smart' model functionality */
+#define  WITH_BINSON_PARSER_MODE_DOM           /**< Build with 'DOM' model functionality */
+
+#define WITH_BINSON_JSON_OUTPUT                /**< Build \c binson_writer with JSON output support */
 #define BINSON_JSON_OBJ_LENGTH_LIMIT     256   /**< Max number or chars in JSON-dumped representation of object */
 
 #ifdef __cplusplus

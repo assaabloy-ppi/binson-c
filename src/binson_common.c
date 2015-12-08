@@ -28,54 +28,12 @@
  */
 
 /********************************************//**
- * \file binson_util.h
- * \brief Utility functions header file
+ * \file binson_common.h
+ * \brief Function implementations common for all public interfaces
  *
  * \author Alexander Reshniuk
- * \date 20/11/2015
+ * \date 08/12/2015
  *
  ***********************************************/
 
-#ifndef BINSON_UTIL_H_INCLUDED
-#define BINSON_UTIL_H_INCLUDED
-
-#include <stddef.h>
-
-#include "binson_config.h"
-#include "binson_error.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/**
- *  Useful macros missing in C89
- */
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
-
-#define UNUSED(x) (void)(x)   /* for unused variable suppression */
-
-/**
- *  Argument stringization
- */
-#define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
-
-/**
- *  Conversion helpers (binson raw <-> C style)
- */
-uint8_t   binson_util_get_significant_bytes( int64_t i );
-size_t    binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int );
-size_t    binson_util_pack_double( double val, uint8_t *bbuf );
-
-binson_res  binson_util_unpack_integer( uint8_t *bbuf, int64_t *pint );
-binson_res  binson_util_unpack_double( uint8_t *bbuf, double *pval );
-
-uint8_t  binson_util_hexx_to_byte( const char *src);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* BINSON_UTIL_H_INCLUDED */
+#include "binson_common.h"

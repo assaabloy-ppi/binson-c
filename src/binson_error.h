@@ -59,6 +59,12 @@ extern "C" {
                                         binson_error_dump(), abort()))
 #endif
 
+/* compilation assert */
+#define ASSERT_STATIC(e) \
+   do { \
+      enum { assert_static__ = 1/(e) }; \
+      } while (0)
+
 /**
  *  Forward declarations
  */

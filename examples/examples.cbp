@@ -45,9 +45,28 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
+					<Add library="../bin/Debug/libbinson.so" />
+				</Linker>
+			</Target>
+			<Target title="output_model_dom">
+				<Option output="bin/Debug/output_model_dom" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-ansi" />
+					<Add option="-pg" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
 					<Add library="../bin/Debug/libbinson.so" />
 				</Linker>
 			</Target>
@@ -55,8 +74,19 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="output_model_dom.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="direct_gen" />
+			<Option target="output_model_dom" />
+		</Unit>
 		<Unit filename="writer_standalone.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="direct_gen" />
+			<Option target="writer_standalone" />
 		</Unit>
 		<Extensions>
 			<envvars />

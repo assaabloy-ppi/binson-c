@@ -40,34 +40,14 @@
 #include <stdlib.h>
 
 #include "binson_config.h"
+#include "binson_common_pvt.h"
+
 #include "binson_writer.h"
 #include "binson_util.h"
 #include "binson_utf8.h"
 
 #include <assert.h>
 
-/**< Binson binary format 8-bit signatures */
-#define BINSON_SIG_OBJ_BEGIN      0x40
-#define BINSON_SIG_OBJ_END        0x41
-#define BINSON_SIG_ARRAY_BEGIN    0x42
-#define BINSON_SIG_ARRAY_END      0x43
-
-#define BINSON_SIG_TRUE           0x44
-#define BINSON_SIG_FALSE          0x45
-#define BINSON_SIG_DOUBLE         0x46
-
-#define BINSON_SIG_INTEGER_8      0x10
-#define BINSON_SIG_INTEGER_16     0x11
-#define BINSON_SIG_INTEGER_32     0x12
-#define BINSON_SIG_INTEGER_64     0x13
-
-#define BINSON_SIG_STRING_8       0x14
-#define BINSON_SIG_STRING_16      0x15
-#define BINSON_SIG_STRING_32      0x16
-
-#define BINSON_SIG_BYTES_8        0x18
-#define BINSON_SIG_BYTES_16       0x19
-#define BINSON_SIG_BYTES_32       0x1a
 
 /**
  *  Binson writer context struct
@@ -77,7 +57,7 @@ typedef struct binson_writer_
   binson_io*            io;                      /**< Associated \c binson_io struct */
   binson_writer_format  format;                  /**< Current binson writer output format */
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
   /**
    * When moving to next level down (starting to write new OBJECT or ARRAY) it's required to store in stack
    * current horizontal item index to restore it on the return trip. This functionality implemented
@@ -96,7 +76,7 @@ typedef struct binson_writer_
 binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_size, uint8_t sig );
 
 /**<  \cond Private section (ignored by doxygen) begin */
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
 
 /**< JSON output Indention size for each nesting level */
 #define BINSON_WRITER_INDENT_FACTOR    4
@@ -114,27 +94,27 @@ binson_res  write_key( binson_writer *writer, const char* key, int force_no_sepa
 {
   binson_res  res = BINSON_RES_OK;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+
+#ifdef WITH_BINSON_JSON_OUTPUT
   /* write comma separator if needed */
 
-  if (writer->format != BINSON_WRITER_FORMAT_JSON && writer->format != BINSON_WRITER_FORMAT_JSON_NICE)
-    return BINSON_RES_OK;
-
-  if (!force_no_separator && writer->depth > 0 && writer->idx_stack[writer->depth] > 0)
-    binson_io_write_str( writer->io, ", ", true );
-
-  if (writer->format == BINSON_WRITER_FORMAT_JSON_NICE)
+  if (writer->format == BINSON_WRITER_FORMAT_JSON || writer->format == BINSON_WRITER_FORMAT_JSON_NICE)
   {
-    int i;
+    if (!force_no_separator && writer->depth > 0 && writer->idx_stack[writer->depth] > 0)
+      binson_io_write_str( writer->io, ", ", true );
 
-    binson_io_write_byte( writer->io, (uint8_t)'\n' );
-    for (i=0; i<writer->depth*BINSON_WRITER_INDENT_FACTOR; i++)   /**<  Indent white spaces */
-      binson_io_write_byte( writer->io, (uint8_t)' ' );
+    if (writer->format == BINSON_WRITER_FORMAT_JSON_NICE)
+    {
+      int i;
 
-    binson_io_write_byte( writer->io, '\0' );
+      binson_io_write_byte( writer->io, (uint8_t)'\n' );
+      for (i=0; i<writer->depth*BINSON_WRITER_INDENT_FACTOR; i++)   /**<  Indent white spaces */
+        binson_io_write_byte( writer->io, (uint8_t)' ' );
+
+      binson_io_write_byte( writer->io, '\0' );
+    }
+    if (FAILED(res)) return res;
   }
-
-  if (FAILED(res)) return res;
 #endif
 
   if (key && key[0] != '\0')
@@ -142,7 +122,7 @@ binson_res  write_key( binson_writer *writer, const char* key, int force_no_sepa
     res = write_bytes( writer, (uint8_t *)key,  strlen(key), BINSON_SIG_STRING_8 );
     if (FAILED(res)) return res;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
     if (writer->format == BINSON_WRITER_FORMAT_JSON || writer->format == BINSON_WRITER_FORMAT_JSON_NICE)
       binson_io_write_str( writer->io, ": ", true );
 #endif
@@ -166,7 +146,7 @@ binson_res  write_frame_sig( binson_writer *writer, const char* key, uint8_t sig
   if (!writer)
     return BINSON_RES_ERROR_ARG_WRONG;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
  if (sig == BINSON_SIG_OBJ_END || sig == BINSON_SIG_ARRAY_END)
   {
     writer->depth--;
@@ -178,7 +158,7 @@ binson_res  write_frame_sig( binson_writer *writer, const char* key, uint8_t sig
   res = write_key( writer, key, (sig == BINSON_SIG_OBJ_END || sig == BINSON_SIG_ARRAY_END)? true : false );
   if (FAILED(res)) return res;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
   /**< Updating tracking vars for new nesting level */
   if (sig == BINSON_SIG_OBJ_BEGIN || sig == BINSON_SIG_ARRAY_BEGIN)
   {
@@ -203,7 +183,7 @@ binson_res  write_frame_sig( binson_writer *writer, const char* key, uint8_t sig
       res = binson_io_printf(writer->io, "%02x \n", sig );
     break;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
     case BINSON_WRITER_FORMAT_JSON:
     case BINSON_WRITER_FORMAT_JSON_NICE:
       res = binson_io_write_str( writer->io, sig == BINSON_SIG_OBJ_BEGIN? "{ ": (sig == BINSON_SIG_OBJ_END? "} " :
@@ -221,26 +201,18 @@ binson_res  write_frame_sig( binson_writer *writer, const char* key, uint8_t sig
 /**<  \endcond Private section (ignored by doxygen) end */
 
 
-/** \brief Allocates and initilize new \c binson_writer context
+/** \brief Allocates new \c binson_writer context
  *
  * \param writer binson_writer**        Context pointer
- * \param io binson_io*                 IO abstraction layer instance
- * \param format binson_writer_format   Output format
  * \return binson_res                   Result code
  */
-binson_res  binson_writer_new( binson_writer **pwriter, binson_io *io, binson_writer_format format )
+binson_res  binson_writer_new( binson_writer **pwriter )
 {
-  /**< Initial parameter validation */
-  if (!pwriter || !io || format < 0 || format >= BINSON_WRITER_FORMAT_LAST )
+  /* Initial parameter validation */
+  if (!pwriter )
     return BINSON_RES_ERROR_ARG_WRONG;
 
   *pwriter = (binson_writer *)malloc(sizeof(binson_writer_));
-
-  (*pwriter)->io                 = io;
-  (*pwriter)->format             = format;
-#ifdef BINSON_WITH_JSON_OUTPUT
-  binson_writer_start( *pwriter );
-#endif
 
   return BINSON_RES_OK;
 }
@@ -256,9 +228,10 @@ binson_res  binson_writer_free( binson_writer *writer )
   if (!writer)
     return BINSON_RES_ERROR_ARG_WRONG;
 
-  binson_writer_start( writer );   /**< Reset internal state */
+  if (writer)
+    free( writer );
 
-  return BINSON_RES_OK;     /**< Do nothing since we had no mallocs */
+  return BINSON_RES_OK;
 }
 
 /** \brief Set output format
@@ -298,15 +271,20 @@ binson_res  binson_writer_set_io( binson_writer *writer, binson_io *io )
 /** \brief Reset current state and start new writer session
  *
  * \param writer binson_writer*   Context
+ * \param io binson_io*                 IO abstraction layer instance
+ * \param format binson_writer_format   Output format
  * \return binson_res             Result code
  */
-binson_res  binson_writer_start( binson_writer *writer )
+binson_res  binson_writer_init( binson_writer *writer, binson_io *io, binson_writer_format format  )
 {
   /**< Initial parameter validation */
-  if (!writer)
+  if (!writer || !io || format < 0 || format >= BINSON_WRITER_FORMAT_LAST )
     return BINSON_RES_ERROR_ARG_WRONG;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+  writer->io                 = io;
+  writer->format             = format;
+
+#ifdef WITH_BINSON_JSON_OUTPUT
   writer->depth              = 0;
   writer->idx_stack[0]       = 0;
   writer->sig_stack[0]       = 0;
@@ -376,7 +354,7 @@ binson_res  binson_writer_write_boolean( binson_writer *writer, const char* key,
   res = write_key( writer, key, false );
   if (FAILED(res)) return res;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
   writer->idx_stack[writer->depth]++;
 #endif
 
@@ -390,7 +368,7 @@ binson_res  binson_writer_write_boolean( binson_writer *writer, const char* key,
       res = binson_io_printf( writer->io, "%02x \n", val? BINSON_SIG_TRUE : BINSON_SIG_FALSE);
     break;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
     case BINSON_WRITER_FORMAT_JSON:
     case BINSON_WRITER_FORMAT_JSON_NICE:
       res = binson_io_printf( writer->io, "%s", val? "true" : "false" );
@@ -437,7 +415,7 @@ binson_res  binson_writer_write_integer( binson_writer *writer, const char* key,
   res = write_key( writer, key, false );
   if (FAILED(res)) return res;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
   writer->idx_stack[writer->depth]++;
 #endif
 
@@ -458,7 +436,7 @@ binson_res  binson_writer_write_integer( binson_writer *writer, const char* key,
       res = binson_io_write_str( writer->io, "\n", true );
       break;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
     case BINSON_WRITER_FORMAT_JSON:
     case BINSON_WRITER_FORMAT_JSON_NICE:
       res = binson_io_printf( writer->io, "%ld", val );    /**< \todo fix printing int64_t in C89 */
@@ -494,7 +472,7 @@ binson_res  binson_writer_write_double( binson_writer *writer, const char* key, 
   res = write_key( writer, key, false );
   if (FAILED(res)) return res;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
   writer->idx_stack[writer->depth]++;
 #endif
 
@@ -514,7 +492,7 @@ binson_res  binson_writer_write_double( binson_writer *writer, const char* key, 
       res = binson_io_write_str( writer->io, "\n", true );
       break;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
     case BINSON_WRITER_FORMAT_JSON:
     case BINSON_WRITER_FORMAT_JSON_NICE:
       res = binson_io_printf( writer->io, "%g", val );
@@ -563,7 +541,7 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
   if (!writer)
     return BINSON_RES_ERROR_ARG_WRONG;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
   writer->idx_stack[writer->depth]++;
 #endif
 
@@ -604,7 +582,7 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
       res = binson_io_write_str( writer->io, "\n", true );
       break;
 
-#ifdef BINSON_WITH_JSON_OUTPUT
+#ifdef WITH_BINSON_JSON_OUTPUT
     case BINSON_WRITER_FORMAT_JSON:
     case BINSON_WRITER_FORMAT_JSON_NICE:
         if (sig == BINSON_SIG_STRING_8)  /* STRING object */
@@ -687,4 +665,50 @@ binson_res  binson_writer_write_bytes( binson_writer *writer, const char* key, u
   if (FAILED(res)) return res;
 
   return res;
+}
+
+
+/** \brief
+ *
+ * \param writer binson_writer*
+ * \param token_type binson_token_type
+ * \param key const char*
+ * \param val binson_value*
+ * \return binson_res
+ */
+binson_res  binson_writer_write_token( binson_writer *writer, binson_token_type token_type, const char* key, binson_value *val )
+{
+  switch (token_type)
+  {
+    case BINSON_TOKEN_TYPE_OBJECT_BEGIN:
+      return binson_writer_write_object_begin( writer, key );
+
+    case BINSON_TOKEN_TYPE_OBJECT_END:
+      return binson_writer_write_object_end( writer );
+
+    case BINSON_TOKEN_TYPE_ARRAY_BEGIN:
+      return binson_writer_write_array_begin( writer, key );
+
+    case BINSON_TOKEN_TYPE_ARRAY_END:
+      return binson_writer_write_array_end( writer );
+
+    case BINSON_TOKEN_TYPE_BOOLEAN:
+      return binson_writer_write_boolean( writer, key, val->bool_val );
+
+    case BINSON_TOKEN_TYPE_INTEGER:
+      return binson_writer_write_integer( writer, key, val->int_val );
+
+    case BINSON_TOKEN_TYPE_DOUBLE:
+      return binson_writer_write_double( writer, key, val->double_val );
+
+    case BINSON_TOKEN_TYPE_STRING:
+      return binson_writer_write_str( writer, key, val->str_val );
+
+    case BINSON_TOKEN_TYPE_BYTES:
+      return binson_writer_write_bytes( writer, key, val->byte_val.bptr, val->byte_val.bsize );
+
+    case BINSON_TOKEN_TYPE_UNKNOWN:
+    default:
+      return BINSON_RES_ERROR_ARG_WRONG;
+  }
 }

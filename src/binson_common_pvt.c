@@ -28,54 +28,60 @@
  */
 
 /********************************************//**
- * \file binson_util.h
- * \brief Utility functions header file
+ * \file binson_common_pvt.c
+ * \brief Function implementations common for all public interfaces
  *
  * \author Alexander Reshniuk
- * \date 20/11/2015
+ * \date 08/12/2015
  *
  ***********************************************/
 
-#ifndef BINSON_UTIL_H_INCLUDED
-#define BINSON_UTIL_H_INCLUDED
+#include "binson_common_pvt.h"
 
-#include <stddef.h>
-
-#include "binson_config.h"
-#include "binson_error.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/**
- *  Useful macros missing in C89
+static int i = 0;
+/* \brief
+ *
+ * \param sig enum
+ * \return binson_node_type
  */
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
+/*binson_node_type   binson_common_map_sig_to_node_type( uint8_t sig )
+{
+  switch (sig)
+  {
+    case BINSON_SIG_OBJ_BEGIN:
+    case BINSON_SIG_OBJ_END:
+      return BINSON_TYPE_OBJECT;
 
-#define UNUSED(x) (void)(x)   /* for unused variable suppression */
+    case BINSON_SIG_ARRAY_BEGIN:
+    case BINSON_SIG_ARRAY_END:
+      return BINSON_TYPE_ARRAY;
 
-/**
- *  Argument stringization
- */
-#define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
+    case BINSON_SIG_TRUE:
+    case BINSON_SIG_FALSE:
+      return BINSON_TYPE_BOOLEAN;
 
-/**
- *  Conversion helpers (binson raw <-> C style)
- */
-uint8_t   binson_util_get_significant_bytes( int64_t i );
-size_t    binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int );
-size_t    binson_util_pack_double( double val, uint8_t *bbuf );
+    case BINSON_SIG_DOUBLE:
+      return BINSON_TYPE_DOUBLE;
 
-binson_res  binson_util_unpack_integer( uint8_t *bbuf, int64_t *pint );
-binson_res  binson_util_unpack_double( uint8_t *bbuf, double *pval );
+    case BINSON_SIG_INTEGER_8:
+    case BINSON_SIG_INTEGER_16:
+    case BINSON_SIG_INTEGER_32:
+    case BINSON_SIG_INTEGER_64:
+      return BINSON_TYPE_INTEGER;
 
-uint8_t  binson_util_hexx_to_byte( const char *src);
+    case BINSON_SIG_STRING_8:
+    case BINSON_SIG_STRING_16:
+    case BINSON_SIG_STRING_32:
+      return BINSON_TYPE_STRING;
 
-#ifdef __cplusplus
+    case BINSON_SIG_BYTES_8:
+    case BINSON_SIG_BYTES_16:
+    case BINSON_SIG_BYTES_32:
+      return BINSON_TYPE_BYTES;
+
+    default:
+    return BINSON_TYPE_UNKNOWN;
+  }
 }
-#endif
+*/
 
-#endif /* BINSON_UTIL_H_INCLUDED */

@@ -58,7 +58,9 @@ int main()
     res = binson_io_new( &io );
     res = binson_io_attach_stream( io, stdout );
 
-    res = binson_writer_new( &writer, io, BINSON_WRITER_FORMAT_RAW );
+    res = binson_writer_new( &writer );
+    res = binson_writer_init( writer, io, BINSON_WRITER_FORMAT_RAW );
+
 
    for (f = BINSON_WRITER_FORMAT_RAW; f<BINSON_WRITER_FORMAT_LAST; f++)
    {

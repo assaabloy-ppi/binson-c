@@ -14,45 +14,53 @@
 	<stdlib.h>
 	"../src/binson.h"
 
-1449062663 /home/kotomysha/binson/binson-c/src/binson.h
+1449601616 /home/kotomysha/binson/binson-c/src/binson.h
 	<stdio.h>
 	<stdarg.h>
 	"binson_config.h"
+	"binson_common.h"
 	"binson_error.h"
 	"binson_io.h"
 	"binson_writer.h"
 	"binson_parser.h"
 
-1449266489 /home/kotomysha/binson/binson-c/src/binson_config.h
+1449528899 /home/kotomysha/binson/binson-c/src/binson_config.h
 
-1449077908 /home/kotomysha/binson/binson-c/src/binson_error.h
+1449522239 /home/kotomysha/binson/binson-c/src/binson_error.h
 	<stddef.h>
 	"binson_config.h"
 
-1449100245 /home/kotomysha/binson/binson-c/src/binson_io.h
+1449594891 /home/kotomysha/binson/binson-c/src/binson_io.h
 	<stdio.h>
 	<stdarg.h>
 	"binson_config.h"
 	"binson_error.h"
-	"binson_config.h"
-	"binson_error.h"
 
-1449176848 /home/kotomysha/binson/binson-c/src/binson_writer.h
+1449601155 /home/kotomysha/binson/binson-c/src/binson_writer.h
 	"binson_config.h"
+	"binson_common.h"
 	"binson_error.h"
 	"binson_io.h"
 
-1449016635 /home/kotomysha/binson/binson-c/src/binson_parser.h
+1449601268 /home/kotomysha/binson/binson-c/src/binson_parser.h
 	"binson_config.h"
+	"binson_common.h"
 	"binson_error.h"
 	"binson_io.h"
 
 1448588921 source:/home/kotomysha/binson/binson-c/examples/parse_with_cb.c
 
-1449319089 source:/home/kotomysha/binson/binson-c/examples/writer_standalone.c
+1449565950 source:/home/kotomysha/binson/binson-c/examples/writer_standalone.c
 	<stdio.h>
 	<stdlib.h>
 	<float.h>
 	<math.h>
 	"../src/binson_writer.h"
+
+1449600891 /home/kotomysha/binson/binson-c/src/binson_common.h
+	"binson_config.h"
+	"binson_error.h"
+
+1449611645 source:/home/kotomysha/binson/binson-c/examples/output_model_dom.c
+	"../src/binson.h"
 

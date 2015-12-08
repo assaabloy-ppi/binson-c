@@ -96,6 +96,22 @@ binson_res  binson_io_new( binson_io **pio )
   return BINSON_RES_OK;
 }
 
+/** \brief
+ *
+ * \param io binson_io*
+ * \return binson_res
+ */
+binson_res  binson_io_init( binson_io *io )
+{
+  io->type = BINSON_IO_TYPE_NULL;
+  io->mode = BINSON_IO_MODE_NONE;
+  io->handle.stream = 0;
+  io->status = BINSON_RES_OK;
+  io->errno_copy = 0;
+
+  return BINSON_RES_OK;
+}
+
 /** \brief Free \c binson_io context object
  *
  * \param io binson_io*

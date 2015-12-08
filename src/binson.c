@@ -192,6 +192,23 @@ bool  binson_lib_is_compatible()
     return (major == BINSON_MAJOR_VERSION)? true:false;
 }
 
+
+/* \brief
+ *
+ * \param pobj binson**
+ * \return binson_res
+ */
+binson_res  binson_new( binson **pobj )
+{
+  /* Initial parameter validation */
+  if (!pobj )
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  *pobj = (binson *)malloc(sizeof(binson_));
+
+  return BINSON_RES_OK;
+}
+
 /* \brief Initialize binson context object
  *
  * \param obj binson*
@@ -201,22 +218,49 @@ bool  binson_lib_is_compatible()
  */
 binson_res  binson_init( binson *obj, binson_writer *writer, binson_parser *parser, binson_io *error_io )
 {
-  binson_res  res;
+  binson_res  res = BINSON_RES_OK;
 
   obj->root       = NULL;
   obj->writer     = writer;
   obj->parser     = parser;
   obj->error_io   = error_io;
 
-  res = binson_error_init( error_io );
+  res = binson_error_init( obj->error_io );
   if (FAILED(res)) return res;
 
   /* add empty root OBJECT */
-  res = binson_node_add_empty( obj, NULL, BINSON_TYPE_OBJECT, NULL, &obj->root );
+  res = binson_node_add_empty( obj, NULL, BINSON_TYPE_OBJECT, NULL, &(obj->root) );
   if (FAILED(res)) return res;
 
   return res;
 }
+
+/* \brief Free all memory used by binson object
+ *
+ * \param obj binson*
+ * \return binson_res
+ */
+binson_res  binson_free( binson *obj )
+{
+  binson_res res = BINSON_RES_OK;
+
+  /* Initial parameter validation */
+  if (!obj)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  if (obj->root)
+    res = binson_node_remove( obj, obj->root );
+
+  /*if (obj->str_stack)
+    binson_strstack_release( obj->str_stack );
+*/
+
+  if (obj)
+    free( obj );
+
+  return res;
+}
+
 
 /* \brief Allocate storage and attach new empty node to binson DOM tree
  *
@@ -246,7 +290,7 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
 
 
    /* allocating and cloning key */
-   if (parent->type == BINSON_TYPE_ARRAY)  /* no keys for ARRAY children */
+   if (!parent || parent->type == BINSON_TYPE_ARRAY)  /* no keys for ARRAY children */
    {
      me->key = NULL;
    }
@@ -262,7 +306,7 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
 
   /* connect new node to tree \
      [2DO] lexi order list insert instead of list add (for all parent types but ARRAY) */
-  if (parent->val.children.last_child)  /* parent is not empty */
+  if (parent && parent->val.children.last_child)  /* parent is not empty */
   {
     me->prev = parent->val.children.last_child;
     parent->val.children.last_child->next = me;
@@ -271,7 +315,8 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
   else /* parent is  empty */
   {
     me->prev = NULL;
-    parent->val.children.last_child = parent->val.children.first_child = me;
+    if (parent)
+      parent->val.children.last_child = parent->val.children.first_child = me;
   }
 
   if (dst)
@@ -711,10 +756,7 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
 {
     binson_res res = BINSON_RES_OK;
 
-    if (status->done)
-      return BINSON_RES_TRAVERSAL_DONE;
-
-    if (obj && root_node)  /* first iteration */
+    if (status && obj && root_node)  /* first iteration */
     {
       /* store parameters to status structure */
       status->obj         = obj;
@@ -737,13 +779,16 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
         return status->cb( status->obj, status->current_node, status, status->param );
     }
 
+    if (status && status->done)
+      return BINSON_RES_TRAVERSAL_DONE;
+
     /* non-first iteration. */
 /*    if (binson_node_is_leaf_type(status->current_node))  // last processed was leaf  */
     if (status->dir == BINSON_TRAVERSE_DIR_UP ||
         status->depth >= status->max_depth ||
-        status->current_node->val.children.first_child)  /* there is no way down */
+        status->current_node->val.children.first_child == NULL)  /* there is no way down */
     {
-      if (status->current_node->next) /* we can move right */
+      if (status->current_node && status->current_node->next) /* we can move right */
       {
           status->current_node = status->current_node->next;  /* update current node to it */
           status->dir = BINSON_TRAVERSE_DIR_RIGHT;
@@ -757,7 +802,7 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
           if (status->t_method != BINSON_TRAVERSE_PREORDER)  /* for postorder and 'bothorder' */
             res = status->cb( status->obj, status->current_node, status, status->param );   /* invoke callback for previous node  */
 
-          if (status->current_node == status->root_node)  /* can't move up, we are at root */
+          if (!status->current_node || status->current_node == status->root_node)  /* can't move up, we are at root */
           {
             status->done = true;
           }
@@ -772,7 +817,7 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
           //if (status->t_method != BINSON_TRAVERSE_PREORDER)  // for postorder and 'bothorder'
           //  return status->cb( status->obj, status->current_node, status, status->param );  */
       }
-    }
+      }
     else  /* last processed has some children */
     {
        status->current_node = status->current_node->val.children.first_child;   /* select leftmost child */
@@ -831,29 +876,11 @@ binson_res  binson_traverse( binson *obj, binson_node *root_node, binson_travers
   binson_traverse_cb_status  status;
   binson_res res = binson_traverse_begin( obj, root_node, t_method, max_depth, cb, &status, param );
 
-  while (!binson_traverse_is_done(&status))
+  while (!binson_traverse_is_done( &status ))
   {
-    res = binson_traverse_next(&status);
+    res = binson_traverse_next( &status );
   };
 
-  return res;
-}
-
-/* \brief Free all memory used by binson object
- *
- * \param obj binson*
- * \return binson_res
- */
-binson_res  binson_free( binson *obj )
-{
-  binson_res res = BINSON_RES_OK;
-
-  if (obj->root)
-    res = binson_node_remove( obj, obj->root );
-
-  /*if (obj->str_stack)
-    binson_strstack_release( obj->str_stack );
-*/
   return res;
 }
 

@@ -1,49 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="src/binson_parser.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_common_pvt.c" open="0" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1972" topLine="42" />
+			<Cursor1 position="1729" topLine="33" />
 		</Cursor>
 	</File>
-	<File name="src/binson_util.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2413" topLine="44" />
+			<Cursor1 position="7724" topLine="257" />
 		</Cursor>
 	</File>
-	<File name="src/binson_utf8.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_util.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1952" topLine="34" />
+			<Cursor1 position="1800" topLine="59" />
 		</Cursor>
 	</File>
-	<File name="src/binson_parser.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1777" topLine="10" />
-		</Cursor>
-	</File>
-	<File name="src/binson_utf8.c" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_utf8.c" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4647" topLine="55" />
 		</Cursor>
 	</File>
-	<File name="src/binson_writer.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_io.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2246" topLine="58" />
-		</Cursor>
-	</File>
-	<File name="src/binson_error.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4947" topLine="153" />
-		</Cursor>
-	</File>
-	<File name="src/binson_error.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2562" topLine="70" />
-		</Cursor>
-	</File>
-	<File name="src/binson_util.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3290" topLine="76" />
+			<Cursor1 position="2778" topLine="88" />
 		</Cursor>
 	</File>
 	<File name="COPYING" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -51,44 +31,84 @@
 			<Cursor1 position="0" topLine="15" />
 		</Cursor>
 	</File>
-	<File name="src/binson_io.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_common.c" open="0" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2870" topLine="83" />
+			<Cursor1 position="1719" topLine="10" />
 		</Cursor>
 	</File>
-	<File name="src/binson_config.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_error.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3837" topLine="58" />
+			<Cursor1 position="4410" topLine="86" />
 		</Cursor>
 	</File>
-	<File name="src/binson.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_util.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="14201" topLine="458" />
+			<Cursor1 position="3290" topLine="82" />
 		</Cursor>
 	</File>
-	<File name="README.md" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_writer.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="360" topLine="3" />
+			<Cursor1 position="2773" topLine="69" />
 		</Cursor>
 	</File>
-	<File name="src/binson.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_parser.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3975" topLine="112" />
+			<Cursor1 position="2986" topLine="60" />
 		</Cursor>
 	</File>
-	<File name="src/binson_io.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_writer.c" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3290" topLine="77" />
+			<Cursor1 position="7328" topLine="213" />
 		</Cursor>
 	</File>
-	<File name="src/binson_writer.c" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/binson_utf8.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="20650" topLine="631" />
+			<Cursor1 position="1952" topLine="34" />
+		</Cursor>
+	</File>
+	<File name="src/binson_parser.c" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3190" topLine="93" />
+		</Cursor>
+	</File>
+	<File name="src/binson_error.c" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3527" topLine="116" />
+		</Cursor>
+	</File>
+	<File name="src/binson_common_pvt.h" open="0" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1521" topLine="21" />
 		</Cursor>
 	</File>
 	<File name="AUTHORS" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="151" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="README.md" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="295" topLine="1" />
+		</Cursor>
+	</File>
+	<File name="src/binson.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3848" topLine="102" />
+		</Cursor>
+	</File>
+	<File name="src/binson_config.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4054" topLine="126" />
+		</Cursor>
+	</File>
+	<File name="src/binson_common.h" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2572" topLine="63" />
+		</Cursor>
+	</File>
+	<File name="src/binson_io.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1780" topLine="36" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

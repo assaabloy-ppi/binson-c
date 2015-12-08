@@ -47,6 +47,7 @@ extern "C" {
 #include <stdarg.h>
 
 #include "binson_config.h"
+#include "binson_common.h"
 #include "binson_error.h"
 #include "binson_io.h"
 #include "binson_writer.h"
@@ -58,22 +59,6 @@ extern "C" {
 #define BINSON_MAJOR_VERSION  0
 #define BINSON_MINOR_VERSION  0
 #define BINSON_MICRO_VERSION  1
-
-/**
- *  Supported node types
- */
-typedef enum
-{
-  BINSON_TYPE_UNKNOWN    = 0,
-  BINSON_TYPE_OBJECT,
-  BINSON_TYPE_ARRAY,
-  BINSON_TYPE_BOOLEAN,
-  BINSON_TYPE_INTEGER,
-  BINSON_TYPE_DOUBLE,
-  BINSON_TYPE_STRING,
-  BINSON_TYPE_BYTES
-
-} binson_node_type;
 
 /**
  *  Binson DOM tree traversal type
@@ -124,6 +109,7 @@ typedef enum binson_traverse_dir_
 uint32_t        binson_lib_get_version();
 bool            binson_lib_is_compatible();
 
+binson_res      binson_new( binson **pobj );
 binson_res      binson_init( binson *obj, binson_writer *writer, binson_parser *parser, binson_io *error_io );
 binson_res      binson_free( binson *obj );
 
@@ -162,7 +148,7 @@ binson_res  binson_deserialize( binson *obj, bool validate_only );
  *  Node level getters/setters
  */
 binson_node_type      binson_node_get_type( binson_node *node );
-const char*      binson_node_get_key( binson_node *node );
+const char*           binson_node_get_key( binson_node *node );
 binson_node_val*      binson_node_get_val( binson_node *node );
 bool                  binson_node_is_leaf_type( binson_node *node );
 

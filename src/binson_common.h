@@ -28,18 +28,16 @@
  */
 
 /********************************************//**
- * \file binson_util.h
- * \brief Utility functions header file
+ * \file binson_common.h
+ * \brief Data structures declaration common for all public interfaces
  *
  * \author Alexander Reshniuk
- * \date 20/11/2015
+ * \date 08/12/2015
  *
  ***********************************************/
 
-#ifndef BINSON_UTIL_H_INCLUDED
-#define BINSON_UTIL_H_INCLUDED
-
-#include <stddef.h>
+#ifndef BINSON_COMMON_H_INCLUDED
+#define BINSON_COMMON_H_INCLUDED
 
 #include "binson_config.h"
 #include "binson_error.h"
@@ -49,33 +47,64 @@ extern "C" {
 #endif
 
 /**
- *  Useful macros missing in C89
+ *  Supported node types
  */
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
+typedef enum binson_node_type
+{
+  BINSON_TYPE_UNKNOWN    = 0,
+  BINSON_TYPE_OBJECT,
+  BINSON_TYPE_ARRAY,
+  BINSON_TYPE_BOOLEAN,
+  BINSON_TYPE_INTEGER,
+  BINSON_TYPE_DOUBLE,
+  BINSON_TYPE_STRING,
+  BINSON_TYPE_BYTES
 
-#define UNUSED(x) (void)(x)   /* for unused variable suppression */
+} binson_node_type;
 
 /**
- *  Argument stringization
+ *  Used by 'binson_writer' and 'binson_parser'
  */
-#define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
+typedef enum binson_token_type
+{
+  BINSON_TOKEN_TYPE_UNKNOWN       = 0,
+  BINSON_TOKEN_TYPE_OBJECT_BEGIN,
+  BINSON_TOKEN_TYPE_OBJECT_END,
+  BINSON_TOKEN_TYPE_ARRAY_BEGIN,
+  BINSON_TOKEN_TYPE_ARRAY_END,
+  BINSON_TOKEN_TYPE_BOOLEAN,
+  BINSON_TOKEN_TYPE_INTEGER,
+  BINSON_TOKEN_TYPE_DOUBLE,
+  BINSON_TOKEN_TYPE_STRING,
+  BINSON_TOKEN_TYPE_BYTES,
+
+  BINSON_TOKEN_TYPE_LAST
+
+} binson_token_type;
 
 /**
- *  Conversion helpers (binson raw <-> C style)
+ *  Payload data type
  */
-uint8_t   binson_util_get_significant_bytes( int64_t i );
-size_t    binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int );
-size_t    binson_util_pack_double( double val, uint8_t *bbuf );
+typedef union binson_value {
 
-binson_res  binson_util_unpack_integer( uint8_t *bbuf, int64_t *pint );
-binson_res  binson_util_unpack_double( uint8_t *bbuf, double *pval );
+    bool      bool_val;
+    int64_t   int_val;
+    double    double_val;
 
-uint8_t  binson_util_hexx_to_byte( const char *src);
+    const char* str_val;
+
+    struct byte_val
+    {
+      uint8_t*         bptr;
+      binson_size      bsize;
+
+    } byte_val;
+
+} binson_value;
+
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* BINSON_UTIL_H_INCLUDED */
+#endif /* BINSON_COMMON_H_INCLUDED */

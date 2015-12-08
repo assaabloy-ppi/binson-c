@@ -49,9 +49,6 @@
 extern "C" {
 #endif
 
-#include "binson_config.h"
-#include "binson_error.h"
-
 /**
  *  Forward declarations
  */
@@ -75,11 +72,12 @@ typedef enum {
  *  Data access mode
  */
 typedef enum {
-  BINSON_IO_MODE_READ = 1,
-  BINSON_IO_MODE_WRITE = 2,
-  BINSON_IO_MODE_APPEND = 8,
+  BINSON_IO_MODE_NONE       = 0,
+  BINSON_IO_MODE_READ       = 1,
+  BINSON_IO_MODE_WRITE      = 2,
+  BINSON_IO_MODE_APPEND     = 8,
 
-  BINSON_IO_MODE_CREATE = 16
+  BINSON_IO_MODE_CREATE     = 16
 
 } binson_io_mode;
 
@@ -87,7 +85,10 @@ typedef enum {
  *  Binson IO abstraction layer API calls
  */
 binson_res  binson_io_new( binson_io **pio );
+binson_res  binson_io_init( binson_io *io );
 binson_res  binson_io_free( binson_io *io );
+
+bool        binson_io_is_random( binson_io *io );
 
 binson_res  binson_io_open_file( binson_io *obj, const char* path, binson_io_mode mode );
 binson_res  binson_io_attach_stream( binson_io *obj, FILE *stream );

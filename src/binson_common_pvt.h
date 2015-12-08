@@ -28,54 +28,50 @@
  */
 
 /********************************************//**
- * \file binson_util.h
- * \brief Utility functions header file
+ * \file binson_common_pvt.h
+ * \brief Inplementation specific details common for some modules
  *
  * \author Alexander Reshniuk
- * \date 20/11/2015
+ * \date 08/12/2015
  *
  ***********************************************/
 
-#ifndef BINSON_UTIL_H_INCLUDED
-#define BINSON_UTIL_H_INCLUDED
-
-#include <stddef.h>
-
-#include "binson_config.h"
-#include "binson_error.h"
+#ifndef BINSON_COMMON_PVT_H_INCLUDED
+#define BINSON_COMMON_PVT_H_INCLUDED
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/**
- *  Useful macros missing in C89
- */
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
+/* Binson binary format 8-bit signatures */
+#define BINSON_SIG_OBJ_BEGIN      0x40
+#define BINSON_SIG_OBJ_END        0x41
+#define BINSON_SIG_ARRAY_BEGIN    0x42
+#define BINSON_SIG_ARRAY_END      0x43
 
-#define UNUSED(x) (void)(x)   /* for unused variable suppression */
+#define BINSON_SIG_TRUE           0x44
+#define BINSON_SIG_FALSE          0x45
+#define BINSON_SIG_DOUBLE         0x46
 
-/**
- *  Argument stringization
- */
-#define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
+#define BINSON_SIG_INTEGER_8      0x10
+#define BINSON_SIG_INTEGER_16     0x11
+#define BINSON_SIG_INTEGER_32     0x12
+#define BINSON_SIG_INTEGER_64     0x13
 
-/**
- *  Conversion helpers (binson raw <-> C style)
- */
-uint8_t   binson_util_get_significant_bytes( int64_t i );
-size_t    binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int );
-size_t    binson_util_pack_double( double val, uint8_t *bbuf );
+#define BINSON_SIG_STRING_8       0x14
+#define BINSON_SIG_STRING_16      0x15
+#define BINSON_SIG_STRING_32      0x16
 
-binson_res  binson_util_unpack_integer( uint8_t *bbuf, int64_t *pint );
-binson_res  binson_util_unpack_double( uint8_t *bbuf, double *pval );
+#define BINSON_SIG_BYTES_8        0x18
+#define BINSON_SIG_BYTES_16       0x19
+#define BINSON_SIG_BYTES_32       0x1a
 
-uint8_t  binson_util_hexx_to_byte( const char *src);
+
+/*binson_node_type   binson_common_map_sig_to_node_type( uint8_t sig );*/
+
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* BINSON_UTIL_H_INCLUDED */
+#endif /* BINSON_COMMON_PVT_H_INCLUDED */

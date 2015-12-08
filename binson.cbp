@@ -60,6 +60,14 @@
 		<Unit filename="src/binson.h">
 			<Option target="Debug" />
 		</Unit>
+		<Unit filename="src/binson_common.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_common.h" />
+		<Unit filename="src/binson_common_pvt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_common_pvt.h" />
 		<Unit filename="src/binson_config.h" />
 		<Unit filename="src/binson_error.c">
 			<Option compilerVar="CC" />
