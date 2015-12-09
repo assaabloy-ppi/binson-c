@@ -83,13 +83,6 @@ typedef union binson_node_val_ {
 
     /*binson_node_val_composite  children;*/   /* for ARRAY, OBJECT only */
 
-      struct children {
-
-        binson_node   *first_child;
-        binson_node   *last_child;
-
-      } children;
-
 } binson_node_val_;
 
 #ifndef binson_node_val_DEFINED
@@ -105,9 +98,16 @@ typedef struct binson_node_ {
     binson_node       *prev;
     binson_node       *next;
 
+    struct children {
+
+      binson_node   *first_child;
+      binson_node   *last_child;
+
+    } children;
+
     /* payload */
-    char               *key;
     binson_node_type   type;
+    char               *key;
     binson_node_val    val;
 
 } binson_node_;
@@ -306,17 +306,17 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
 
   /* connect new node to tree \
      [2DO] lexi order list insert instead of list add (for all parent types but ARRAY) */
-  if (parent && parent->val.children.last_child)  /* parent is not empty */
+  if (parent && parent->children.last_child)  /* parent is not empty */
   {
-    me->prev = parent->val.children.last_child;
-    parent->val.children.last_child->next = me;
-    parent->val.children.last_child = me;
+    me->prev = parent->children.last_child;
+    parent->children.last_child->next = me;
+    parent->children.last_child = me;
   }
   else /* parent is  empty */
   {
     me->prev = NULL;
     if (parent)
-      parent->val.children.last_child = parent->val.children.first_child = me;
+      parent->children.last_child = parent->children.first_child = me;
   }
 
   if (dst)
@@ -352,8 +352,8 @@ binson_res  binson_node_add( binson *obj, binson_node *parent, binson_node_type 
     return res;
 
   /* just to be sure */
-  node_ptr->val.children.first_child = NULL;
-  node_ptr->val.children.last_child = NULL;
+  node_ptr->children.first_child = NULL;
+  node_ptr->children.last_child = NULL;
 
   return BINSON_RES_OK;
 }
@@ -508,7 +508,7 @@ binson_res binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_st
     break;
 
     case BINSON_TYPE_STRING:
-      res = binson_writer_write_str( obj->writer, node->key, (const char*)node->val.v_data.ptr );
+      res = binson_writer_write_str( obj->writer, node->key, (const char*)(node->val.v_data.ptr) );
     break;
 
     case BINSON_TYPE_BYTES:
@@ -783,10 +783,9 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
       return BINSON_RES_TRAVERSAL_DONE;
 
     /* non-first iteration. */
-/*    if (binson_node_is_leaf_type(status->current_node))  // last processed was leaf  */
     if (status->dir == BINSON_TRAVERSE_DIR_UP ||
         status->depth >= status->max_depth ||
-        status->current_node->val.children.first_child == NULL)  /* there is no way down */
+        status->current_node->children.first_child == NULL)  /* there is no way down */
     {
       if (status->current_node && status->current_node->next) /* we can move right */
       {
@@ -799,28 +798,26 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
       }
       else /* no more neighbors from the right, moving up */
       {
-          if (status->t_method != BINSON_TRAVERSE_PREORDER)  /* for postorder and 'bothorder' */
-            res = status->cb( status->obj, status->current_node, status, status->param );   /* invoke callback for previous node  */
+          status->dir = BINSON_TRAVERSE_DIR_UP;
 
-          if (!status->current_node || status->current_node == status->root_node)  /* can't move up, we are at root */
+          if (!status->current_node || status->current_node == status->root_node )  /* can't move up, we are at root */
           {
+            status->current_node = status->root_node;
             status->done = true;
           }
-          else  /* next node to process will be parent of the current node */
+          else  if (status->current_node->parent) /* next node to process will be parent of the current node */
           {
             status->current_node = status->current_node->parent;
-            status->dir         = BINSON_TRAVERSE_DIR_UP;
             status->depth--;
-          }
 
-           /* ??? check need or not
-          //if (status->t_method != BINSON_TRAVERSE_PREORDER)  // for postorder and 'bothorder'
-          //  return status->cb( status->obj, status->current_node, status, status->param );  */
+            if (status->t_method != BINSON_TRAVERSE_PREORDER)  /* for postorder and 'bothorder' */
+              res = status->cb( status->obj, status->current_node, status, status->param );   /* invoke callback for previous node  */
+          }
       }
-      }
+    }
     else  /* last processed has some children */
     {
-       status->current_node = status->current_node->val.children.first_child;   /* select leftmost child */
+       status->current_node = status->current_node->children.first_child;   /* select leftmost child */
        status->dir         = BINSON_TRAVERSE_DIR_DOWN;
        status->child_num   = 0;
        status->depth++;
@@ -884,20 +881,17 @@ binson_res  binson_traverse( binson *obj, binson_node *root_node, binson_travers
   return res;
 }
 
-/* \brief Get root node pointer
+/** \brief  Get root node pointer
  *
  * \param obj binson*
- * \param node_ptr binson_node**
- * \return binson_res
+ * \return binson_node*
  */
-binson_res  binson_get_root( binson *obj, binson_node  **node_ptr )
+binson_node* binson_get_root( binson *obj )
 {
-  if (obj == NULL || node_ptr == NULL)
-    return BINSON_RES_ERROR_ARG_WRONG;
+  if (!obj)
+    return NULL;
 
-  *node_ptr = obj->root;
-
-  return BINSON_RES_OK;
+  return obj->root;
 }
 
 /* \brief Get node type
@@ -995,10 +989,10 @@ binson_node*    binson_node_get_next( binson_node *node )
  */
 binson_node*  binson_node_get_first_sibling( binson_node *node )
 {
-   if (!node || !node->parent || (node == node->parent->val.children.first_child))
+   if (!node || !node->parent || (node == node->parent->children.first_child))
      return NULL;
 
-   return node->parent->val.children.first_child;
+   return node->parent->children.first_child;
 }
 
 /* \brief Get most right sibling of the node
@@ -1008,10 +1002,10 @@ binson_node*  binson_node_get_first_sibling( binson_node *node )
  */
 binson_node*  binson_node_get_last_sibling( binson_node *node )
 {
-  if (!node || !node->parent || (node == node->parent->val.children.last_child))
+  if (!node || !node->parent || (node == node->parent->children.last_child))
      return NULL;
 
-   return node->parent->val.children.last_child;
+   return node->parent->children.last_child;
 }
 
 /* \brief Get first child of the node
@@ -1024,7 +1018,7 @@ binson_node*  binson_node_get_first_child( binson_node *node )
   if (!node || binson_node_is_leaf_type(node))
     return NULL;
 
-  return node->val.children.first_child;
+  return node->children.first_child;
 }
 
 /* \brief Get last child of the node
@@ -1037,5 +1031,5 @@ binson_node*  binson_node_get_last_child( binson_node *node )
   if (!node || binson_node_is_leaf_type(node))
     return NULL;
 
-  return node->val.children.last_child;
+  return node->children.last_child;
 }

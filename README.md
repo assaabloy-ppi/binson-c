@@ -12,6 +12,8 @@ Pre-alpha (debugging and testing functionality)
 ToDo
 ========
 * Test on BE platforms
+* Unit testing configuration
+* Binson-java compatibility testing
 * ABI review
 
 Features

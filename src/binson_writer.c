@@ -94,7 +94,6 @@ binson_res  write_key( binson_writer *writer, const char* key, int force_no_sepa
 {
   binson_res  res = BINSON_RES_OK;
 
-
 #ifdef WITH_BINSON_JSON_OUTPUT
   /* write comma separator if needed */
 

@@ -116,7 +116,7 @@ binson_res      binson_free( binson *obj );
 /**
  *  Binson context getters/setters
  */
-binson_res      binson_get_root( binson *obj, binson_node  **node_ptr );
+binson_node*    binson_get_root( binson *obj );
 binson_writer*  binson_get_writer( binson *obj );
 binson_parser*  binson_get_parser( binson *obj );
 
