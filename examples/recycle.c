@@ -27,7 +27,7 @@ int main()
     res = binson_io_attach_stream( err_io, stdout );
     res = binson_io_attach_stream( con, stdout );
     res = binson_io_open_file( fin, "./output_model_dom.bson", BINSON_IO_MODE_READ );
-    res = binson_io_open_file( fout, "./recycled.bson", BINSON_IO_MODE_WRITE | BINSON_IO_MODE_CREATE );
+    res = binson_io_open_file( fout, "./recycle.bson", BINSON_IO_MODE_WRITE | BINSON_IO_MODE_CREATE );
 
     res = binson_parser_new( &parser );
     res = binson_parser_init( parser, fin, BINSON_PARSER_MODE_DOM );
