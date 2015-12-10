@@ -11,10 +11,12 @@ Pre-alpha (debugging and testing functionality)
 
 ToDo
 ========
-* Test on BE platforms
+* Adopt interfaces to provide model's storage abstraction
+* Test on bigendian (ARM, etc) platforms
 * Unit testing configuration
 * Binson-java compatibility testing
 * ABI review
+* Integrate with CMake build system
 
 Features
 ========

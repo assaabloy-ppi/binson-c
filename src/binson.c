@@ -524,6 +524,31 @@ binson_res binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_st
   return res;
 }
 
+/* \brief Callback useful for debugging DOM tree traversal functionality
+ *
+ * \param
+ * \param
+ * \return
+ */
+#ifdef DEBUG
+binson_res  binson_cb_dump_debug( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param )
+{
+  binson_traverse_cb_param *p = (binson_traverse_cb_param *)param;
+  binson_res  res = BINSON_RES_OK;
+  binson_io   *io = binson_writer_get_io( obj->writer );
+
+  UNUSED(p);
+
+  return binson_io_printf( io, "-> #%02d, depth=%02d, dir=%02d : [node=%p, type=%d, key=\"%s\", val=%x] : \n"
+                               "parent=%p, prev=%p, next=%p, fch=%p, lch=%p\n\n",
+                                status->child_num, status->depth, status->dir, status->current_node,
+                                status->current_node->type, status->current_node->key, status->current_node->val.i_data,
+                                status->current_node->parent, status->current_node->prev, status->current_node->next,
+                                status->current_node->parent, status->current_node->children.first_child,
+                                status->current_node->children.last_child );
+}
+#endif
+
 /* \brief Callback used to node key against str key passed via param
  *
  * \param obj binson*
@@ -557,7 +582,7 @@ binson_res binson_cb_remove( binson *obj, binson_node *node, binson_traverse_cb_
   binson_traverse_cb_param   *p = (binson_traverse_cb_param *)param;
   UNUSED(p);
 
-  if (!obj || !node || !status)
+  if (!obj || !node)
     return BINSON_RES_ERROR_ARG_WRONG;
 
   /* frees node's key memory */
@@ -568,11 +593,11 @@ binson_res binson_cb_remove( binson *obj, binson_node *node, binson_traverse_cb_
   }
 
   /* frees node's value memory */
-  if (node->val.v_data.ptr)
-  {
-     free(node->val.v_data.ptr);
-     node->val.v_data.ptr = NULL;
-  }
+   if ((node->type == BINSON_TYPE_STRING || node->type == BINSON_TYPE_BYTES) && node->val.v_data.ptr)
+   {
+      free(node->val.v_data.ptr);
+      node->val.v_data.ptr = NULL;
+   }
 
   /* frees node itself */
   free(node);
@@ -822,7 +847,7 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
        status->child_num   = 0;
        status->depth++;
 
-      if (status->t_method != BINSON_TRAVERSE_POSTORDER)
+      if (status->t_method != BINSON_TRAVERSE_POSTORDER || status->current_node->children.first_child == NULL)
         return status->cb( status->obj, status->current_node, status, status->param );
     }
 

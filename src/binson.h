@@ -174,6 +174,10 @@ binson_res      binson_node_get_child_count( );
  */
 typedef binson_res (*binson_traverse_callback)(binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );
 
+#ifdef DEBUG
+binson_res    binson_cb_dump_debug( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );
+#endif
+
 binson_res    binson_traverse( binson *obj, binson_node *root_node, binson_traverse_method t_method, int max_depth, \
                                             binson_traverse_callback cb, void* param );
 

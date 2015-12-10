@@ -75,6 +75,7 @@ binson_res  binson_writer_init( binson_writer *writer, binson_io *io, binson_wri
 binson_res  binson_writer_free( binson_writer *writer );
 binson_res  binson_writer_set_format( binson_writer *writer, binson_writer_format format );
 binson_res  binson_writer_set_io( binson_writer *writer, binson_io *io );
+binson_io*  binson_writer_get_io( binson_writer *writer );
 
 binson_res  binson_writer_write_token( binson_writer *writer, binson_token_type token_type, const char* key, binson_value *val );
 

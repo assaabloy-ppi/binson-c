@@ -267,6 +267,16 @@ binson_res  binson_writer_set_io( binson_writer *writer, binson_io *io )
   return BINSON_RES_OK;
 }
 
+/** \brief
+ *
+ * \param writer binson_writer*
+ * \return binson_io*
+ */
+binson_io*  binson_writer_get_io( binson_writer *writer )
+{
+  return writer->io;
+}
+
 /** \brief Reset current state and start new writer session
  *
  * \param writer binson_writer*   Context

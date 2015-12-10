@@ -32,8 +32,8 @@ int main()
     binson_io       *err_io, *in, *out;
     binson_res       res;
 
-    /* disable stdout buffering for debugging purposes */
-    /*setvbuf(stdout, NULL, _IONBF, 0);*/
+    /* DEBUG: disable stdout buffering for debugging purposes */
+    setvbuf(stdout, NULL, _IONBF, 0);
 
     res = binson_io_new( &err_io );
     res = binson_io_new( &in );
@@ -54,6 +54,13 @@ int main()
 
     /* ready to build DOM */
     build_dom( context, binson_get_root( context ) );
+
+    /* DEBUG: test tree traversal */
+#ifdef DEBUG
+     printf("---------------\n");
+     binson_traverse( context, binson_get_root(context), BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump_debug, NULL );
+     printf("---------------\n");
+#endif
 
     /* serialize via attached 'binson_writer' */
     res = binson_serialize( context );

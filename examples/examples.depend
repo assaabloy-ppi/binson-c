@@ -61,7 +61,7 @@
 	"binson_config.h"
 	"binson_error.h"
 
-1449683881 source:/home/kotomysha/binson/binson-c/examples/output_model_dom.c
+1449688811 source:/home/kotomysha/binson/binson-c/examples/output_model_dom.c
 	<stdio.h>
 	"../src/binson.h"
 
