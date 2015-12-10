@@ -11,6 +11,7 @@ Pre-alpha (debugging and testing functionality)
 
 ToDo
 ========
+* Lexicographic key sorting
 * Adopt interfaces to provide model's storage abstraction
 * Test on bigendian (ARM, etc) platforms
 * Unit testing configuration

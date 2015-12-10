@@ -81,10 +81,12 @@ typedef struct binson_node_  binson_node;
 # define binson_node_DEFINED
 #endif
 
+/*
 #ifndef binson_node_val_DEFINED
-typedef union binson_node_val_             binson_node_val;
+typedef union binson_node_val_             binson_value;
 # define binson_node_val_DEFINED
 #endif
+*/
 
 typedef struct binson_traverse_cb_status_   binson_traverse_cb_status;
 typedef struct binson_traverse_cb_param_    binson_traverse_cb_param;
@@ -123,7 +125,7 @@ binson_parser*  binson_get_parser( binson *obj );
 /**
  *  Node/tree creation/removal
  */
-binson_res  binson_node_add( binson *obj, binson_node *parent, binson_node_type node_type, const char* key, binson_node **dst, binson_node_val *tmp_val );
+binson_res  binson_node_add( binson *obj, binson_node *parent, binson_node_type node_type, const char* key, binson_node **dst, binson_value *tmp_val );
 
 binson_res  binson_node_add_object_empty( binson *obj, binson_node *parent, const char* key,  binson_node **dst);
 binson_res  binson_node_add_array_empty( binson *obj, binson_node *parent, const char* key, binson_node **dst );
@@ -149,7 +151,7 @@ binson_res  binson_deserialize( binson *obj, bool validate_only );
  */
 binson_node_type      binson_node_get_type( binson_node *node );
 const char*           binson_node_get_key( binson_node *node );
-binson_node_val*      binson_node_get_val( binson_node *node );
+binson_value*      binson_node_get_val( binson_node *node );
 bool                  binson_node_is_leaf_type( binson_node *node );
 
 /**
@@ -176,6 +178,7 @@ typedef binson_res (*binson_traverse_callback)(binson *obj, binson_node *node, b
 
 #ifdef DEBUG
 binson_res    binson_cb_dump_debug( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );
+binson_res    binson_cb_remove( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );
 #endif
 
 binson_res    binson_traverse( binson *obj, binson_node *root_node, binson_traverse_method t_method, int max_depth, \

@@ -12,7 +12,7 @@
   <line>Command: /home/kotomysha/binson/binson-c/examples/bin/Debug/output_model_dom </line>
 </preamble>
 
-<pid>24278</pid>
+<pid>10793</pid>
 <ppid>7732</ppid>
 <tool>memcheck</tool>
 
@@ -32,56 +32,14 @@
 
 <status>
   <state>RUNNING</state>
-  <time>00:00:00:00.231 </time>
+  <time>00:00:00:00.290 </time>
 </status>
 
 
 <status>
   <state>FINISHED</state>
-  <time>00:00:00:01.384 </time>
+  <time>00:00:00:01.522 </time>
 </status>
-
-<error>
-  <unique>0x6</unique>
-  <tid>1</tid>
-  <kind>Leak_DefinitelyLost</kind>
-  <xwhat>
-    <text>438 (72 direct, 366 indirect) bytes in 1 blocks are definitely lost in loss record 7 of 8</text>
-    <leakedbytes>438</leakedbytes>
-    <leakedblocks>1</leakedblocks>
-  </xwhat>
-  <stack>
-    <frame>
-      <ip>0x4C2CC70</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>calloc</fn>
-    </frame>
-    <frame>
-      <ip>0x4E39AA0</ip>
-      <obj>/home/kotomysha/binson/binson-c/bin/Debug/libbinson.so</obj>
-      <fn>binson_node_add_empty</fn>
-      <dir>/home/kotomysha/binson/binson-c/src</dir>
-      <file>binson.c</file>
-      <line>282</line>
-    </frame>
-    <frame>
-      <ip>0x4E399A9</ip>
-      <obj>/home/kotomysha/binson/binson-c/bin/Debug/libbinson.so</obj>
-      <fn>binson_init</fn>
-      <dir>/home/kotomysha/binson/binson-c/src</dir>
-      <file>binson.c</file>
-      <line>232</line>
-    </frame>
-    <frame>
-      <ip>0x400FCA</ip>
-      <obj>/home/kotomysha/binson/binson-c/examples/bin/Debug/output_model_dom</obj>
-      <fn>main</fn>
-      <dir>/home/kotomysha/binson/binson-c/examples</dir>
-      <file>output_model_dom.c</file>
-      <line>53</line>
-    </frame>
-  </stack>
-</error>
 
 <errorcounts>
 </errorcounts>

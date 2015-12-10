@@ -14,7 +14,7 @@
 	<stdlib.h>
 	"../src/binson.h"
 
-1449659374 /home/kotomysha/binson/binson-c/src/binson.h
+1449752396 /home/kotomysha/binson/binson-c/src/binson.h
 	<stdio.h>
 	<stdarg.h>
 	"binson_config.h"
@@ -36,7 +36,7 @@
 	"binson_config.h"
 	"binson_error.h"
 
-1449601155 /home/kotomysha/binson/binson-c/src/binson_writer.h
+1449700906 /home/kotomysha/binson/binson-c/src/binson_writer.h
 	"binson_config.h"
 	"binson_common.h"
 	"binson_error.h"
@@ -57,11 +57,15 @@
 	<math.h>
 	"../src/binson_writer.h"
 
-1449600891 /home/kotomysha/binson/binson-c/src/binson_common.h
+1449746963 /home/kotomysha/binson/binson-c/src/binson_common.h
 	"binson_config.h"
 	"binson_error.h"
 
-1449688811 source:/home/kotomysha/binson/binson-c/examples/output_model_dom.c
+1449758348 source:/home/kotomysha/binson/binson-c/examples/output_model_dom.c
+	<stdio.h>
+	"../src/binson.h"
+
+1449770064 source:/home/kotomysha/binson/binson-c/examples/debug_features.c
 	<stdio.h>
 	"../src/binson.h"
 

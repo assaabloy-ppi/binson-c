@@ -16,11 +16,6 @@ void build_dom( binson *ctx, binson_node *root )
   res = binson_node_add_integer( ctx, n2, "key_3", &n3, 333);
   res = binson_node_add_boolean( ctx, n2, "key_4", &n3, true);
   res = binson_node_add_double( ctx, n2, "key_5", &n3, -3.1415);
-
-  /*res = binson_node_add_str( ctx, root, "key_2",  0, "sample_string");*/
-
-/*  res = binson_node_add_integer( ctx, root, "key_3", &n3, 333); */
-
 }
 
 int main()
@@ -31,9 +26,6 @@ int main()
 
     binson_io       *err_io, *in, *out;
     binson_res       res;
-
-    /* DEBUG: disable stdout buffering for debugging purposes */
-    setvbuf(stdout, NULL, _IONBF, 0);
 
     res = binson_io_new( &err_io );
     res = binson_io_new( &in );
@@ -55,24 +47,20 @@ int main()
     /* ready to build DOM */
     build_dom( context, binson_get_root( context ) );
 
-    /* DEBUG: test tree traversal */
-#ifdef DEBUG
-     printf("---------------\n");
-     binson_traverse( context, binson_get_root(context), BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump_debug, NULL );
-     printf("---------------\n");
-#endif
-
     /* serialize via attached 'binson_writer' */
+    res = binson_serialize( context );
+    res = binson_io_printf( out, "\n---------------\n" );
+    res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_HEX );
     res = binson_serialize( context );
 
     /* we are done. freeing resources */
+    res = binson_free( context );
     res = binson_parser_free( parser );
     res = binson_writer_free( writer );
 
-    binson_free( context );
-    binson_io_free( err_io );
-    binson_io_free( in );
-    binson_io_free( out );
+    res = binson_io_free( err_io );
+    res = binson_io_free( in );
+    res = binson_io_free( out );
 
    return res;
 }

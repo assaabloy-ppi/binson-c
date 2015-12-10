@@ -70,10 +70,32 @@
 					<Add library="../bin/Debug/libbinson.so" />
 				</Linker>
 			</Target>
+			<Target title="debug_features">
+				<Option output="bin/Debug/debug_features" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-ansi" />
+					<Add option="-pg" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add library="../bin/Debug/libbinson.so" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="debug_features.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="debug_features" />
+		</Unit>
 		<Unit filename="output_model_dom.c">
 			<Option compilerVar="CC" />
 			<Option target="Debug" />

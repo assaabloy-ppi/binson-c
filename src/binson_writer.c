@@ -274,7 +274,7 @@ binson_res  binson_writer_set_io( binson_writer *writer, binson_io *io )
  */
 binson_io*  binson_writer_get_io( binson_writer *writer )
 {
-  return writer->io;
+  return writer? writer->io : NULL;
 }
 
 /** \brief Reset current state and start new writer session
@@ -714,7 +714,7 @@ binson_res  binson_writer_write_token( binson_writer *writer, binson_token_type 
       return binson_writer_write_str( writer, key, val->str_val );
 
     case BINSON_TOKEN_TYPE_BYTES:
-      return binson_writer_write_bytes( writer, key, val->byte_val.bptr, val->byte_val.bsize );
+      return binson_writer_write_bytes( writer, key, val->bbuf_val.bptr, val->bbuf_val.bsize );
 
     case BINSON_TOKEN_TYPE_UNKNOWN:
     default:

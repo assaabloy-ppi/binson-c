@@ -91,14 +91,14 @@ typedef union binson_value {
     int64_t   int_val;
     double    double_val;
 
-    const char* str_val;
+    char      *str_val;
 
-    struct byte_val
+    struct bbuf_val
     {
-      uint8_t*         bptr;
+      uint8_t         *bptr;
       binson_size      bsize;
 
-    } byte_val;
+    } bbuf_val;
 
 } binson_value;
 

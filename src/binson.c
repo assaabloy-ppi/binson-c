@@ -62,33 +62,7 @@ typedef struct binson_ {
 
   binson_io       *error_io;
 
-  /*binson_strstack_t  str_stack;*/
-
 } binson_;
-
-
-
-typedef union binson_node_val_ {
-
-    bool      b_data;
-    int64_t   i_data;
-    double    d_data;
-
-      /* vector-like data stored in separate memory block, used for STRING, BYTES */
-      struct v_data
-      {  /* vector data */
-         uint8_t*    ptr;   /* strings are zero-terminated, 'size' field takes ending '\0' into account */
-         size_t      size;  /* size in bytes of payload data in block, pointed by ptr, see section 2. of BINSON-SPEC-1 */
-      } v_data;
-
-    /*binson_node_val_composite  children;*/   /* for ARRAY, OBJECT only */
-
-} binson_node_val_;
-
-#ifndef binson_node_val_DEFINED
-typedef union binson_node_val_             binson_node_val;
-# define binson_node_val_DEFINED
-#endif
 
 /* each node (both terminal and nonterminal) is 'binson_node' instance */
 typedef struct binson_node_ {
@@ -97,22 +71,19 @@ typedef struct binson_node_ {
     binson_node       *parent;
     binson_node       *prev;
     binson_node       *next;
-
-    struct children {
-
-      binson_node   *first_child;
-      binson_node   *last_child;
-
-    } children;
+    binson_node       *first_child;
+    binson_node       *last_child;
 
     /* payload */
     binson_node_type   type;
-    char               *key;
-    binson_node_val    val;
+    char              *key;
+    binson_value       val;
 
 } binson_node_;
 
-
+/*
+ *
+ */
 typedef struct binson_traverse_cb_status_    /* set by iterating function (caller) */
 {
     /* initial parameters */
@@ -124,7 +95,9 @@ typedef struct binson_traverse_cb_status_    /* set by iterating function (calle
     void*                           param;
 
     /* processing */
-    binson_node                     *current_node;   /* last visited node */
+    binson_node                    *current_node;      /* last visited node */
+    binson_node                     current_node_copy; /* node copy to prevent problems in case of deleting node while iteraing */
+
 
     binson_traverse_dir             dir;             /* traverse direction */
     binson_child_num                child_num;       /*  current node is 'child_num's parent's child */
@@ -158,7 +131,9 @@ typedef struct binson_traverse_cb_param_
 
 /* private helper functions */
 binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node_type node_type, const char* key, binson_node **dst );
-binson_res  binson_node_copy_val( binson_node_type node_type, binson_node_val *dst_val, binson_node_val *src_val );
+binson_res  binson_node_copy_val( binson_node_type node_type, binson_value *dst_val, binson_value *src_val );
+binson_res  binson_node_attach( binson *obj, binson_node *parent, binson_node *new_node );
+binson_res  binson_node_detach( binson *obj, binson_node *node );
 
 /* tree traversal iteration callbacks (iterators) */
 binson_res  binson_cb_lookup_key( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );
@@ -167,10 +142,6 @@ binson_res  binson_cb_count( binson *obj, binson_node *node, binson_traverse_cb_
 binson_res  binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );
 binson_res  binson_cb_key_compare( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );
 binson_res  binson_cb_remove( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );
-
-/*
-binson_res  _binson_node_serialize_to_io( binson *obj, binson_node *node, binson_io *io );
-*/
 
 /* \brief Return version of libbinson.so installed
  *
@@ -191,7 +162,6 @@ bool  binson_lib_is_compatible()
     uint16_t major = binson_lib_get_version() >> 16;
     return (major == BINSON_MAJOR_VERSION)? true:false;
 }
-
 
 /* \brief
  *
@@ -251,10 +221,6 @@ binson_res  binson_free( binson *obj )
   if (obj->root)
     res = binson_node_remove( obj, obj->root );
 
-  /*if (obj->str_stack)
-    binson_strstack_release( obj->str_stack );
-*/
-
   if (obj)
     free( obj );
 
@@ -273,6 +239,7 @@ binson_res  binson_free( binson *obj )
  */
 binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node_type node_type, const char* key, binson_node **dst )
 {
+  binson_res res = BINSON_RES_OK;
   binson_node  *me;
 
   /* arg's validation */
@@ -286,8 +253,6 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
 
   /* prepare our node structure */
   me->type = node_type;
-  me->parent = parent;
-
 
    /* allocating and cloning key */
    if (!parent || parent->type == BINSON_TYPE_ARRAY)  /* no keys for ARRAY children */
@@ -300,24 +265,7 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
      strcpy(me->key, key);
    }
 
-   /* val field is zero initiated due to calloc call */
-
-  me->next = NULL;
-
-  /* connect new node to tree \
-     [2DO] lexi order list insert instead of list add (for all parent types but ARRAY) */
-  if (parent && parent->children.last_child)  /* parent is not empty */
-  {
-    me->prev = parent->children.last_child;
-    parent->children.last_child->next = me;
-    parent->children.last_child = me;
-  }
-  else /* parent is  empty */
-  {
-    me->prev = NULL;
-    if (parent)
-      parent->children.last_child = parent->children.first_child = me;
-  }
+  binson_node_attach( obj, parent, me );
 
   if (dst)
    *dst = me;
@@ -325,17 +273,17 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
   return BINSON_RES_OK;
 }
 
-/* \brief Adds node with prefilled value in binson_node_val struct
+/* \brief Adds node with prefilled value in binson_value struct
  *
  * \param obj binson*
  * \param parent binson_node*
  * \param node_type binson_node_type
  * \param key const char*
  * \param dst binson_node**
- * \param tmp_val binson_node_val*
+ * \param tmp_val binson_value*
  * \return binson_res
  */
-binson_res  binson_node_add( binson *obj, binson_node *parent, binson_node_type node_type, const char* key, binson_node **dst, binson_node_val *tmp_val )
+binson_res  binson_node_add( binson *obj, binson_node *parent, binson_node_type node_type, const char* key, binson_node **dst, binson_value *tmp_val )
 {
   binson_node  *node_ptr = NULL;
   binson_res   res = binson_node_add_empty( obj, parent, node_type, key, &node_ptr );
@@ -352,33 +300,98 @@ binson_res  binson_node_add( binson *obj, binson_node *parent, binson_node_type 
     return res;
 
   /* just to be sure */
-  node_ptr->children.first_child = NULL;
-  node_ptr->children.last_child = NULL;
+ /* node_ptr->first_child = NULL;
+  node_ptr->last_child = NULL;
+*/
+  return BINSON_RES_OK;
+}
+
+/* \brief Copy 'binson_value' structure, allocating memory for STRING and BYTES
+ *
+ * \param node_type binson_node_type
+ * \param dst_val binson_value*
+ * \param src_val binson_value*
+ * \return binson_res
+ */
+binson_res  binson_node_copy_val( binson_node_type node_type, binson_value *dst_val, binson_value *src_val )
+{
+  size_t  sz = 0;
+  memcpy( dst_val, src_val, sizeof(binson_value) );
+
+  if (node_type == BINSON_TYPE_STRING)
+  {
+    sz = strlen(src_val->str_val)+1;
+    dst_val->str_val = (char*) malloc( sz );
+    BINSON_ASSERT( dst_val->str_val );
+    memcpy( dst_val->str_val, src_val->str_val, sz );
+  }
+  else
+  if (node_type == BINSON_TYPE_BYTES)
+  {
+    sz = src_val->bbuf_val.bsize;
+    dst_val->bbuf_val.bptr = (uint8_t*) malloc( sz );
+    BINSON_ASSERT( dst_val->bbuf_val.bptr );
+    memcpy( dst_val->bbuf_val.bptr, src_val->bbuf_val.bptr, sz );
+  }
 
   return BINSON_RES_OK;
 }
 
-/* \brief Copy 'binson_node_val' structure, allocating memory for STRING and BYTES
+/* \brief
  *
- * \param node_type binson_node_type
- * \param dst_val binson_node_val*
- * \param src_val binson_node_val*
+ * \param obj binson*
+ * \param parent binson_node*
+ * \param new_node binson_node*
  * \return binson_res
  */
-binson_res  binson_node_copy_val( binson_node_type node_type, binson_node_val *dst_val, binson_node_val *src_val )
+binson_res  binson_node_attach( binson *obj, binson_node *parent, binson_node *new_node )
 {
-  memcpy( dst_val, src_val, sizeof(binson_node_val) );
+  new_node->parent = parent;
+  new_node->next = NULL;
 
-  /* allocate new blocks.  'v_data.size'  value in  'src_val' arg must be valid */
-  if (node_type == BINSON_TYPE_STRING || node_type == BINSON_TYPE_BYTES)
+  /* connect new node to tree */
+  if (parent && parent->last_child)  /* parent is not empty */
   {
-    dst_val->v_data.ptr = (uint8_t*) malloc(src_val->v_data.size);
-
-    if (!dst_val->v_data.ptr)
-      return BINSON_RES_ERROR_OUT_OF_MEMORY;
-
-    memcpy( dst_val->v_data.ptr, src_val->v_data.ptr, src_val->v_data.size );
+    new_node->prev = parent->last_child;
+    parent->last_child->next = new_node;
+    parent->last_child = new_node;
   }
+  else /* parent is  empty */
+  {
+    new_node->prev = NULL;
+    if (parent)
+      parent->last_child = parent->first_child = new_node;
+  }
+
+  return BINSON_RES_OK;
+}
+
+/* \brief
+ *
+ * \param obj binson*
+ * \param node binson_node*
+ * \return binson_res
+ */
+binson_res  binson_node_detach( binson *obj, binson_node *node )
+{
+  if (!obj || !node)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  if (node->parent && node->parent->last_child == node)
+    node->parent->last_child = NULL;
+
+  if (node->parent && node->parent->first_child == node)
+    node->parent->first_child = NULL;
+
+  if (node->prev)
+    node->prev->next = node->next;
+
+  if (node->next)
+    node->next->prev = node->prev;
+
+  node->parent = NULL;
+  node->prev = NULL;
+  node->next = NULL;
 
   return BINSON_RES_OK;
 }
@@ -496,23 +509,23 @@ binson_res binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_st
     break;
 
     case BINSON_TYPE_BOOLEAN:
-      res = binson_writer_write_boolean( obj->writer, node->key, node->val.b_data );
+      res = binson_writer_write_boolean( obj->writer, node->key, node->val.bool_val );
     break;
 
     case BINSON_TYPE_INTEGER:
-      res = binson_writer_write_integer( obj->writer, node->key, node->val.i_data );
+      res = binson_writer_write_integer( obj->writer, node->key, node->val.int_val );
     break;
 
     case BINSON_TYPE_DOUBLE:
-      res = binson_writer_write_double( obj->writer, node->key, node->val.d_data );
+      res = binson_writer_write_double( obj->writer, node->key, node->val.double_val );
     break;
 
     case BINSON_TYPE_STRING:
-      res = binson_writer_write_str( obj->writer, node->key, (const char*)(node->val.v_data.ptr) );
+      res = binson_writer_write_str( obj->writer, node->key, (const char*)(node->val.bbuf_val.bptr) );
     break;
 
     case BINSON_TYPE_BYTES:
-      res = binson_writer_write_bytes( obj->writer, node->key, node->val.v_data.ptr, node->val.v_data.size );
+      res = binson_writer_write_bytes( obj->writer, node->key, node->val.bbuf_val.bptr, node->val.bbuf_val.bsize );
     break;
 
     case BINSON_TYPE_UNKNOWN:
@@ -542,10 +555,10 @@ binson_res  binson_cb_dump_debug( binson *obj, binson_node *node, binson_travers
   return binson_io_printf( io, "-> #%02d, depth=%02d, dir=%02d : [node=%p, type=%d, key=\"%s\", val=%x] : \n"
                                "parent=%p, prev=%p, next=%p, fch=%p, lch=%p\n\n",
                                 status->child_num, status->depth, status->dir, status->current_node,
-                                status->current_node->type, status->current_node->key, status->current_node->val.i_data,
+                                status->current_node->type, status->current_node->key, status->current_node->val.int_val,
                                 status->current_node->parent, status->current_node->prev, status->current_node->next,
-                                status->current_node->parent, status->current_node->children.first_child,
-                                status->current_node->children.last_child );
+                                status->current_node->parent, status->current_node->first_child,
+                                status->current_node->last_child );
 }
 #endif
 
@@ -582,22 +595,30 @@ binson_res binson_cb_remove( binson *obj, binson_node *node, binson_traverse_cb_
   binson_traverse_cb_param   *p = (binson_traverse_cb_param *)param;
   UNUSED(p);
 
-  if (!obj || !node)
+/*binson_cb_dump_debug( obj, node, status, param);*/
+
+  if (!obj)
     return BINSON_RES_ERROR_ARG_WRONG;
 
   /* frees node's key memory */
   if (node->key)
   {
-     free(node->key);
-     node->key = NULL;
+    free(node->key);
+    node->key = NULL;
   }
 
   /* frees node's value memory */
-   if ((node->type == BINSON_TYPE_STRING || node->type == BINSON_TYPE_BYTES) && node->val.v_data.ptr)
-   {
-      free(node->val.v_data.ptr);
-      node->val.v_data.ptr = NULL;
-   }
+  if (node->type == BINSON_TYPE_STRING && node->val.str_val)
+  {
+    free( node->val.str_val );
+    node->val.str_val = NULL;
+  }
+  else
+  if (node->type == BINSON_TYPE_BYTES && node->val.bbuf_val.bptr)
+  {
+    free( node->val.bbuf_val.bptr );
+    node->val.bbuf_val.bptr = NULL;
+  }
 
   /* frees node itself */
   free(node);
@@ -629,9 +650,9 @@ binson_res  binson_node_add_object_empty( binson *obj, binson_node *parent, cons
  */
 binson_res  binson_node_add_boolean( binson *obj, binson_node *parent, const char* key, binson_node **dst, bool val )
 {
-  binson_node_val  tmp_val;
+  binson_value  tmp_val;
 
-  tmp_val.b_data = val;
+  tmp_val.bool_val = val;
   return binson_node_add( obj, parent, BINSON_TYPE_BOOLEAN, key, dst, &tmp_val );
 }
 
@@ -646,9 +667,9 @@ binson_res  binson_node_add_boolean( binson *obj, binson_node *parent, const cha
  */
 binson_res  binson_node_add_integer( binson *obj, binson_node *parent,  const char* key, binson_node **dst, int64_t val )
 {
-  binson_node_val  tmp_val;
+  binson_value  tmp_val;
 
-  tmp_val.i_data = val;
+  tmp_val.int_val = val;
   return binson_node_add( obj, parent, BINSON_TYPE_INTEGER, key, dst, &tmp_val );
 }
 
@@ -662,9 +683,9 @@ binson_res  binson_node_add_integer( binson *obj, binson_node *parent,  const ch
  */
 binson_res  binson_node_add_double( binson *obj, binson_node *parent, const char* key, binson_node **dst, double val )
 {
-  binson_node_val  tmp_val;
+  binson_value  tmp_val;
 
-  tmp_val.d_data = val;
+  tmp_val.double_val = val;
   return binson_node_add( obj, parent, BINSON_TYPE_DOUBLE, key, dst, &tmp_val );
 }
 
@@ -676,11 +697,9 @@ binson_res  binson_node_add_double( binson *obj, binson_node *parent, const char
  */
 binson_res  binson_node_add_str( binson *obj, binson_node *parent, const char* key, binson_node **dst, const char* val )
 {
-  binson_node_val  tmp_val;
+  binson_value  tmp_val;
 
-  tmp_val.v_data.ptr = (uint8_t*)val;
-  tmp_val.v_data.size = strlen(val)+1;  /* need to copy trailing zero also */
-
+  tmp_val.str_val = (char*)val;
   return binson_node_add( obj, parent, BINSON_TYPE_STRING, key, dst, &tmp_val );
 }
 
@@ -696,11 +715,10 @@ binson_res  binson_node_add_str( binson *obj, binson_node *parent, const char* k
  */
 binson_res  binson_node_add_bytes( binson *obj, binson_node *parent, const char* key, binson_node **dst, uint8_t *src_ptr,  size_t src_size )
 {
-  binson_node_val  tmp_val;
+  binson_value  tmp_val;
 
-  tmp_val.v_data.ptr = src_ptr;
-  tmp_val.v_data.size = src_size;
-
+  tmp_val.bbuf_val.bptr   = src_ptr;
+  tmp_val.bbuf_val.bsize  = src_size;
   return binson_node_add( obj, parent, BINSON_TYPE_BYTES, key, dst, &tmp_val );
 }
 
@@ -731,7 +749,7 @@ binson_res  binson_node_add_array_empty( binson *obj, binson_node *parent, const
   return  binson_node_add_empty( obj, parent, BINSON_TYPE_ARRAY, key, dst );
 }
 
-/* \brief Remove subtree with specified node as root
+/** \brief Remove subtree with specified node as root
  *
  * \param obj binson*
  * \param node binson_node*
@@ -739,7 +757,35 @@ binson_res  binson_node_add_array_empty( binson *obj, binson_node *parent, const
  */
 binson_res  binson_node_remove( binson *obj, binson_node *node )
 {
-  return binson_traverse( obj, node, BINSON_TRAVERSE_POSTORDER, BINSON_DEPTH_LIMIT, binson_cb_remove, NULL );
+  binson_res   res = BINSON_RES_OK;
+  binson_node *parent, *prev, *next;
+
+  if (!obj || !node)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  /* save ptrs  because tree traversal will break subtree */
+  parent = node->parent;
+  prev   = node->prev;
+  next   = node->next;
+
+  res = binson_traverse( obj, node, BINSON_TRAVERSE_POSTORDER, BINSON_DEPTH_LIMIT, binson_cb_remove, NULL );  /* free all subtree mallocs */
+
+  if (!parent)
+    obj->root = NULL;
+  else
+  {
+    if (prev && next)
+      prev->next = next;
+      next->prev = prev;
+
+    if (!prev)
+      parent->first_child = next;
+
+    if (!next)
+      parent->last_child = prev;
+  }
+
+  return res;
 }
 
 /* \brief
@@ -799,6 +845,9 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
       status->depth       = 0;
       status->done        = false;
 
+      /* required for tree deletion to prevent sawing one's bough */
+      memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
+
       /* check if we need to process root node at first iteration */
       if (status->t_method != BINSON_TRAVERSE_POSTORDER)
         return status->cb( status->obj, status->current_node, status, status->param );
@@ -810,13 +859,16 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
     /* non-first iteration. */
     if (status->dir == BINSON_TRAVERSE_DIR_UP ||
         status->depth >= status->max_depth ||
-        status->current_node->children.first_child == NULL)  /* there is no way down */
+        status->current_node_copy.first_child == NULL)  /* there is no way down */
     {
-      if (status->current_node && status->current_node->next) /* we can move right */
+      if (status->current_node && status->current_node_copy.next) /* we can move right */
       {
-          status->current_node = status->current_node->next;  /* update current node to it */
+          status->current_node = status->current_node_copy.next;  /* update current node to it */
           status->dir = BINSON_TRAVERSE_DIR_RIGHT;
           status->child_num++;  /* keep track of index */
+
+          /* required for tree deletion to prevent sawing one's bough */
+          memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
 
           /* processing moment doesn't depend on preorder/postorder for leaves */
           return status->cb( status->obj, status->current_node, status, status->param );
@@ -830,10 +882,13 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
             status->current_node = status->root_node;
             status->done = true;
           }
-          else  if (status->current_node->parent) /* next node to process will be parent of the current node */
+          else  if (status->current_node_copy.parent) /* next node to process will be parent of the current node */
           {
-            status->current_node = status->current_node->parent;
+            status->current_node = status->current_node_copy.parent;
             status->depth--;
+
+            /* required for tree deletion to prevent sawing one's bough */
+            memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
 
             if (status->t_method != BINSON_TRAVERSE_PREORDER)  /* for postorder and 'bothorder' */
               res = status->cb( status->obj, status->current_node, status, status->param );   /* invoke callback for previous node  */
@@ -842,12 +897,15 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
     }
     else  /* last processed has some children */
     {
-       status->current_node = status->current_node->children.first_child;   /* select leftmost child */
+       status->current_node = status->current_node_copy.first_child;   /* select leftmost child */
        status->dir         = BINSON_TRAVERSE_DIR_DOWN;
        status->child_num   = 0;
        status->depth++;
 
-      if (status->t_method != BINSON_TRAVERSE_POSTORDER || status->current_node->children.first_child == NULL)
+       /* required for tree deletion to prevent sawing one's bough */
+       memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
+
+      if (status->t_method != BINSON_TRAVERSE_POSTORDER || status->current_node_copy.first_child == NULL)
         return status->cb( status->obj, status->current_node, status, status->param );
     }
 
@@ -899,9 +957,7 @@ binson_res  binson_traverse( binson *obj, binson_node *root_node, binson_travers
   binson_res res = binson_traverse_begin( obj, root_node, t_method, max_depth, cb, &status, param );
 
   while (!binson_traverse_is_done( &status ))
-  {
     res = binson_traverse_next( &status );
-  };
 
   return res;
 }
@@ -942,9 +998,9 @@ const char*    binson_node_get_key( binson_node *node )
 /* \brief Get node value struct pointer
  *
  * \param node binson_node*
- * \return binson_node_val*
+ * \return binson_value*
  */
-binson_node_val*    binson_node_get_val( binson_node *node )
+binson_value*    binson_node_get_val( binson_node *node )
 {
   return &node->val;
 }
@@ -1014,10 +1070,10 @@ binson_node*    binson_node_get_next( binson_node *node )
  */
 binson_node*  binson_node_get_first_sibling( binson_node *node )
 {
-   if (!node || !node->parent || (node == node->parent->children.first_child))
+   if (!node || !node->parent || (node == node->parent->first_child))
      return NULL;
 
-   return node->parent->children.first_child;
+   return node->parent->first_child;
 }
 
 /* \brief Get most right sibling of the node
@@ -1027,10 +1083,10 @@ binson_node*  binson_node_get_first_sibling( binson_node *node )
  */
 binson_node*  binson_node_get_last_sibling( binson_node *node )
 {
-  if (!node || !node->parent || (node == node->parent->children.last_child))
+  if (!node || !node->parent || (node == node->parent->last_child))
      return NULL;
 
-   return node->parent->children.last_child;
+   return node->parent->last_child;
 }
 
 /* \brief Get first child of the node
@@ -1043,7 +1099,7 @@ binson_node*  binson_node_get_first_child( binson_node *node )
   if (!node || binson_node_is_leaf_type(node))
     return NULL;
 
-  return node->children.first_child;
+  return node->first_child;
 }
 
 /* \brief Get last child of the node
@@ -1056,5 +1112,5 @@ binson_node*  binson_node_get_last_child( binson_node *node )
   if (!node || binson_node_is_leaf_type(node))
     return NULL;
 
-  return node->children.last_child;
+  return node->last_child;
 }
