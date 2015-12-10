@@ -46,7 +46,7 @@ int main()
 
     /* DEBUG: test tree traversal */
 #ifdef DEBUG
-     printf("\n\n---------------\n");
+     printf("\n\n------ postorder tree traversal (e.g. to debug tree deletion)  ---------\n");
      binson_traverse( context, binson_get_root(context), BINSON_TRAVERSE_POSTORDER, BINSON_DEPTH_LIMIT, binson_cb_dump_debug, NULL );
      printf("---------------\n");
 #endif

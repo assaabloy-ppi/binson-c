@@ -42,7 +42,7 @@
 	"binson_error.h"
 	"binson_io.h"
 
-1449601268 /home/kotomysha/binson/binson-c/src/binson_parser.h
+1449782287 /home/kotomysha/binson/binson-c/src/binson_parser.h
 	"binson_config.h"
 	"binson_common.h"
 	"binson_error.h"
@@ -68,4 +68,16 @@
 1449770064 source:/home/kotomysha/binson/binson-c/examples/debug_features.c
 	<stdio.h>
 	"../src/binson.h"
+
+1449783309 source:/home/kotomysha/binson/binson-c/examples/common.c
+	"common.h"
+
+1449783083 /home/kotomysha/binson/binson-c/examples/common.h
+	<math.h>
+	"../src/binson.h"
+
+1449787350 source:/home/kotomysha/binson/binson-c/examples/recycle.c
+	<stdio.h>
+	"../src/binson.h"
+	"common.h"
 

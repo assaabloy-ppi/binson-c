@@ -886,13 +886,14 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
           {
             status->current_node = status->current_node_copy.parent;
             status->depth--;
+          }
 
             /* required for tree deletion to prevent sawing one's bough */
             memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
 
             if (status->t_method != BINSON_TRAVERSE_PREORDER)  /* for postorder and 'bothorder' */
               res = status->cb( status->obj, status->current_node, status, status->param );   /* invoke callback for previous node  */
-          }
+
       }
     }
     else  /* last processed has some children */

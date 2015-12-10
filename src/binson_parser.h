@@ -75,7 +75,7 @@ typedef struct binson_token {
 
   binson_token_type        ttype;
 
-  binson_raw_offset        offset_self;         /**< Token's first byte. Offset from root's first byte. */
+  binson_raw_offset        offset_self;    /**< Token's first byte. Offset from root's first byte. */
 
   binson_raw_offset        offset_root;    /**<  */
   binson_raw_offset        offset_parent;  /**<  */

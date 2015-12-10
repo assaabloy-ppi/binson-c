@@ -5,18 +5,7 @@
 
 #include <stdio.h>
 #include "../src/binson.h"
-
-void build_dom( binson *ctx, binson_node *root )
-{
-  binson_res       res;
-  binson_node      *n1, *n2, *n3;
-
-  res = binson_node_add_object_empty( ctx, root, "key_1",  &n1);
-  res = binson_node_add_object_empty( ctx, n1, "key_2",  &n2);
-  res = binson_node_add_integer( ctx, n2, "key_3", &n3, 333);
-  res = binson_node_add_boolean( ctx, n2, "key_4", &n3, true);
-  res = binson_node_add_double( ctx, n2, "key_5", &n3, -3.1415);
-}
+#include "common.h"
 
 int main()
 {
@@ -24,16 +13,18 @@ int main()
     binson_writer   *writer;
     binson_parser   *parser;
 
-    binson_io       *err_io, *in, *out;
+    binson_io       *err_io, *in, *out, *fio;
     binson_res       res;
 
     res = binson_io_new( &err_io );
     res = binson_io_new( &in );
     res = binson_io_new( &out );
+    res = binson_io_new( &fio );
 
     res = binson_io_attach_stream( err_io, stdout );
     res = binson_io_attach_stream( in, stdin );
     res = binson_io_attach_stream( out, stdout );
+    res = binson_io_open_file( fio, "./output_model_dom.bson", BINSON_IO_MODE_WRITE | BINSON_IO_MODE_CREATE );
 
     res = binson_writer_new( &writer );
     res = binson_writer_init( writer, out, BINSON_WRITER_FORMAT_JSON_NICE );
@@ -51,6 +42,11 @@ int main()
     res = binson_serialize( context );
     res = binson_io_printf( out, "\n---------------\n" );
     res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_HEX );
+    res = binson_serialize( context );
+
+    /* save to file as raw binson format */
+    res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_RAW );
+    res = binson_writer_set_io( writer, fio );
     res = binson_serialize( context );
 
     /* we are done. freeing resources */
