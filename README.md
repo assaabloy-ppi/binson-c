@@ -19,14 +19,13 @@ Features
 
 ToDo
 ========
-* Lexicographic key sorting
-* Adopt interfaces to provide model's storage abstraction
-* Extensive error handling
 * Test on bigendian (ARM, etc) platforms
 * Unit testing configuration
 * Binson-java compatibility testing
-* ABI review
 * Integrate with CMake build system
+* Extensive error handling
+* Adopt interfaces to provide model's storage abstraction
+* ABI review
 
 Feature requests
 ================
