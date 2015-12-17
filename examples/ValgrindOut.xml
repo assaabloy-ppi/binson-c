@@ -12,7 +12,7 @@
   <line>Command: /home/kotomysha/binson/binson-c/examples/bin/Debug/recycle </line>
 </preamble>
 
-<pid>17014</pid>
+<pid>17241</pid>
 <ppid>8917</ppid>
 <tool>memcheck</tool>
 
@@ -32,13 +32,13 @@
 
 <status>
   <state>RUNNING</state>
-  <time>00:00:00:00.201 </time>
+  <time>00:00:00:00.266 </time>
 </status>
 
 
 <status>
   <state>FINISHED</state>
-  <time>00:00:00:01.322 </time>
+  <time>00:00:00:01.461 </time>
 </status>
 
 <errorcounts>
