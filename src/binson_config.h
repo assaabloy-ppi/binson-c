@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -146,6 +146,11 @@ typedef  BINSON_NODE_NUM_T   binson_node_num;
 
 #define WITH_BINSON_JSON_OUTPUT                /**< Build \c binson_writer with JSON output support */
 #define BINSON_JSON_OBJ_LENGTH_LIMIT     256   /**< Max number or chars in JSON-dumped representation of object */
+
+#define BINSON_TOKEN_BUF_SIZE             16    /**< Initial/regular size of token buffer storage */
+#define BINSON_TOKEN_BUF_TOKS             2     /**< Maximim number of tokens to keep in token buffer */
+
+#define BINSON_RAW_SIG_SIZE               1     /**< How many bytes occupies type signature */
 
 #ifdef __cplusplus
 }

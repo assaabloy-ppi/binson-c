@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -42,28 +42,30 @@
 #include "binson_config.h"
 #include "binson_common_pvt.h"
 #include "binson_parser.h"
+#include "binson_token_buf.h"
 
-
+/**
+ *  Parser context
+ */
 typedef struct binson_parser_
 {
-  binson_io*            source;          /* Associated  'binson_io' struct */
+  binson_io            *source;
   binson_parser_mode    mode;
 
-  bool is_done;                      /* Parsing finished */
+  binson_token_buf     *token_buf;
+
+  /* store status data between iterations */
+  binson_parser_cb      cb;
+  void*                 param;
+
+  bool                  sig_stack[BINSON_DEPTH_LIMIT];  /* used to decide do we need to request key-val pair or just val */
+  binson_depth          depth;
+
+  bool                  done;                      /* Parsing finished */
+  bool                  valid;                     /* false if something in raw input was violate binson specs */
+
 
 } binson_parser_;
-
-
-/* \brief Validates binson signature
- *
- * \param byte uint8_t
- * \return bool
- */
-bool is_sig( uint8_t byte )
-{
-  return true;
-}
-
 
 /* \brief
  *
@@ -72,16 +74,25 @@ bool is_sig( uint8_t byte )
  */
 binson_res  binson_parser_new( binson_parser **pparser )
 {
+  binson_res  res;
+
   /* Initial parameter validation */
   if (!pparser )
     return BINSON_RES_ERROR_ARG_WRONG;
 
   *pparser = (binson_parser *)malloc(sizeof(binson_parser_));
+  if (!*pparser)
+    return BINSON_RES_ERROR_OUT_OF_MEMORY;
+
+  res =  binson_token_buf_new( &((*pparser)->token_buf) );
+
+  if (!(*pparser)->token_buf)
+    return BINSON_RES_ERROR_OUT_OF_MEMORY;
 
   return BINSON_RES_OK;
 }
 
-/* \brief
+/*8 \brief
  *
  * \param parser binson_parser*
  * \param source binson_io*
@@ -90,14 +101,32 @@ binson_res  binson_parser_new( binson_parser **pparser )
  */
 binson_res  binson_parser_init( binson_parser *parser, binson_io *source, binson_parser_mode mode )
 {
+  binson_res  res;
+
   /* Initial parameter validation */
   if (!parser || !source || mode < 0 || mode >= BINSON_PARSER_MODE_LAST )
     return BINSON_RES_ERROR_ARG_WRONG;
 
-  parser->source    = source;
-  parser->mode  = mode;
+  parser->source  = source;
+  parser->mode    = mode;
 
-  return BINSON_RES_OK;
+  parser->done              = false;
+  parser->valid             = true;
+  parser->depth             = 0;
+
+  res = binson_token_buf_init( parser->token_buf, NULL, 0, parser->source );
+
+  return res;
+}
+
+/** \brief Reset parser after previous invalid parsing session
+ *
+ * \param parser binson_parser*
+ * \return binson_res
+ */
+binson_res  binson_parser_reset( binson_parser *parser )
+{
+  return binson_parser_init( parser, parser->source, parser->mode );
 }
 
 /* \brief
@@ -110,6 +139,9 @@ binson_res  binson_parser_free( binson_parser *parser )
   /* Initial parameter validation */
   if (!parser)
     return BINSON_RES_ERROR_ARG_WRONG;
+
+  if (parser->token_buf)
+    binson_token_buf_free( parser->token_buf );
 
   if (parser)
     free( parser );
@@ -173,7 +205,15 @@ binson_res  binson_parser_set_mode( binson_parser *parser, binson_parser_mode mo
  */
 binson_res  binson_parser_parse( binson_parser *parser, binson_parser_cb cb, void* param )
 {
+  bool valid;
+  binson_res  res;
 
+  res = binson_parser_parse_first( parser, cb, param );  /* Request single token at first stage of parsing */
+
+  while (!parser->done && parser->valid )
+    res = binson_parser_parse_next( parser );
+
+  return res;
 }
 
 /* \brief
@@ -185,7 +225,59 @@ binson_res  binson_parser_parse( binson_parser *parser, binson_parser_cb cb, voi
  */
 binson_res  binson_parser_parse_first( binson_parser *parser, binson_parser_cb cb, void* param )
 {
+  binson_res  res;
+  uint8_t     tok_request, sig;
+  bool        valid, partial;
 
+  if (!parser)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  if (cb)
+  {
+    parser->cb                = cb;
+    parser->param             = param;
+    parser->depth             = 0;
+  }
+
+  res = binson_token_buf_reset( parser->token_buf );  /* make sure token buffer is empty */
+
+  tok_request = parser->depth? (parser->sig_stack[parser->depth-1] == BINSON_SIG_OBJ_BEGIN? 2:1) : 1;
+
+  res = binson_token_buf_token_fill( parser->token_buf, &tok_request );
+  res = binson_token_buf_is_valid( parser->token_buf, &valid );
+
+  if (!valid)
+    return BINSON_RES_ERROR_PARSE_INVALID_INPUT;
+
+  res = binson_token_buf_is_partial( parser->token_buf, &partial );
+
+  if (!partial)  /* ??? */
+    return BINSON_RES_ERROR_PARSE_PART;
+
+  res = binson_token_buf_get_sig( parser->token_buf, tok_request-1 , &sig );  /* request signature for value part of key-value pair */
+
+  switch (sig)
+  {
+    case BINSON_SIG_OBJ_BEGIN:
+    case BINSON_SIG_ARRAY_BEGIN:
+      parser->sig_stack[ parser->depth ] = sig;
+      parser->depth++;
+    break;
+
+    case BINSON_SIG_OBJ_END:
+    case BINSON_SIG_ARRAY_END:
+      parser->depth--;
+      if (!parser->depth)
+        parser->done = true;
+    break;
+
+    default:
+    break;
+  }
+
+  res = parser->cb( parser, tok_request, parser->token_buf, parser->param );
+
+  return BINSON_RES_OK;
 }
 
 /* \brief
@@ -195,19 +287,41 @@ binson_res  binson_parser_parse_first( binson_parser *parser, binson_parser_cb c
  */
 binson_res  binson_parser_parse_next( binson_parser *parser )
 {
-
+  return binson_parser_parse_first( parser, NULL, NULL );
 }
 
-/* \brief
+/** \brief
  *
  * \param parser binson_parser*
  * \return bool
  */
 bool  binson_parser_is_done( binson_parser *parser )
 {
-  return parser->is_done;
+  return parser->done;
 }
 
+/** \brief
+ *
+ * \param parser binson_parser*
+ * \return bool
+ */
+bool binson_parser_is_valid( binson_parser *parser )
+{
+  return parser->valid;
+}
+
+/* \brief Input validation callback.
+ *
+ * \param parser binson_parser*
+ * \param token binson_token*
+ * \param param void*
+ * \return binson_res
+ */
+/*binson_res  binson_parser_cb_validate( binson_parser *parser, binson_token *token, void* param )
+{
+
+}
+*/
 /* \brief
  *
  * \param parser binson_parser*
@@ -255,10 +369,10 @@ bool  binson_parser_is_done( binson_parser *parser )
  * \param val bool*
  * \return binson_res
  */
-binson_res binson_token_parse_boolean( binson_parser *parser, binson_token *token, bool *val )
+/*binson_res binson_token_parse_boolean( binson_parser *parser, binson_token *token, bool *val )
 {
 
-}
+}*/
 
 /* \brief
  *
@@ -267,10 +381,10 @@ binson_res binson_token_parse_boolean( binson_parser *parser, binson_token *toke
  * \param val int64_t*
  * \return binson_res
  */
-binson_res token_parse_integer( binson_parser *parser, binson_token *token, int64_t *val )
+/*binson_res token_parse_integer( binson_parser *parser, binson_token *token, int64_t *val )
 {
 
-}
+}*/
 
 /* \brief
  *
@@ -279,10 +393,10 @@ binson_res token_parse_integer( binson_parser *parser, binson_token *token, int6
  * \param val double*
  * \return binson_res
  */
-binson_res token_parse_double( binson_parser *parser, binson_token *token, double *val )
+/*binson_res token_parse_double( binson_parser *parser, binson_token *token, double *val )
 {
 
-}
+}*/
 
 /* \brief
  *
@@ -291,10 +405,10 @@ binson_res token_parse_double( binson_parser *parser, binson_token *token, doubl
  * \param val char*
  * \return binson_res
  */
-binson_res token_parse_str( binson_parser *parser, binson_token *token, char *val )
+/*binson_res token_parse_str( binson_parser *parser, binson_token *token, char *val )
 {
 
-}
+}*/
 
 /* \brief
  *
@@ -304,7 +418,7 @@ binson_res token_parse_str( binson_parser *parser, binson_token *token, char *va
  * \param bsize size_t*
  * \return binson_res
  */
-binson_res token_parse_bytes( binson_parser *parser, binson_token *token, uint8_t *bptr, size_t *bsize )
+/*binson_res token_parse_bytes( binson_parser *parser, binson_token *token, uint8_t *bptr, size_t *bsize )
 {
 
-}
+}*/

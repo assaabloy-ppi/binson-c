@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -39,6 +39,8 @@
 #ifndef BINSON_COMMON_PVT_H_INCLUDED
 #define BINSON_COMMON_PVT_H_INCLUDED
 
+#include "binson_common.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -67,7 +69,7 @@ extern "C" {
 #define BINSON_SIG_BYTES_32       0x1a
 
 
-/*binson_node_type   binson_common_map_sig_to_node_type( uint8_t sig );*/
+binson_node_type  binson_common_map_sig_to_node_type( uint8_t sig, bool *pclosing_tag );
 
 
 #ifdef __cplusplus

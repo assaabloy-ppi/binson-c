@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -99,9 +99,11 @@ typedef enum binson_res_ {
     BINSON_RES_ERROR_IO_TYPE_UNKNOWN,
 
     /**< binson parsing errors */
-    BINSON_RES_ERROR_PARSE_INVALID_SIG,
+    BINSON_RES_ERROR_PARSE_INVALID_INPUT,   /**< can't parse input data */
+    BINSON_RES_ERROR_PARSE_PART,            /**< partial content */
     BINSON_RES_ERROR_PARSE_SUSPENDED,       /**< Used from callback to postpone parsing */
     BINSON_RES_ERROR_PARSE_INVALID_STR,     /**< String is not vilid UTF-8 string */
+    BINSON_RES_ERROR_PARSE_TOKEN_BUF_FULL,  /**< Token buffer already contains maximum allowed number of tokens */
 
     /**< internal library errors/failures codes */
     BINSON_RES_ERROR_ASSERT_FAILED      = 512,

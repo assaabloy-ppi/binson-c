@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -72,7 +72,7 @@ uint8_t binson_util_get_significant_bytes( int64_t i )
 size_t binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int )
 {
   size_t i;
-  const uint8_t int_map[] = { 1, 1, 2, 4, 4, 8, 8, 8, 8 }; /**< Maps number of bytes to closes int size */
+  const uint8_t int_map[] = { 1, 1, 2, 4, 4, 8, 8, 8, 8 }; /**< Maps number of bytes to closest int size */
 
   size_t size, empty_cnt = 0;
   bool neg = (val<0);
@@ -108,3 +108,41 @@ size_t binson_util_pack_double( double val, uint8_t *bbuf )
   return sizeof(double);
 }
 
+
+/** \brief
+ *
+ * \param bbuf uint8_t*
+ * \param bsize uint8_t
+ * \return int64_t
+ */
+int64_t  binson_util_unpack_integer( uint8_t *bbuf, uint8_t bsize )
+{
+  int i;
+  int64_t i64 = 0;
+
+  for (i=bsize-1; i>=0; i--)
+  {
+    i64 <<= 8;
+    i64 |= bbuf[i];
+  }
+
+  return i64;
+}
+
+
+
+/** \brief
+ *
+ * \param bbuf uint8_t*
+ * \return double
+ */
+double  binson_util_unpack_double( uint8_t *bbuf )
+{
+  union {
+    double dval;
+    int64_t ival;
+  } utmp;
+
+  utmp.ival = binson_util_unpack_integer( bbuf, sizeof(double) );
+  return utmp.dval;
+}

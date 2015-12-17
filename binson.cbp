@@ -82,6 +82,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/binson_parser.h" />
+		<Unit filename="src/binson_token_buf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/binson_token_buf.h" />
 		<Unit filename="src/binson_utf8.c">
 			<Option compilerVar="CC" />
 		</Unit>

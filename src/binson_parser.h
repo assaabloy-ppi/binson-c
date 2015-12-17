@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -43,6 +43,8 @@
 #include "binson_common.h"
 #include "binson_error.h"
 #include "binson_io.h"
+#include "binson_token_buf.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,7 +53,8 @@ extern "C" {
 /**
  *  Forward declarations
  */
-typedef struct binson_parser_  binson_parser;
+typedef struct binson_parser_     binson_parser;
+typedef struct binson_token_ref_  binson_token_ref;
 
 /**
  *  Binson parser mode enum type
@@ -66,43 +69,17 @@ typedef enum {
 } binson_parser_mode;
 
 
-
-/**
- *  Public structure to retreive parsed data via callback function.
- *  May be used for building custom models, etc
- */
-typedef struct binson_token {
-
-  binson_token_type        ttype;
-
-  binson_raw_offset        offset_self;    /**< Token's first byte. Offset from root's first byte. */
-
-  binson_raw_offset        offset_root;    /**<  */
-  binson_raw_offset        offset_parent;  /**<  */
-  binson_raw_offset        offset_next;
-
-  binson_raw_offset        offset_key_raw;
-  binson_raw_size          key_raw_size;
-
-  binson_raw_offset        offset_val_raw;
-  binson_raw_size          val_raw_size;
-
-  binson_depth             depth;          /**< Current node/token depth. Depth of root is 0. */
-
-} binson_token;
-
-
-
 /**
  *  Parsing callback declaration
  */
-typedef binson_res (*binson_parser_cb)( binson_parser *parser, binson_token *token, void* param );
+typedef binson_res (*binson_parser_cb)( binson_parser *parser, uint8_t token_cnt, binson_token_buf *tbuf, void* param );
 
 /**
  *  Binson parser API calls
  */
 binson_res  binson_parser_new( binson_parser **pparser );
 binson_res  binson_parser_init( binson_parser *parser, binson_io *source, binson_parser_mode mode );
+binson_res  binson_parser_reset( binson_parser *parser );
 binson_res  binson_parser_free( binson_parser *parser );
 binson_res  binson_parser_set_io( binson_parser *parser, binson_io *source );
 binson_res  binson_parser_set_mode( binson_parser *parser, binson_parser_mode mode );
@@ -111,6 +88,12 @@ binson_res  binson_parser_parse( binson_parser *parser, binson_parser_cb cb, voi
 binson_res  binson_parser_parse_first( binson_parser *parser, binson_parser_cb cb, void* param );
 binson_res  binson_parser_parse_next( binson_parser *parser );
 bool        binson_parser_is_done( binson_parser *parser );
+bool        binson_parser_is_valid( binson_parser *parser );
+
+bool        binson_parser_copy_token_to_( binson_parser *parser, binson_token_ref *token );
+
+/*binson_res  binson_parser_validate( binson_parser *parser );*/
+
 
 /* binson_res        binson_token_parse( binson_parser *parser, binson_token *token, binson_value *val );*/
 

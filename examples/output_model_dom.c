@@ -16,6 +16,9 @@ int main()
     binson_io       *err_io, *in, *out, *fio;
     binson_res       res;
 
+    /* DEBUG: disable stdout buffering for debugging purposes */
+    setvbuf(stdout, NULL, _IONBF, 0);
+
     res = binson_io_new( &err_io );
     res = binson_io_new( &in );
     res = binson_io_new( &out );
@@ -36,11 +39,12 @@ int main()
     res = binson_init( context, writer, parser, err_io );
 
     /* ready to build DOM */
-    build_dom( context, binson_get_root( context ) );
+    gen_sample_data_binson( context, binson_get_root( context ) );
 
     /* serialize via attached 'binson_writer' */
     res = binson_serialize( context );
     res = binson_io_printf( out, "\n---------------\n" );
+
     res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_HEX );
     res = binson_serialize( context );
 
@@ -57,6 +61,7 @@ int main()
     res = binson_io_free( err_io );
     res = binson_io_free( in );
     res = binson_io_free( out );
+    res = binson_io_free( fio );
 
    return res;
 }

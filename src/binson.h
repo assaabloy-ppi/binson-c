@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -144,7 +144,7 @@ binson_res  binson_node_remove( binson *obj, binson_node *node );
  *  Serialization/deserialization
  */
 binson_res  binson_serialize( binson *obj );
-binson_res  binson_deserialize( binson *obj, bool validate_only );
+binson_res  binson_deserialize( binson *obj, binson_node *parent, const char* key, bool validate_only );
 
 /**
  *  Node level getters/setters

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -101,6 +101,25 @@ typedef union binson_value {
     } bbuf_val;
 
 } binson_value;
+
+
+/**
+ *  Raw payload data type. String are NOT zero terminated
+ */
+typedef union binson_raw_value {
+
+    bool      bool_val;
+    int64_t   int_val;
+    double    double_val;
+
+    struct bbuf_val bbuf_val;
+  /*  {
+      uint8_t         *bptr;
+      binson_size      bsize;
+
+    } bbuf_val;*/
+
+} binson_raw_value;
 
 
 #ifdef __cplusplus

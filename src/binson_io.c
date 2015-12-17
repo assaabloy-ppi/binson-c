@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -120,10 +120,15 @@ binson_res  binson_io_init( binson_io *io )
  */
 binson_res  binson_io_free( binson_io *io )
 {
-  if (io)
-    free(io);
+  binson_res  res;
 
-  return BINSON_RES_OK;
+  if (!io)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  res = binson_io_close( io );
+  free( io );
+
+  return res;
 }
 
 /** \brief Open file with specified access mode and attach it to \c binson_io object

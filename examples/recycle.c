@@ -2,7 +2,7 @@
  *  Serialization / deserialization consistency test
  *  This example reads raw binson .bson file, parse it
  *  to DOM model, output DOM model to console as HEX + JSON
- *  and serialize back to another file to see both
+ *  and serialize back to another file to make sure both
  *  files are identical
  */
 
@@ -18,6 +18,9 @@ int main()
 
     binson_io       *err_io, *fin, *fout, *con;
     binson_res       res;
+
+    /* DEBUG: disable stdout buffering for debugging purposes */
+    /*setvbuf(stdout, NULL, _IONBF, 0);*/
 
     res = binson_io_new( &err_io );
     res = binson_io_new( &fin );
@@ -39,7 +42,7 @@ int main()
     res = binson_init( context, writer, parser, err_io );
 
     /* ready to build DOM */
-    /*res = binson_deserialize( context, false );*/
+    res = binson_deserialize( context, NULL, "def_key", false );
 
     /* serialize via attached 'binson_writer' */
     res = binson_serialize( context );

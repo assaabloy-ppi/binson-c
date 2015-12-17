@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1449182217 source:/home/kotomysha/binson/binson-c/src/binson.c
+1450217736 source:/home/kotomysha/binson/binson-c/src/binson.c
 	<stdlib.h>
 	<string.h>
 	<float.h>
@@ -10,19 +10,21 @@
 	"binson_util.h"
 	"binson_writer.h"
 	"binson_parser.h"
+	"binson_token_buf.h"
 
-1449062663 /home/kotomysha/binson/binson-c/src/binson.h
+1450208464 /home/kotomysha/binson/binson-c/src/binson.h
 	<stdio.h>
 	<stdarg.h>
 	"binson_config.h"
+	"binson_common.h"
 	"binson_error.h"
 	"binson_io.h"
 	"binson_writer.h"
 	"binson_parser.h"
 
-1449528899 /home/kotomysha/binson/binson-c/src/binson_config.h
+1449955897 /home/kotomysha/binson/binson-c/src/binson_config.h
 
-1449522239 /home/kotomysha/binson/binson-c/src/binson_error.h
+1450101386 /home/kotomysha/binson/binson-c/src/binson_error.h
 	<stddef.h>
 	"binson_config.h"
 
@@ -38,13 +40,14 @@
 	"binson_error.h"
 	"binson_io.h"
 
-1449601268 /home/kotomysha/binson/binson-c/src/binson_parser.h
+1450215368 /home/kotomysha/binson/binson-c/src/binson_parser.h
 	"binson_config.h"
 	"binson_common.h"
 	"binson_error.h"
 	"binson_io.h"
+	"binson_token_buf.h"
 
-1449596630 /home/kotomysha/binson/binson-c/src/binson_util.h
+1450101386 /home/kotomysha/binson/binson-c/src/binson_util.h
 	<stddef.h>
 	"binson_config.h"
 	"binson_error.h"
@@ -64,12 +67,13 @@
 	"binson_io.h"
 	"binson_util.h"
 
-1449651309 source:/home/kotomysha/binson/binson-c/src/binson_parser.c
+1450217926 source:/home/kotomysha/binson/binson-c/src/binson_parser.c
 	<string.h>
 	<stdlib.h>
 	"binson_config.h"
 	"binson_common_pvt.h"
 	"binson_parser.h"
+	"binson_token_buf.h"
 
 1449321215 source:/home/kotomysha/binson/binson-c/src/binson_utf8.c
 	<stdlib.h>
@@ -97,12 +101,18 @@
 1449576251 source:/home/kotomysha/binson/binson-c/src/binson_common.c
 	"binson_common.h"
 
-1449746963 /home/kotomysha/binson/binson-c/src/binson_common.h
+1450214977 /home/kotomysha/binson/binson-c/src/binson_common.h
 	"binson_config.h"
 	"binson_error.h"
 
-1449596595 source:/home/kotomysha/binson/binson-c/src/binson_common_pvt.c
+1450216228 source:/home/kotomysha/binson/binson-c/src/binson_common_pvt.c
 	"binson_common_pvt.h"
 
-1449596575 /home/kotomysha/binson/binson-c/src/binson_common_pvt.h
+1450217817 /home/kotomysha/binson/binson-c/src/binson_common_pvt.h
+	"binson_common.h"
+
+1450217637 /home/kotomysha/binson/binson-c/src/binson_token_buf.h
+	"binson_config.h"
+	"binson_common.h"
+	"binson_error.h"
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -47,6 +47,7 @@
 #include "binson_util.h"
 #include "binson_writer.h"
 #include "binson_parser.h"
+#include "binson_token_buf.h"
 
 #define BINSON_VERSION_HEX    ((BINSON_MAJOR_VERSION << 16) |   \
                               (BINSON_MINOR_VERSION << 8)  |   \
@@ -129,9 +130,22 @@ typedef struct binson_traverse_cb_param_
 
 } binson_traverse_cb_param_;
 
+
+/* used by binson_cb_build() callback */
+typedef struct binson_cb_build_param_
+{
+    binson                         *obj;
+    binson_node                    *root_node;
+    const char                     *top_key;
+
+    binson_node                    *parent_last;  /* parent for last added node */
+
+} binson_cb_build_param_;
+
 /* private helper functions */
 binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node_type node_type, const char* key, binson_node **dst );
 binson_res  binson_node_copy_val( binson_node_type node_type, binson_value *dst_val, binson_value *src_val );
+binson_res  binson_node_copy_val_from_raw( binson_node_type node_type, binson_value *dst_val, binson_raw_value *src_val );
 binson_res  binson_node_attach( binson *obj, binson_node *parent, binson_node *new_node );
 binson_res  binson_node_detach( binson *obj, binson_node *node );
 
@@ -306,7 +320,7 @@ binson_res  binson_node_add( binson *obj, binson_node *parent, binson_node_type 
   return BINSON_RES_OK;
 }
 
-/* \brief Copy 'binson_value' structure, allocating memory for STRING and BYTES
+/** \brief Copy 'binson_value' structure, allocating memory for STRING and BYTES
  *
  * \param node_type binson_node_type
  * \param dst_val binson_value*
@@ -332,9 +346,54 @@ binson_res  binson_node_copy_val( binson_node_type node_type, binson_value *dst_
     dst_val->bbuf_val.bptr = (uint8_t*) malloc( sz );
     BINSON_ASSERT( dst_val->bbuf_val.bptr );
     memcpy( dst_val->bbuf_val.bptr, src_val->bbuf_val.bptr, sz );
+    dst_val->bbuf_val.bsize = sz;
   }
 
   return BINSON_RES_OK;
+}
+
+/** \brief Translate 'binson_raw_value' structure to 'binson_value', converting raw strings
+ *          to zero-terminated C-strings, automatically allocating memory required.
+ *
+ * \param node_type binson_node_type
+ * \param dst_val binson_value*
+ * \param src_val binson_value*
+ * \return binson_res
+ */
+binson_res  binson_node_copy_val_from_raw( binson_node_type node_type, binson_value *dst_val, binson_raw_value *src_val )
+{
+  binson_res res = BINSON_RES_OK;
+
+  switch (node_type)
+  {
+    case BINSON_TYPE_BOOLEAN:
+      dst_val->bool_val = src_val->bool_val;  break;
+
+    case BINSON_TYPE_INTEGER:
+      dst_val->int_val = src_val->int_val;  break;
+
+    case BINSON_TYPE_DOUBLE:
+      dst_val->double_val = src_val->double_val;  break;
+
+    case BINSON_TYPE_STRING:
+      dst_val->str_val = (char*) malloc( src_val->bbuf_val.bsize + 1 );  /* dst string will contain zero terminator */
+      BINSON_ASSERT( dst_val->str_val );
+      memcpy( dst_val->str_val, src_val->bbuf_val.bptr, src_val->bbuf_val.bsize );
+      dst_val->str_val[ src_val->bbuf_val.bsize ] = '\0';  /* string terminator */
+    break;
+
+    case BINSON_TYPE_BYTES:
+      dst_val->bbuf_val.bptr = (uint8_t*) malloc( src_val->bbuf_val.bsize );
+      BINSON_ASSERT( dst_val->bbuf_val.bptr );
+      memcpy( dst_val->bbuf_val.bptr, src_val->bbuf_val.bptr, src_val->bbuf_val.bsize );
+      dst_val->bbuf_val.bsize = src_val->bbuf_val.bsize;
+    break;
+
+    default:  /* skipping value copy for another node types are is not error case */
+    break;
+  }
+
+  return res;
 }
 
 /* \brief
@@ -544,6 +603,22 @@ binson_res binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_st
  * \return
  */
 #ifdef DEBUG
+binson_res  binson_node_dump_debug( binson *obj, binson_node *node )
+{
+  const char* fmt = "[node=%p, type=%d, key=\"%s\", val=%x] : \n parent=%p, prev=%p, next=%p, fch=%p, lch=%p\n\n";
+  binson_io   *io;
+
+  if (obj)
+  {
+    io = binson_writer_get_io( obj->writer );
+    return binson_io_printf( io, fmt, node, node->type, node->key, node->val.int_val,
+                                      node->parent, node->prev, node->next, node->first_child, node->last_child );
+  }
+  else
+    printf(fmt, node, node->type, node->key, node->val.int_val,
+                                      node->parent, node->prev, node->next, node->first_child, node->last_child );
+}
+
 binson_res  binson_cb_dump_debug( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param )
 {
   binson_traverse_cb_param *p = (binson_traverse_cb_param *)param;
@@ -552,13 +627,8 @@ binson_res  binson_cb_dump_debug( binson *obj, binson_node *node, binson_travers
 
   UNUSED(p);
 
-  return binson_io_printf( io, "-> #%02d, depth=%02d, dir=%02d : [node=%p, type=%d, key=\"%s\", val=%x] : \n"
-                               "parent=%p, prev=%p, next=%p, fch=%p, lch=%p\n\n",
-                                status->child_num, status->depth, status->dir, status->current_node,
-                                status->current_node->type, status->current_node->key, status->current_node->val.int_val,
-                                status->current_node->parent, status->current_node->prev, status->current_node->next,
-                                status->current_node->parent, status->current_node->first_child,
-                                status->current_node->last_child );
+  res = binson_io_printf( io, "-> #%02d, depth=%02d, dir=%02d : ", status->child_num, status->depth, status->dir );
+  return binson_node_dump_debug( obj, status->current_node );
 }
 #endif
 
@@ -799,21 +869,103 @@ binson_res  binson_serialize( binson *obj )
   return binson_traverse( obj, obj->root, BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump, NULL );
 }
 
-/* \brief
+/**
+ *  Called by parser for each token group, used to build binson model
+ */
+binson_res binson_cb_build( binson_parser *parser, uint8_t token_cnt, binson_token_buf *tbuf, void* param )
+{
+  binson_cb_build_param_  *p = (binson_cb_build_param_ *)param;
+  binson_node             *new_node = NULL;
+  binson_raw_value         raw_key, raw_val;
+  binson_res               res = BINSON_RES_OK;
+  binson_node_type         node_type;
+  bool                     is_closing_token;  /* true, if current token is final part of OBJECT/ARRAY */
+
+  memset(&raw_key, 0, sizeof(binson_raw_value));
+  memset(&raw_val, 0, sizeof(binson_raw_value));
+
+  if (token_cnt > 1)
+  {
+    res = binson_token_buf_get_node_type( tbuf, 1, &node_type, &is_closing_token );
+    res = binson_token_buf_get_token_payload( tbuf, 0, &raw_key );
+    res = binson_token_buf_get_token_payload( tbuf, 1, &raw_val );
+  }
+  else
+  {
+   res = binson_token_buf_get_node_type( tbuf, 0, &node_type, &is_closing_token );
+   if (node_type != BINSON_TYPE_OBJECT && node_type != BINSON_TYPE_ARRAY)
+   {
+      res = binson_token_buf_get_token_payload( tbuf, 0, &raw_val );
+      raw_key.bbuf_val.bsize = 0;  /* make sure raw_key is empty */
+   }
+  }
+
+  if (!is_closing_token)
+  {
+    /* allocating new node structure */
+    new_node = (binson_node *)calloc(1, sizeof(binson_node));
+    new_node->type = node_type;
+
+     /* allocating and cloning key */
+     if (p->parent_last->type == BINSON_TYPE_ARRAY)
+     {
+       new_node->key = NULL;
+     }
+     else if (!raw_key.bbuf_val.bsize)  /* parent is OBJECT but we have no parsed key, so key from argument  */
+     {
+       new_node->key = (char*)malloc( strlen(p->top_key)+1 );
+       strcpy(new_node->key, p->top_key);
+     }
+     else /* use key from parser */
+     {
+       new_node->key = (char*)malloc( raw_key.bbuf_val.bsize+1 );
+       memcpy(new_node->key, raw_key.bbuf_val.bptr, raw_key.bbuf_val.bsize );
+       new_node->key[ raw_key.bbuf_val.bsize ] = '\0';
+     }
+
+    res = binson_node_copy_val_from_raw( node_type, &(new_node->val), &raw_val );
+    res = binson_node_attach( p->obj, p->parent_last, new_node );
+  } /* if (!is_closing_token) ... */
+
+  if (node_type == BINSON_TYPE_ARRAY || node_type == BINSON_TYPE_OBJECT)
+    p->parent_last = is_closing_token? p->parent_last->parent : new_node;
+
+/*if (new_node)
+binson_node_dump_debug( NULL, new_node );
+else
+  printf("new parent = %p  --\n", p->parent_last);
+*/
+
+  return res;
+}
+
+
+/** \brief
  *
  * \param obj binson*
+ * \param parent binson_node*
+ * \param key const char*       Used if parent is OBJECT, otherwise ignored
  * \param validate_only bool
  * \return binson_res
- *
  */
-binson_res  binson_deserialize( binson *obj, bool validate_only )
+binson_res  binson_deserialize( binson *obj, binson_node *parent, const char* key, bool validate_only )
 {
+  binson_cb_build_param_  param;
+  binson_res              res;
+
   if (!obj)
     return BINSON_RES_ERROR_ARG_WRONG;
 
   UNUSED(validate_only);
 
-  return BINSON_RES_ERROR_NOT_SUPPORTED;
+  param.obj          = obj;
+  param.root_node    = parent;
+  param.parent_last  = obj->root;
+  param.top_key      = key;
+
+  res = binson_parser_parse( obj->parser, binson_cb_build,  &param );
+
+  return res;
 }
 
 /* \brief Begin tree traversal and process first available node
@@ -886,14 +1038,13 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
           {
             status->current_node = status->current_node_copy.parent;
             status->depth--;
-          }
 
             /* required for tree deletion to prevent sawing one's bough */
             memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
 
             if (status->t_method != BINSON_TRAVERSE_PREORDER)  /* for postorder and 'bothorder' */
               res = status->cb( status->obj, status->current_node, status, status->param );   /* invoke callback for previous node  */
-
+          }
       }
     }
     else  /* last processed has some children */

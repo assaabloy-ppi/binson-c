@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015 Contributors as noted in the AUTHORS file
+ *  Copyright (c) 2015 ASSA ABLOY AB
  *
  *  This file is part of binson-c, BINSON serialization format library in C.
  *
@@ -38,14 +38,23 @@
 
 #include "binson_common_pvt.h"
 
-static int i = 0;
+/*static int i = 0;*/
 /* \brief
  *
  * \param sig enum
+ * \param pclosing_tag bool*  true, if sig is closing part of OBJECT/ARRAY
  * \return binson_node_type
  */
-/*binson_node_type   binson_common_map_sig_to_node_type( uint8_t sig )
+binson_node_type   binson_common_map_sig_to_node_type( uint8_t sig, bool *pclosing_tag )
 {
+  if (pclosing_tag)
+  {
+    if (sig == BINSON_SIG_OBJ_END || sig == BINSON_SIG_ARRAY_END)
+      *pclosing_tag = true;
+    else
+      *pclosing_tag = false;
+  }
+
   switch (sig)
   {
     case BINSON_SIG_OBJ_BEGIN:
@@ -83,5 +92,5 @@ static int i = 0;
     return BINSON_TYPE_UNKNOWN;
   }
 }
-*/
+
 
