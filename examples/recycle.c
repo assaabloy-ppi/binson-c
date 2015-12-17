@@ -42,7 +42,7 @@ int main()
     res = binson_init( context, writer, parser, err_io );
 
     /* ready to build DOM */
-    res = binson_deserialize( context, NULL, "def_key", false );
+    res = binson_deserialize( context, NULL, "def_key", false ); /* NULL mean replace whole DOM tree */
 
     /* serialize via attached 'binson_writer' */
     res = binson_serialize( context );

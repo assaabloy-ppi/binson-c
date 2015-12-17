@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="recycle" />
-	<File name="writer_standalone.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="537" topLine="4" />
-		</Cursor>
-	</File>
-	<File name="common.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="382" topLine="3" />
-		</Cursor>
-	</File>
+	<ActiveTarget name="output_model_dom" />
 	<File name="debug_features.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="702" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="recycle.c" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1390" topLine="33" />
+			<Cursor1 position="1189" topLine="21" />
 		</Cursor>
 	</File>
 	<File name="common.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -28,7 +13,22 @@
 	</File>
 	<File name="output_model_dom.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="226" topLine="0" />
+			<Cursor1 position="1569" topLine="30" />
+		</Cursor>
+	</File>
+	<File name="writer_standalone.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="537" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="common.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="359" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="recycle.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="608" topLine="9" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

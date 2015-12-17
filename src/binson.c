@@ -260,7 +260,7 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
   if (!obj || (!key && parent && (parent->type != BINSON_TYPE_ARRAY)))  /* missing key for non-array parent */
     return BINSON_RES_ERROR_ARG_WRONG;
 
-   me = (binson_node *)calloc(1, sizeof(binson_node));
+   me = (binson_node*) calloc(1, sizeof(binson_node));
 
   if (!me)
     return BINSON_RES_ERROR_OUT_OF_MEMORY;
@@ -411,9 +411,40 @@ binson_res  binson_node_attach( binson *obj, binson_node *parent, binson_node *n
   /* connect new node to tree */
   if (parent && parent->last_child)  /* parent is not empty */
   {
-    new_node->prev = parent->last_child;
+    /*new_node->prev = parent->last_child;
     parent->last_child->next = new_node;
-    parent->last_child = new_node;
+    parent->last_child = new_node;*/
+   binson_node  *pnode = parent->first_child;
+
+   while (pnode)
+   {
+      if ( strcmp(new_node->key, pnode->key) < 0 )
+        break;
+      pnode = pnode->next;
+   };
+
+   if (pnode)  /* insert before pnode */
+   {
+     new_node->prev    = pnode->prev;
+     new_node->next    = pnode;
+     if (pnode->prev)  /* insert non first - in-between */
+     {
+       pnode->prev->next = new_node;
+     }
+     else
+     {
+       parent->first_child = new_node;  /* insert as first item */
+     }
+
+     pnode->prev       = new_node;
+   }
+   else /* insert last */
+   {
+     new_node->prev = parent->last_child;
+     parent->last_child->next = new_node;
+     parent->last_child = new_node;
+   }
+
   }
   else /* parent is  empty */
   {

@@ -10,13 +10,16 @@
 void  gen_sample_data_binson( binson *ctx, binson_node *root )
 {
   binson_res       res;
-  binson_node      *n1, *n2, *n3;
+  binson_node      *n1, *n2, *n3, *n4;
 
-  res = binson_node_add_object_empty( ctx, root, "key_1",  &n1);
+  res = binson_node_add_object_empty( ctx, root, "key_1_b",  &n1);
   res = binson_node_add_object_empty( ctx, n1, "key_2",  &n2);
-  res = binson_node_add_integer( ctx, n2, "key_3", &n3, 333);
-  res = binson_node_add_boolean( ctx, n2, "key_4", &n3, true);
-  res = binson_node_add_double( ctx, n2, "key_5", &n3, -3.1415);
+  /*res = binson_node_add_object_empty( ctx, n1, "key_1",  &n4);*/
+  res = binson_node_add_integer( ctx, n2, "key_c", &n3, 333);
+  res = binson_node_add_boolean( ctx, n2, "key_a", &n3, true);
+  res = binson_node_add_double( ctx, n2, "key_b", &n3, -3.1415);
+  res = binson_node_add_double( ctx, n2, "key_f", &n3, 1.12);
+  res = binson_node_add_double( ctx, n2, "key_123", &n3, 1.12);
 }
 
 /* \brief
