@@ -548,6 +548,8 @@ binson_res binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_st
 
   UNUSED(p);
 
+/*printf("t=%d, d=%d\n", node->type, status->dir);*/
+
   if (!obj || !node || !status || !status->current_node )
     return BINSON_RES_ERROR_ARG_WRONG;
 
@@ -841,7 +843,9 @@ binson_res  binson_node_remove( binson *obj, binson_node *node )
   res = binson_traverse( obj, node, BINSON_TRAVERSE_POSTORDER, BINSON_DEPTH_LIMIT, binson_cb_remove, NULL );  /* free all subtree mallocs */
 
   if (!parent)
+  {
     obj->root = NULL;
+  }
   else
   {
     if (prev && next)
@@ -866,7 +870,7 @@ binson_res  binson_node_remove( binson *obj, binson_node *node )
  */
 binson_res  binson_serialize( binson *obj )
 {
-  return binson_traverse( obj, obj->root, BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump, NULL );
+  return binson_traverse( obj, binson_get_root(obj), BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump, NULL );
 }
 
 /**
@@ -907,7 +911,7 @@ binson_res binson_cb_build( binson_parser *parser, uint8_t token_cnt, binson_tok
     new_node->type = node_type;
 
      /* allocating and cloning key */
-     if (p->parent_last->type == BINSON_TYPE_ARRAY)
+     if (!p->parent_last || p->parent_last->type == BINSON_TYPE_ARRAY)  /* no parent or ARRAY */
      {
        new_node->key = NULL;
      }
@@ -923,8 +927,22 @@ binson_res binson_cb_build( binson_parser *parser, uint8_t token_cnt, binson_tok
        new_node->key[ raw_key.bbuf_val.bsize ] = '\0';
      }
 
-    res = binson_node_copy_val_from_raw( node_type, &(new_node->val), &raw_val );
-    res = binson_node_attach( p->obj, p->parent_last, new_node );
+    if (p->parent_last)
+    {
+      res = binson_node_copy_val_from_raw( node_type, &(new_node->val), &raw_val );
+      res = binson_node_attach( p->obj, p->parent_last, new_node );
+    }
+    else  /* deserialization which replace whole DOM tree */
+    {
+      if ( p->obj->root)
+          res = binson_node_remove( p->obj, p->obj->root );
+
+      /*free(p->obj->root->key);
+      free(p->obj->root);*/
+
+      p->obj->root = new_node;
+
+    }
   } /* if (!is_closing_token) ... */
 
   if (node_type == BINSON_TYPE_ARRAY || node_type == BINSON_TYPE_OBJECT)
@@ -943,7 +961,7 @@ else
 /** \brief
  *
  * \param obj binson*
- * \param parent binson_node*
+ * \param parent binson_node*   If NULL, replaces whole DOM tree
  * \param key const char*       Used if parent is OBJECT, otherwise ignored
  * \param validate_only bool
  * \return binson_res
@@ -960,7 +978,7 @@ binson_res  binson_deserialize( binson *obj, binson_node *parent, const char* ke
 
   param.obj          = obj;
   param.root_node    = parent;
-  param.parent_last  = obj->root;
+  param.parent_last  = parent; /*obj->root;*/
   param.top_key      = key;
 
   res = binson_parser_parse( obj->parser, binson_cb_build,  &param );
@@ -1027,31 +1045,55 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
       }
       else /* no more neighbors from the right, moving up */
       {
-          status->dir = BINSON_TRAVERSE_DIR_UP;
+        bool empty_container = false;
 
-          if (!status->current_node || status->current_node == status->root_node )  /* can't move up, we are at root */
-          {
-            status->current_node = status->root_node;
-            status->done = true;
-          }
-          else  if (status->current_node_copy.parent) /* next node to process will be parent of the current node */
-          {
-            status->current_node = status->current_node_copy.parent;
-            status->depth--;
+        if ((status->current_node_copy.type == BINSON_TYPE_OBJECT || status->current_node_copy.type == BINSON_TYPE_ARRAY) &&
+            status->current_node_copy.first_child == NULL && status->t_method != BINSON_TRAVERSE_PREORDER )
+          empty_container = true;
 
-            /* required for tree deletion to prevent sawing one's bough */
-            memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
+        status->dir          = BINSON_TRAVERSE_DIR_UP;
 
-            if (status->t_method != BINSON_TRAVERSE_PREORDER)  /* for postorder and 'bothorder' */
-              res = status->cb( status->obj, status->current_node, status, status->param );   /* invoke callback for previous node  */
-          }
+        /* process closing part of empty OBJECT/ARRAY */
+        if (status->depth > 0 && empty_container && status->t_method == BINSON_TRAVERSE_BOTHORDER)
+          res = status->cb( status->obj, status->current_node, status, status->param );
+
+
+        if (status->current_node_copy.parent)  /* root node case - prevent NULL assignment */
+          status->current_node = status->current_node_copy.parent;
+
+
+        if (!empty_container)  /* empty containers process on same depth level */
+        {
+           status->depth--;
+           if (status->depth < 0)
+           {
+             status->done = true;
+             return res;
+           }
+        }
+
+        /* required for tree deletion to prevent sawing one's bough */
+        memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
+
+        if (status->t_method != BINSON_TRAVERSE_PREORDER)
+          res = status->cb( status->obj, status->current_node, status, status->param );
+
+        if (empty_container)   /* change depth after empty container processed */
+        {
+           status->depth--;
+           if (status->depth < 0)
+           {
+             status->done = true;
+             return res;
+           }
+        }
       }
     }
     else  /* last processed has some children */
     {
        status->current_node = status->current_node_copy.first_child;   /* select leftmost child */
-       status->dir         = BINSON_TRAVERSE_DIR_DOWN;
-       status->child_num   = 0;
+       status->dir          = BINSON_TRAVERSE_DIR_DOWN;
+       status->child_num    = 0;
        status->depth++;
 
        /* required for tree deletion to prevent sawing one's bough */

@@ -22,43 +22,43 @@
 	"binson_writer.h"
 	"binson_parser.h"
 
-1449955897 /home/kotomysha/binson/binson-c/src/binson_config.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_config.h
 
-1450101386 /home/kotomysha/binson/binson-c/src/binson_error.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_error.h
 	<stddef.h>
 	"binson_config.h"
 
-1449594891 /home/kotomysha/binson/binson-c/src/binson_io.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_io.h
 	<stdio.h>
 	<stdarg.h>
 	"binson_config.h"
 	"binson_error.h"
 
-1449700906 /home/kotomysha/binson/binson-c/src/binson_writer.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_writer.h
 	"binson_config.h"
 	"binson_common.h"
 	"binson_error.h"
 	"binson_io.h"
 
-1450215368 /home/kotomysha/binson/binson-c/src/binson_parser.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_parser.h
 	"binson_config.h"
 	"binson_common.h"
 	"binson_error.h"
 	"binson_io.h"
 	"binson_token_buf.h"
 
-1450101386 /home/kotomysha/binson/binson-c/src/binson_util.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_util.h
 	<stddef.h>
 	"binson_config.h"
 	"binson_error.h"
 
-1449075344 source:/home/kotomysha/binson/binson-c/src/binson_error.c
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_error.c
 	<string.h>
 	"binson_error.h"
 	"binson_io.h"
 	"binson_util.h"
 
-1449562151 source:/home/kotomysha/binson/binson-c/src/binson_io.c
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_io.c
 	<errno.h>
 	<stdio.h>
 	<string.h>
@@ -67,7 +67,7 @@
 	"binson_io.h"
 	"binson_util.h"
 
-1450217926 source:/home/kotomysha/binson/binson-c/src/binson_parser.c
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_parser.c
 	<string.h>
 	<stdlib.h>
 	"binson_config.h"
@@ -75,20 +75,20 @@
 	"binson_parser.h"
 	"binson_token_buf.h"
 
-1449321215 source:/home/kotomysha/binson/binson-c/src/binson_utf8.c
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_utf8.c
 	<stdlib.h>
 	<string.h>
 	"binson_config.h"
 	"binson_utf8.h"
 
-1449320276 /home/kotomysha/binson/binson-c/src/binson_utf8.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_utf8.h
 	"binson_config.h"
 	"binson_error.h"
 
-1449271224 source:/home/kotomysha/binson/binson-c/src/binson_util.c
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_util.c
 	"binson_util.h"
 
-1449751150 source:/home/kotomysha/binson/binson-c/src/binson_writer.c
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_writer.c
 	<string.h>
 	<stdlib.h>
 	"binson_config.h"
@@ -98,21 +98,30 @@
 	"binson_utf8.h"
 	<assert.h>
 
-1449576251 source:/home/kotomysha/binson/binson-c/src/binson_common.c
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_common.c
 	"binson_common.h"
 
-1450214977 /home/kotomysha/binson/binson-c/src/binson_common.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_common.h
 	"binson_config.h"
 	"binson_error.h"
 
-1450216228 source:/home/kotomysha/binson/binson-c/src/binson_common_pvt.c
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_common_pvt.c
 	"binson_common_pvt.h"
 
-1450217817 /home/kotomysha/binson/binson-c/src/binson_common_pvt.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_common_pvt.h
 	"binson_common.h"
 
-1450217637 /home/kotomysha/binson/binson-c/src/binson_token_buf.h
+1450322914 /home/kotomysha/binson/binson-c/src/binson_token_buf.h
 	"binson_config.h"
 	"binson_common.h"
 	"binson_error.h"
+
+1450322914 source:/home/kotomysha/binson/binson-c/src/binson_token_buf.c
+	<stdlib.h>
+	<string.h>
+	"binson_config.h"
+	"binson_common_pvt.h"
+	"binson_common.h"
+	"binson_util.h"
+	"binson_io.h"
 
