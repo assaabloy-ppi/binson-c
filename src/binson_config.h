@@ -148,6 +148,7 @@ typedef  BINSON_NODE_NUM_T   binson_node_num;
 #define BINSON_JSON_OBJ_LENGTH_LIMIT     256   /**< Max number or chars in JSON-dumped representation of object */
 
 #define BINSON_TOKEN_BUF_SIZE             16    /**< Initial/regular size of token buffer storage */
+#define BINSON_TOKEN_BUF_SIZE_INC         16    /**< Minimal buffer grow increment */
 #define BINSON_TOKEN_BUF_TOKS             2     /**< Maximim number of tokens to keep in token buffer */
 
 #define BINSON_RAW_SIG_SIZE               1     /**< How many bytes occupies type signature */

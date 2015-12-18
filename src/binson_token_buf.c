@@ -353,6 +353,19 @@ binson_res  binson_token_buf_set_buf( binson_token_buf *tbuf, uint8_t *bptr, bin
   if (!tbuf)
     return BINSON_RES_ERROR_ARG_WRONG;
 
+  if (tbuf->ptr && tbuf->malloced && !bptr && bsize > tbuf->size)  /* try to reallocate to bigger memory block */
+  {
+    uint8_t *pnew = (uint8_t *)realloc(tbuf->ptr, bsize);
+    if (pnew)
+    {
+      tbuf->ptr   = pnew;
+      tbuf->size  = bsize;
+      return BINSON_RES_OK;
+    }
+    else
+      return BINSON_RES_ERROR_OUT_OF_MEMORY;
+  }
+
   if (tbuf->ptr && tbuf->ptr != bptr && tbuf->malloced)   /* looks like already allocated */
   {
     free( tbuf->ptr );
@@ -418,6 +431,13 @@ binson_res  binson_token_buf_token_fill( binson_token_buf *tbuf, uint8_t *tok_co
             continue;
 
         case BINSON_RES_ERROR_PARSE_PART:
+          if (tbuf->size < tok->offset + tok->size + to_read) /* if buffer is too small try to reallocate to bigger one */
+          {
+            binson_raw_size   delta = MAX( tok->offset + tok->size + to_read - tbuf->size, BINSON_TOKEN_BUF_SIZE_INC );
+
+            res = binson_token_buf_set_buf( tbuf, NULL, tbuf->size + delta );
+            if (FAILED(res)) return res;  /* critical error */
+          }
           res = binson_io_read( tbuf->source, tbuf->ptr + tok->offset + tok->size, to_read, &done_read );
           tok->size += done_read;
           continue;
