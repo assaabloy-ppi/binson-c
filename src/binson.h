@@ -167,7 +167,7 @@ binson_node*    binson_node_get_first_child( binson_node *node );
 binson_node*    binson_node_get_last_child( binson_node *node );
 
 binson_res      binson_node_get_child_by_idx( );
-binson_res      binson_node_get_child_by_key( );
+binson_res      binson_node_get_child_by_key( binson *obj, binson_node *parent, const char *key, binson_node **pnode );
 binson_res      binson_node_get_sibling_count( );
 binson_res      binson_node_get_child_count( );
 

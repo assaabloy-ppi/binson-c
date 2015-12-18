@@ -1339,3 +1339,35 @@ binson_node*  binson_node_get_last_child( binson_node *node )
 
   return node->last_child;
 }
+
+
+/** \brief
+ *
+ * \param obj binson*
+ * \param parent binson_node*
+ * \param key const char*
+ * \param pnode binson_node**
+ * \return binson_res
+ */
+binson_res  binson_node_get_child_by_key( binson *obj, binson_node *parent, const char *key, binson_node **pnode )
+{
+  binson_node *node;
+
+  if (!parent)
+    parent = obj->root;
+
+  node = parent->first_child;
+  *pnode = NULL;
+
+  while (node)
+  {
+    if ( !strcmp(key, node->key) )
+    {
+      *pnode = node;
+       break;
+    }
+    node = node->next;
+  }
+
+  return BINSON_RES_OK;
+}
