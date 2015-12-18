@@ -36,13 +36,15 @@ Feature requests
 Usage
 =====
 
-[TBD]
+See ./examples subdirectory for usage examples.
 
 
 Build
 =====
 
-[TBD]
+To build library plus examples run from project directory:
+
+$ make -f binson.workspace.mak all
 
 
 Log
