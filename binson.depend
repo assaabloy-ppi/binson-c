@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1450217736 source:/home/kotomysha/binson/binson-c/src/binson.c
+1450443282 source:/home/kotomysha/binson/binson-c/src/binson.c
 	<stdlib.h>
 	<string.h>
 	<float.h>
@@ -12,7 +12,7 @@
 	"binson_parser.h"
 	"binson_token_buf.h"
 
-1450208464 /home/kotomysha/binson/binson-c/src/binson.h
+1450714583 /home/kotomysha/binson/binson-c/src/binson.h
 	<stdio.h>
 	<stdarg.h>
 	"binson_config.h"
@@ -22,7 +22,7 @@
 	"binson_writer.h"
 	"binson_parser.h"
 
-1450322914 /home/kotomysha/binson/binson-c/src/binson_config.h
+1450477740 /home/kotomysha/binson/binson-c/src/binson_config.h
 
 1450322914 /home/kotomysha/binson/binson-c/src/binson_error.h
 	<stddef.h>
@@ -116,7 +116,7 @@
 	"binson_common.h"
 	"binson_error.h"
 
-1450322914 source:/home/kotomysha/binson/binson-c/src/binson_token_buf.c
+1450478107 source:/home/kotomysha/binson/binson-c/src/binson_token_buf.c
 	<stdlib.h>
 	<string.h>
 	"binson_config.h"
@@ -124,4 +124,8 @@
 	"binson_common.h"
 	"binson_util.h"
 	"binson_io.h"
+
+1450443838 source:/home/kotomysha/binson/binson-c/examples/pot_1.c
+	<stdio.h>
+	"../src/binson.h"
 

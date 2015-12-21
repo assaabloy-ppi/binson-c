@@ -10,15 +10,14 @@
 void reply_to_msg( binson *rx, binson *tx )
 {
   binson_node      *cid_node;
-  binson_value     *val;
   binson_res        res;
-  int               cid;
+  int64_t           cid;
 
   /* obrain 'cid' value from rx */
   res = binson_node_get_child_by_key( rx, NULL, "cid", &cid_node );
-  val = binson_node_get_val( cid_node );
+  res = binson_node_get_integer( cid_node, &cid );
 
-  res = binson_node_add_integer( tx, binson_get_root(tx), "cid", NULL, val->int_val );  /* use cid value from rx binson DOM */
+  res = binson_node_add_integer( tx, binson_get_root(tx), "cid", NULL, cid);  /* use cid value from rx binson DOM */
   res = binson_node_add_object_empty( tx, binson_get_root(tx), "z", NULL);
 }
 

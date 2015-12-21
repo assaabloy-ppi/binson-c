@@ -1230,6 +1230,88 @@ binson_value*    binson_node_get_val( binson_node *node )
   return &node->val;
 }
 
+/** \brief
+ *
+ * \param node binson_node*
+ * \param pbool bool*
+ * \return binson_res
+ */
+binson_res  binson_node_get_boolean( binson_node *node, bool *pbool )
+{
+  if (!node || !pbool)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  *pbool = node->val.bool_val;
+
+  return BINSON_RES_OK;
+}
+
+/** \brief
+ *
+ * \param node binson_node*
+ * \param pinteger int64_t*
+ * \return binson_res
+ */
+binson_res  binson_node_get_integer( binson_node *node, int64_t *pinteger )
+{
+  if (!node || !pinteger)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  *pinteger = node->val.int_val;
+
+  return BINSON_RES_OK;
+}
+
+/** \brief
+ *
+ * \param node binson_node*
+ * \param pdouble double*
+ * \return binson_res
+ */
+binson_res  binson_node_get_double( binson_node *node, double *pdouble )
+{
+  if (!node || !pdouble)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  *pdouble = node->val.double_val;
+
+  return BINSON_RES_OK;
+}
+
+/** \brief
+ *
+ * \param node binson_node*
+ * \param pstr char**
+ * \return binson_res
+ */
+binson_res  binson_node_get_string( binson_node *node, char **ppstr )
+{
+  if (!node || !ppstr)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  *ppstr = node->val.str_val;
+
+  return BINSON_RES_OK;
+}
+
+/** \brief
+ *
+ * \param node binson_node*
+ * \param ppbytes uint8_t**
+ * \param psize binson_raw_size*
+ * \return binson_res
+ */
+binson_res  binson_node_get_bytes( binson_node *node, uint8_t **ppbytes, binson_raw_size *psize )
+{
+  if (!node || !ppbytes || !psize)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  *ppbytes = node->val.bbuf_val.bptr;
+  *psize   = node->val.bbuf_val.bsize;
+
+  return BINSON_RES_OK;
+}
+
 /* \brief
  *
  * \param node binson_node*

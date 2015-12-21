@@ -81,13 +81,6 @@ typedef struct binson_node_  binson_node;
 # define binson_node_DEFINED
 #endif
 
-/*
-#ifndef binson_node_val_DEFINED
-typedef union binson_node_val_             binson_value;
-# define binson_node_val_DEFINED
-#endif
-*/
-
 typedef struct binson_traverse_cb_status_   binson_traverse_cb_status;
 typedef struct binson_traverse_cb_param_    binson_traverse_cb_param;
 
@@ -151,7 +144,15 @@ binson_res  binson_deserialize( binson *obj, binson_node *parent, const char* ke
  */
 binson_node_type      binson_node_get_type( binson_node *node );
 const char*           binson_node_get_key( binson_node *node );
-binson_value*      binson_node_get_val( binson_node *node );
+/*binson_value*      binson_node_get_val( binson_node *node );*/
+
+binson_res            binson_node_get_boolean( binson_node *node, bool *pbool );
+binson_res            binson_node_get_integer( binson_node *node, int64_t *pinteger );
+binson_res            binson_node_get_double( binson_node *node, double *pdouble );
+binson_res            binson_node_get_string( binson_node *node, char **ppstr );
+binson_res            binson_node_get_bytes( binson_node *node, uint8_t **ppbytes, binson_raw_size *psize );
+
+
 bool                  binson_node_is_leaf_type( binson_node *node );
 
 /**

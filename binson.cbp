@@ -55,6 +55,10 @@
 		<Unit filename="README.md">
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="examples/pot_1.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="src/binson.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -68,12 +68,32 @@
 					<Add library="/home/kotomysha/binson/binson-c/bin/Debug/libbinson.so" />
 				</Linker>
 			</Target>
+			<Target title="pot_1">
+				<Option output="bin/Debug/pot_1" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add library="/home/kotomysha/binson/binson-c/bin/Debug/libbinson.so" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="common.c">
 			<Option compilerVar="CC" />
+			<Option target="writer_standalone" />
+			<Option target="output_model_dom" />
+			<Option target="debug_features" />
+			<Option target="recycle" />
 		</Unit>
 		<Unit filename="common.h">
 			<Option target="&lt;{~None~}&gt;" />
@@ -85,6 +105,11 @@
 		<Unit filename="output_model_dom.c">
 			<Option compilerVar="CC" />
 			<Option target="output_model_dom" />
+		</Unit>
+		<Unit filename="pot_1.c">
+			<Option compilerVar="CC" />
+			<Option target="recycle" />
+			<Option target="pot_1" />
 		</Unit>
 		<Unit filename="recycle.c">
 			<Option compilerVar="CC" />

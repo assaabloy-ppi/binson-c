@@ -27,12 +27,6 @@ ToDo
 * Adopt interfaces to provide model's storage abstraction
 * ABI review
 
-Feature requests
-================
-
-* JSON import (using external parser library)
-
-
 Usage
 =====
 
@@ -47,5 +41,13 @@ To build library plus examples run from project directory:
 $ make -f binson.workspace.mak all
 
 
-Log
-===
+Feature requests
+================
+
+* JSON import (using external parser library)
+
+
+History
+=======
+
+20 Nov 2015 - First prototype is ready
