@@ -119,17 +119,16 @@ typedef unsigned long long int	uint64_t;
 /**
  *  Detect endianness at build time
  */
-#define IS_LITTLE_ENDIAN  (((*(short *)"xy") & 0xFF) == 'x')
+/*#define IS_LITTLE_ENDIAN  (((*(short *)"xy") & 0xFF) == 'x')
+*/
 
-/**< comment this for release lib builds */
-#define DEBUG
+#cmakedefine  IS_LITTLE_ENDIAN
 
-/**< Uncoment this to disable \c assert() and \c BINSON_ASSERT() support */
-/* #define NDEBUG */
+#cmakedefine	DEBUG
+#cmakedefine	NDEBUG
 
 #define ERROR_RING_SIZE  16  /**< Size of circular error buffer */
 
-/* #define BINSON_MAX_CHILDREN   100 */
 #define BINSON_CHILD_NUM_T      uint8_t
 #define BINSON_NODE_NUM_T       uint16_t
 
@@ -147,14 +146,15 @@ typedef  BINSON_NODE_NUM_T   binson_node_num;
 #define  WITH_BINSON_PARSER_MODE_RAW           /**< Build with 'raw' model functionality */
 #define  WITH_BINSON_PARSER_MODE_SMART         /**< Build with 'smart' model functionality */
 #define  WITH_BINSON_PARSER_MODE_DOM           /**< Build with 'DOM' model functionality */
+#cmakedefine WITH_BINSON_JSON_OUTPUT           /**< Build \c binson_writer with JSON output support */
 
-#define WITH_BINSON_JSON_OUTPUT                /**< Build \c binson_writer with JSON output support */
 #define BINSON_JSON_OBJ_LENGTH_LIMIT     256   /**< Max number or chars in JSON-dumped representation of object */
 
 #define BINSON_TOKEN_BUF_SIZE             16    /**< Initial/regular size of token buffer storage */
 #define BINSON_TOKEN_BUF_SIZE_INC         16    /**< Minimal buffer grow increment */
 #define BINSON_TOKEN_BUF_TOKS             2     /**< Maximim number of tokens to keep in token buffer */
 
+/* Constants. No reason to change. */
 #define BINSON_RAW_SIG_SIZE               1     /**< How many bytes occupies type signature */
 
 #ifdef __cplusplus

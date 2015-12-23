@@ -1,13 +1,35 @@
 #The minimum CMake version required to build this project
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 #Set a new CMake project
 project(binson C)
+
+option (BUILD_LIB_STATIC "Build binson lib as static instead of dynamic" OFF) 
+option (WITH_BINSON_JSON_OUTPUT "Build lib with JSON output support" ON) 
+
 
 # The version number.
 set (BINSON_MAJOR_VERSION 0)
 set (BINSON_MINOR_VERSION 0)
 set (BINSON_MICRO_VERSION 2)
+
+# platform endiannes checks
+include(TestBigEndian)
+TEST_BIG_ENDIAN(BIGENDIAN)
+if (NOT ${BIGENDIAN})
+  set (IS_LITTLE_ENDIAN 1)
+endif (NOT ${BIGENDIAN})
+
+if(NOT CMAKE_BUILD_TYPE)
+    SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+endif()
+
+message("Build type is: ${CMAKE_BUILD_TYPE} ")
+if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
+    set(DEBUG 1)
+else()
+    set(NDEBUG 1)
+endif()
 
 # configure a header file to pass some of the CMake settings
 # to the source code
@@ -22,8 +44,11 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 file(GLOB SOURCES "src/*.c")
 
-
-add_library(binson SHARED ${SOURCES})
+if (BUILD_LIB_STATIC)
+  add_library(binson STATIC ${SOURCES})
+else (BUILD_LIB_STATIC)
+  add_library(binson SHARED ${SOURCES})
+endif (BUILD_LIB_STATIC)
 
 target_include_directories(binson PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

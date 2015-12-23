@@ -1,5 +1,5 @@
 #The minimum CMake version required to build this project
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 #Set a new CMake project
 project(example C)
