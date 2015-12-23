@@ -1,6 +1,3 @@
-binson-c
----------
-
 ANSI C implementation of Binson format serialization library. Binson is like JSON, but faster, binary and
 even simpler. See [binson.org](http://binson.org/)
 
@@ -57,14 +54,14 @@ $ cmake ..
 $ make all
 ```
 
-ToDo
+ToDo (before beta)
 ---------
-* Test on bigendian (ARM, etc) platforms
-* Unit testing configuration
-* Binson-java compatibility testing
-* Extensive error handling
-* Adopt interfaces to provide model's storage abstraction
-* ABI review
+[] Test on bigendian (ARM, etc) platforms
+[] Unit testing configuration
+[] Binson-java compatibility testing
+[] Extensive error handling
+[] Adopt interfaces to provide model's storage abstraction
+[] ABI review
 
 
 Feature requests
