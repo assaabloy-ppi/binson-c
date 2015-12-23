@@ -9,8 +9,8 @@ Pre-alpha (debugging and testing functionality)
 Features
 ---------
 
-* Written in ANSI C (C89)
-* No 3rd party dependencies (stdlib only)
+* Written in ANSI C (C89 standard)
+* Has not 3rd party dependencies (stdlib only)
 * Streaming mode parsing
 * Input/output abstraction layer
 
@@ -56,12 +56,12 @@ $ make all
 
 ToDo (before beta)
 ---------
-[] Test on bigendian (ARM, etc) platforms
-[] Unit testing configuration
-[] Binson-java compatibility testing
-[] Extensive error handling
-[] Adopt interfaces to provide model's storage abstraction
-[] ABI review
+- [] Test on bigendian (ARM, etc) platforms
+- [] Unit testing configuration
+- [] Binson-java compatibility testing
+- [] Extensive error handling
+- [] Adopt interfaces to provide model's storage abstraction
+- [] ABI review
 
 
 Feature requests
