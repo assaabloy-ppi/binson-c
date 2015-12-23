@@ -1,1 +1,5 @@
- 
+History
+---------
+
+23 Dec 2015 - ver.0.0.2, moved to CMake build system
+20 Nov 2015 - ver.0.0.1; first prototype is ready 
