@@ -1,5 +1,5 @@
 #The minimum CMake version required to build this project
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 
 #Set a new CMake project
 project(binson C)
@@ -24,7 +24,6 @@ if(NOT CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
 endif()
 
-message("Build type is: ${CMAKE_BUILD_TYPE} ")
 if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
     set(DEBUG 1)
 else()
@@ -57,3 +56,17 @@ target_include_directories(binson PUBLIC
 
 
 add_subdirectory(example)
+
+########################################################################
+## Build Summary
+
+message(
+    "\n====================|  Binson Build Summary  |====================="
+    "\n"
+    "\nBuild type:        ${CMAKE_BUILD_TYPE}"    
+    "\nInstall prefix:    ${CMAKE_INSTALL_PREFIX}"
+    "\n"
+    "\nCC:                ${CMAKE_C_COMPILER}"
+    "\nCFLAGS:            ${CMAKE_C_FLAGS}"
+    "\n================================================================\n"
+)
