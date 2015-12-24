@@ -50,7 +50,7 @@ else (BUILD_LIB_STATIC)
 endif (BUILD_LIB_STATIC)
 
 # target_include_directories is not supported for early versions
-if (NOT("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" LESS 2.8.9))
+if (NOT("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" LESS 2.8.12))
   target_include_directories(binson PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
