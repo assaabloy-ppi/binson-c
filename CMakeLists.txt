@@ -49,15 +49,16 @@ else (BUILD_LIB_STATIC)
   add_library(binson SHARED ${SOURCES})
 endif (BUILD_LIB_STATIC)
 
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-#target_include_directories(binson PUBLIC
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#    $<INSTALL_INTERFACE:include>
-#    PRIVATE src)
-
+# target_include_directories is not supported for early versions
+if (NOT("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" LESS 2.8.9))
+  target_include_directories(binson PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    PRIVATE src)
+else ()
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+endif()
 
 add_subdirectory(example)
 
@@ -74,3 +75,24 @@ message(
     "\nCFLAGS:            ${CMAKE_C_FLAGS}"
     "\n================================================================\n"
 )
+
+########################################################################
+## Installation
+
+install(TARGETS binson DESTINATION lib)
+
+# install public interface headers
+#install(DIRECTORY include/${PROJECT_NAME}/
+#        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+include(GNUInstallDirs)
+install(DIRECTORY include/${PROJECT_NAME}/
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+
+#install(FILES .... DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" )
+
+
+########################################################################
+## Testing
+
+
+

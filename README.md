@@ -9,6 +9,9 @@ Pre-alpha (debugging and testing functionality)
 Features
 ---------
 
+* Multiplatform. Tested at:
+  * x86_64
+  * ARM (ARMv71, Cortext-A8)
 * Written in ANSI C (C89 standard)
 * Has not 3rd party dependencies (stdlib only)
 * Streaming mode parsing
