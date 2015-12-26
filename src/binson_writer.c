@@ -242,7 +242,7 @@ binson_res  binson_writer_free( binson_writer *writer )
 binson_res  binson_writer_set_format( binson_writer *writer, binson_writer_format format )
 {
   /**< Initial parameter validation */
-  if (!writer || format < 0 || format >= BINSON_WRITER_FORMAT_LAST)
+  if (!writer || format >= BINSON_WRITER_FORMAT_LAST)
     return BINSON_RES_ERROR_ARG_WRONG;
 
   writer->format = format;
@@ -287,7 +287,7 @@ binson_io*  binson_writer_get_io( binson_writer *writer )
 binson_res  binson_writer_init( binson_writer *writer, binson_io *io, binson_writer_format format  )
 {
   /**< Initial parameter validation */
-  if (!writer || !io || format < 0 || format >= BINSON_WRITER_FORMAT_LAST )
+  if (!writer || !io || format >= BINSON_WRITER_FORMAT_LAST )
     return BINSON_RES_ERROR_ARG_WRONG;
 
   writer->io                 = io;
@@ -413,8 +413,8 @@ binson_res  binson_writer_write_integer( binson_writer *writer, const char* key,
                                      BINSON_SIG_INTEGER_64 };   /* for 8 bytes of int data */
   binson_res  res = BINSON_RES_OK;
   uint8_t     bbuf[sizeof(int64_t)+1];
-  uint8_t     bsize;
-  int         i;
+  size_t     bsize;
+  unsigned int         i;
 
   /**< Initial parameter validation */
   if (!writer)
@@ -565,7 +565,7 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
   }
 
   /**< Convert buffer size to INTEGER primitive and store it in specified byte buffer */
-  bsize = binson_util_pack_integer( src_utf8_size, &bbuf[1], true );
+  bsize = binson_util_pack_integer( (int64_t)src_utf8_size, &bbuf[1], true );
   bbuf[0] = (sig == BINSON_SIG_STRING_8)? binson_str_map[bsize] : binson_bytes_map[bsize];
 
   /**< Format dependent output */

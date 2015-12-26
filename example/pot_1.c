@@ -19,6 +19,8 @@ void reply_to_msg( binson *rx, binson *tx )
 
   res = binson_node_add_integer( tx, binson_get_root(tx), "cid", NULL, cid);  /* use cid value from rx binson DOM */
   res = binson_node_add_object_empty( tx, binson_get_root(tx), "z", NULL);
+  
+  UNUSED(res);
 }
 
 

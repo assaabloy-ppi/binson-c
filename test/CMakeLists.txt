@@ -1,8 +1,8 @@
-#The minimum CMake version required to build this project
-cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+# Binson test library
+project(btest C)
 
-#Set a new CMake project
-project(example C)
+set(BTEST_LIBRARY btest)
+
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(COMMON_C_FLAGS  "-Wall -g -std=c99 -pedantic -pedantic-errors -Wextra -Winvalid-pch -Winit-self -Wno-unknown-pragmas")
@@ -19,14 +19,31 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_C_FLAGS_RELEASE "${COMMON_C_FLAGS_RELEASE}")    # replace default
 endif()
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR} "../src"  )
+include_directories(
+  ${CMOCKA_INCLUDE_DIR}
+  ${CMAKE_BINARY_DIR}
+  ${CMAKE_SOURCE_DIR}/src
+  ${CMAKE_SOURCE_DIR}/include  
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-FILE( GLOB APP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.c* )
+# find cmocka library and headers
+find_path(CMOCKA_ROOT_DIR
+    NAMES include/cmocka.h )  
+find_path(CMOCKA_INCLUDE_DIR
+    NAMES cmocka.h
+    PATHS ${CMOCKA_ROOT_DIR}/include)
+find_library(CMOCKA_LIBRARY NAMES cmocka
+    PATHS ${CMOCKA_ROOT_DIR}/lib )
 
-foreach( testsourcefile ${APP_SOURCES} )   
-    string( REPLACE ".c" "" testname ${testsourcefile} )
-    if (NOT(${testname} STREQUAL "common"))
-       add_executable( ${testname} ${testsourcefile}  common.c )    
-       target_link_libraries( ${testname} binson )      
-    endif(NOT(${testname} STREQUAL "common")) 
-endforeach( testsourcefile ${APP_SOURCES} )
+set(BINSON_TEST_LINK_LIBRARIES
+    ${CMOCKA_LIBRARY}
+    )
+    
+    
+# create test library
+add_library(btest STATIC btest.c)
+target_link_libraries(btest ${CMOCKA_LIBRARY} )
+
+
+add_subdirectory(utest)

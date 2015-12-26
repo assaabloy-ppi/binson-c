@@ -12,8 +12,9 @@ Features
 
 * Written in ANSI C (C89 standard)
 * Multiplatform. Tested at:
-  * x86_64
+  * x86, x86_64
   * ARM (ARMv71, Cortext-A8)
+  * MIPS (big-endian)
 * Has not 3rd party dependencies (stdlib only)
 * Streaming mode parsing
 * Input/output abstraction layer
@@ -60,8 +61,9 @@ $ make all
 
 ToDo (before beta)
 ---------
-- [ ] Test on bigendian (ARM, etc) platforms
-- [ ] Unit testing configuration
+- [x] CMake build system integration
+- [x] Test on big-endian (MIPS, etc) platforms
+- [x] Unit testing framework (CMocka) integration
 - [ ] Binson-java compatibility testing
 - [ ] Extensive error handling
 - [ ] Adopt interfaces to provide model's storage abstraction

@@ -287,7 +287,7 @@ binson_res  binson_io_close( binson_io *obj )
  * \param block_size size_t   Number of bytes to write
  * \return binson_res         Result code
  */
-binson_res  binson_io_write( binson_io *obj, uint8_t *src_ptr, size_t block_size )
+binson_res  binson_io_write( binson_io *obj, const uint8_t *src_ptr, size_t block_size )
 {
   binson_res res = BINSON_RES_OK;
   size_t     written;
@@ -333,7 +333,7 @@ binson_res  binson_io_write( binson_io *obj, uint8_t *src_ptr, size_t block_size
  */
 binson_res  binson_io_write_str( binson_io *obj, const char* str, bool write_terminator )
 {
-   return binson_io_write(obj, (uint8_t *)str, strlen(str) + (write_terminator? 1:0));
+   return binson_io_write(obj, (const uint8_t *)str, strlen(str) + (write_terminator? 1:0));
 }
 
 /** \brief Write single byte to opened \c binson_io
@@ -357,7 +357,7 @@ binson_res  binson_io_write_byte( binson_io *obj, uint8_t byte )
  */
 binson_res  binson_io_vprintf( binson_io *obj, const char* format, va_list args )
 {
-  int written = 0;
+  unsigned int written = 0;
 
   if (!obj )
     return BINSON_RES_ERROR_ARG_WRONG;
@@ -365,13 +365,13 @@ binson_res  binson_io_vprintf( binson_io *obj, const char* format, va_list args 
   switch (obj->type)
   {
     case BINSON_IO_TYPE_STREAM:
-      written = vfprintf( obj->handle.stream, format, args );
+      written = (unsigned int)vfprintf( obj->handle.stream, format, args );
     break;
 
     case BINSON_IO_TYPE_STR0:
     case BINSON_IO_TYPE_BUFFER:
         /**< \todo Implement strict overflow checks to mimic nonportable vsnprintf() */
-       written = vsprintf( (obj->mode & BINSON_IO_MODE_APPEND)? obj->handle.strbuf.ptr + obj->handle.strbuf.cursor :
+       written = (unsigned int)vsprintf( (obj->mode & BINSON_IO_MODE_APPEND)? obj->handle.strbuf.ptr + obj->handle.strbuf.cursor :
                                                                 obj->handle.strbuf.ptr, format, args );
        obj->handle.strbuf.cursor += written;
     break;

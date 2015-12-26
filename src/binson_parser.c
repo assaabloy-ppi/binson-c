@@ -88,6 +88,8 @@ binson_res  binson_parser_new( binson_parser **pparser )
 
   if (!(*pparser)->token_buf)
     return BINSON_RES_ERROR_OUT_OF_MEMORY;
+  else
+    if (FAILED(res)) return res;     
 
   return BINSON_RES_OK;
 }
@@ -104,7 +106,7 @@ binson_res  binson_parser_init( binson_parser *parser, binson_io *source, binson
   binson_res  res;
 
   /* Initial parameter validation */
-  if (!parser || !source || mode < 0 || mode >= BINSON_PARSER_MODE_LAST )
+  if (!parser || !source || mode >= BINSON_PARSER_MODE_LAST )
     return BINSON_RES_ERROR_ARG_WRONG;
 
   parser->source  = source;
@@ -177,7 +179,7 @@ binson_res  binson_parser_set_mode( binson_parser *parser, binson_parser_mode mo
   ASSERT_STATIC( BINSON_PARSER_MODE_LAST > 0 );   /* At least one of 'BINSON_PARSER_MODE_*' must be defined */
 
   /* Initial parameter validation */
-  if (!parser || mode < 0 || mode >= BINSON_PARSER_MODE_LAST)
+  if (!parser || mode >= BINSON_PARSER_MODE_LAST)
     return BINSON_RES_ERROR_ARG_WRONG;
 
   /* Also check is lib built with feature or not */
@@ -205,7 +207,6 @@ binson_res  binson_parser_set_mode( binson_parser *parser, binson_parser_mode mo
  */
 binson_res  binson_parser_parse( binson_parser *parser, binson_parser_cb cb, void* param )
 {
-  bool valid;
   binson_res  res;
 
   res = binson_parser_parse_first( parser, cb, param );  /* Request single token at first stage of parsing */
@@ -277,7 +278,7 @@ binson_res  binson_parser_parse_first( binson_parser *parser, binson_parser_cb c
 
   res = parser->cb( parser, tok_request, parser->token_buf, parser->param );
 
-  return BINSON_RES_OK;
+  return res;
 }
 
 /* \brief

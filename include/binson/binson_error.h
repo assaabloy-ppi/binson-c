@@ -51,6 +51,8 @@ extern "C" {
 #define FAILED(res)   ((res == BINSON_RES_OK)? 0 : (BINSON_ERROR_REPORT(res), 1))
 #define SUCCESS(res)  (!FAILED(res))
 
+#define UNUSED(x) (void)(x)   /* for unused variable suppression */
+  
 #ifdef NDEBUG
 # define BINSON_ASSERT( expr ) ((void)0)
 #else

@@ -34,5 +34,5 @@ int main()
    binson_writer_free( writer );
    binson_io_free( io );
 
-   return 0;
+   return res;
 }

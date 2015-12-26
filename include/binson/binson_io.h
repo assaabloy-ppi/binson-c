@@ -97,7 +97,7 @@ binson_res  binson_io_attach_str( binson_io *obj, char* str, size_t str_size, bi
 binson_res  binson_io_attach_bytebuf( binson_io *obj, uint8_t *buf, size_t buf_size);
 binson_res  binson_io_close( binson_io *obj );
 
-binson_res  binson_io_write( binson_io *obj, uint8_t *src_ptr, size_t block_size );
+binson_res  binson_io_write( binson_io *obj, const uint8_t *src_ptr, size_t block_size );
 binson_res  binson_io_write_str( binson_io *obj, const char* str, bool write_terminator );
 binson_res  binson_io_write_byte( binson_io *obj, uint8_t byte );
 

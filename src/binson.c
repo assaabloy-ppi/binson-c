@@ -284,7 +284,7 @@ binson_res  binson_node_add_empty( binson *obj, binson_node *parent, binson_node
   if (dst)
    *dst = me;
 
-  return BINSON_RES_OK;
+  return res;
 }
 
 /* \brief Adds node with prefilled value in binson_value struct
@@ -405,6 +405,8 @@ binson_res  binson_node_copy_val_from_raw( binson_node_type node_type, binson_va
  */
 binson_res  binson_node_attach( binson *obj, binson_node *parent, binson_node *new_node )
 {
+  UNUSED(obj); 
+  
   new_node->parent = parent;
   new_node->next = NULL;
 
@@ -650,6 +652,8 @@ binson_res  binson_node_dump_debug( binson *obj, binson_node *node )
   else
     printf(fmt, node, node->type, node->key, node->val.int_val,
                                       node->parent, node->prev, node->next, node->first_child, node->last_child );
+    
+  return BINSON_RES_OK;
 }
 
 binson_res  binson_cb_dump_debug( binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param )
@@ -659,6 +663,8 @@ binson_res  binson_cb_dump_debug( binson *obj, binson_node *node, binson_travers
   binson_io   *io = binson_writer_get_io( obj->writer );
 
   UNUSED(p);
+  UNUSED(res);
+  UNUSED(node);  
 
   res = binson_io_printf( io, "-> #%02d, depth=%02d, dir=%02d : ", status->child_num, status->depth, status->dir );
   return binson_node_dump_debug( obj, status->current_node );
@@ -697,6 +703,7 @@ binson_res binson_cb_remove( binson *obj, binson_node *node, binson_traverse_cb_
 {
   binson_traverse_cb_param   *p = (binson_traverse_cb_param *)param;
   UNUSED(p);
+  UNUSED(status);
 
 /*binson_cb_dump_debug( obj, node, status, param);*/
 
@@ -802,7 +809,7 @@ binson_res  binson_node_add_str( binson *obj, binson_node *parent, const char* k
 {
   binson_value  tmp_val;
 
-  tmp_val.str_val = (char*)val;
+  tmp_val.str_val = (char *)val;
   return binson_node_add( obj, parent, BINSON_TYPE_STRING, key, dst, &tmp_val );
 }
 
@@ -916,6 +923,8 @@ binson_res binson_cb_build( binson_parser *parser, uint8_t token_cnt, binson_tok
   binson_node_type         node_type;
   bool                     is_closing_token;  /* true, if current token is final part of OBJECT/ARRAY */
 
+  UNUSED(parser);
+  
   memset(&raw_key, 0, sizeof(binson_raw_value));
   memset(&raw_val, 0, sizeof(binson_raw_value));
 

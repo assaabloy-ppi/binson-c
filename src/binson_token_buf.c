@@ -106,7 +106,7 @@ binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bo
 {
   binson_token_ref  *tok;
   /*uint8_t            cnt;*/
-  int64_t            payload_len;
+  binson_raw_size    payload_len;
 
   if (!tbuf || !missing_bytes || !valid)
     return BINSON_RES_ERROR_ARG_WRONG;
@@ -197,7 +197,7 @@ binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bo
   if ( tok->len_size ) /* token with length filed: STRING or BYTES */
   {
     /* at this point length data are ok - let's decode it */
-    payload_len =  binson_util_unpack_integer( tbuf->ptr + tok->offset + BINSON_RAW_SIG_SIZE, tok->len_size  );
+    payload_len = (binson_raw_size)binson_util_unpack_integer( tbuf->ptr + tok->offset + BINSON_RAW_SIG_SIZE, tok->len_size  );
     tok->val_size = payload_len;
 
     /* calculate missing part of payload */
@@ -485,7 +485,7 @@ binson_res  binson_token_buf_token_fill( binson_token_buf *tbuf, uint8_t *tok_co
  */
 binson_res  binson_token_buf_get_node_type( binson_token_buf *tbuf, uint8_t tok_num, binson_node_type *pntype, bool *is_closing_token )
 {
-  binson_res  res;
+  /*binson_res  res;*/
 
   if (!tbuf || tok_num >= BINSON_TOKEN_BUF_TOKS || !pntype)
     return BINSON_RES_ERROR_ARG_WRONG;
