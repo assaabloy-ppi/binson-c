@@ -47,6 +47,8 @@ void  gen_sample_data_binson_writer( binson_writer *writer )
 
   binson_writer_write_integer( writer, NULL, 1 );
   binson_writer_write_integer( writer, NULL, -1 );
+  binson_writer_write_integer( writer, NULL, -130 );  
+  binson_writer_write_integer( writer, NULL, 130 );    
   binson_writer_write_integer( writer, NULL, INT32_MAX );
   binson_writer_write_integer( writer, NULL, INT32_MIN );
   binson_writer_write_integer( writer, NULL, INT64_MAX );

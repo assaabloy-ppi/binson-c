@@ -14,6 +14,8 @@
 
 #include <cmocka.h>
 
+#include "binson/binson.h"
+
 /*
  * This function must be defined in every unit test file.
  */

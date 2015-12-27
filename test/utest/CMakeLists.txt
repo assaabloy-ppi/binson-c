@@ -7,5 +7,7 @@ function (ADD_CMOCKA_TEST _testName _testSource)
 endfunction (ADD_CMOCKA_TEST)
 
 # add tests
-add_cmocka_test(utest_writer utest_writer.c  btest cmocka )
-add_cmocka_test(utest_raw utest_raw.c  btest cmocka )
+add_cmocka_test(utest_util utest_util.c  binson btest cmocka )
+
+add_cmocka_test(utest_writer utest_writer.c  binson btest cmocka )
+add_cmocka_test(utest_raw utest_raw.c  binson btest cmocka )

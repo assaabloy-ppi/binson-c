@@ -38,16 +38,21 @@
 
 #include "binson_util.h"
 
+#define TWO_TO_7	128
+#define TWO_TO_15	32768
+#define	TWO_TO_31	2147483648L 
+
+
 /** \brief
  *
  * \param i int64_t
  * \return uint8_t
  */
-uint8_t binson_util_get_significant_bytes( int64_t i )
+/*uint8_t binson_util_get_significant_bytes( int64_t i )
 {
   int cnt, idx=0;
 
-  i = (i<0)? -i:i;   /* remove sign */
+  i = (i<0)? -i:i;   / remove sign /
 
   for (cnt=1; cnt<=9; cnt++)
   {
@@ -56,37 +61,39 @@ uint8_t binson_util_get_significant_bytes( int64_t i )
     i >>= 8;
   }
 
-  if (!idx)  /* zero value still needs one byte to be stored */
+  if (!idx)  / zero value still needs one byte to be stored /
     idx = 1;
 
   return idx;
-}
+}*/
 
 /** \brief Convert 64-bit arg to LE representation in memory buffer
  *
  * \param val int64_t                 Value
  * \param bbuf uint8_t*               Destination byte buffer
- * \param expand_to_next_int bool     Expand number of bytes to next int size (e.g. 3->4, 5->8 bytes)
  * \return size_t                     Result width in bytes
  */
-size_t binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int )
+size_t binson_util_pack_integer( int64_t val, uint8_t *bbuf)
 {
-  size_t i;
-  const uint8_t int_map[] = { 1, 1, 2, 4, 4, 8, 8, 8, 8 }; /**< Maps number of bytes to closest int size */
+  size_t	i, size;
+  
+  if (val >= -TWO_TO_7 && val < TWO_TO_7) {
+      size = 1;
+  } else if (val >= -TWO_TO_15 && val < TWO_TO_15) {
+      size = 2;
+  } else if (val >= -TWO_TO_31 && val < TWO_TO_31) {
+      size = 4;    
+  } else {
+      size = 8;       
+  }  
 
-  size_t size, empty_cnt = 0;
-  bool neg = (val<0);
-
-  for (i=0; i<sizeof(int64_t); i++)
+  for (i=0; i<size; i++)
   {
      bbuf[i] = val & 0xff;
-     empty_cnt = (bbuf[i] == (neg? 0xff:0x00))? empty_cnt+1 : 0;
      val >>= 8;
-  }
-
-  size = sizeof(int64_t)-empty_cnt;
-
-  return expand_to_next_int? int_map[size] : (size? size:1);   /**< Zero value still requires one byte of storage */
+  } 
+  
+  return size;
 }
 
 /** \brief Convert 64-bit \c double to LE representation in memory buffer
@@ -104,7 +111,7 @@ size_t binson_util_pack_double( double val, uint8_t *bbuf )
 
   utmp.dval = val;
 
-  binson_util_pack_integer( utmp.ival, bbuf, false );
+  binson_util_pack_integer( utmp.ival, bbuf );
   return sizeof(double);
 }
 
@@ -115,10 +122,12 @@ size_t binson_util_pack_double( double val, uint8_t *bbuf )
  * \param bsize uint8_t
  * \return int64_t
  */
-int64_t  binson_util_unpack_integer( uint8_t *bbuf, uint8_t bsize )
+int64_t  binson_util_unpack_integer( const uint8_t *bbuf, uint8_t bsize )
 {
-  int i;
-  int64_t i64 = 0;
+  int		i;
+  int64_t	i64;
+
+  i64 = bbuf[bsize-1] & 0x80 ? -1:0;  /* prefill with ones or zeroes depending of sign presence */
 
   for (i=bsize-1; i>=0; i--)
   {
@@ -130,13 +139,12 @@ int64_t  binson_util_unpack_integer( uint8_t *bbuf, uint8_t bsize )
 }
 
 
-
 /** \brief
  *
  * \param bbuf uint8_t*
  * \return double
  */
-double  binson_util_unpack_double( uint8_t *bbuf )
+double  binson_util_unpack_double( const uint8_t *bbuf )
 {
   union {
     double dval;

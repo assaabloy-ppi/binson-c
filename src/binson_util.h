@@ -63,14 +63,12 @@ extern "C" {
 /**
  *  Conversion helpers (binson raw <-> C style)
  */
-uint8_t   binson_util_get_significant_bytes( int64_t i );
-size_t    binson_util_pack_integer( int64_t val, uint8_t *bbuf, bool expand_to_next_int );
+/*uint8_t   binson_util_get_significant_bytes( int64_t i );*/
+size_t    binson_util_pack_integer( int64_t val, uint8_t *bbuf );
 size_t    binson_util_pack_double( double val, uint8_t *bbuf );
 
-int64_t  binson_util_unpack_integer( uint8_t *bbuf, uint8_t bsize );
-double   binson_util_unpack_double( uint8_t *bbuf );
-
-uint8_t  binson_util_hexx_to_byte( const char *src);
+int64_t  binson_util_unpack_integer( const uint8_t *bbuf, uint8_t bsize );
+double   binson_util_unpack_double( const uint8_t *bbuf );
 
 #ifdef __cplusplus
 }

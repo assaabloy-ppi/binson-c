@@ -3,8 +3,6 @@
 
 #include "btest.h"
 
-#include "binson/binson.h"
-
 
 int main(int argc, char **argv) {
   UNUSED(argc);

@@ -429,7 +429,7 @@ binson_res  binson_writer_write_integer( binson_writer *writer, const char* key,
 #endif
 
   /**< Convert value to INTEGER primitive and store it in specified byte buffer */
-  bsize = binson_util_pack_integer( val, &bbuf[1], true );
+  bsize = binson_util_pack_integer( val, &bbuf[1] );
   bbuf[0] = binson_int_map[bsize];
 
   /**< Format dependent output */
@@ -565,7 +565,7 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
   }
 
   /**< Convert buffer size to INTEGER primitive and store it in specified byte buffer */
-  bsize = binson_util_pack_integer( (int64_t)src_utf8_size, &bbuf[1], true );
+  bsize = binson_util_pack_integer( (int64_t)src_utf8_size, &bbuf[1] );
   bbuf[0] = (sig == BINSON_SIG_STRING_8)? binson_str_map[bsize] : binson_bytes_map[bsize];
 
   /**< Format dependent output */

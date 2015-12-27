@@ -59,6 +59,13 @@ $ cmake ..
 $ make all
 ```
 
+Now it's possible to run unit tests (if built with option WITH_TESTING):
+
+```
+$ make test
+```
+
+
 ToDo (before beta)
 ---------
 - [x] CMake build system integration
