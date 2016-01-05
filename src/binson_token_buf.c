@@ -440,6 +440,7 @@ binson_res  binson_token_buf_token_fill( binson_token_buf *tbuf, uint8_t *tok_co
           }
           res = binson_io_read( tbuf->source, tbuf->ptr + tok->offset + tok->size, to_read, &done_read );
           tok->size += done_read;
+	  if (FAILED(res)) return res;
           continue;
 
         case BINSON_RES_ERROR_PARSE_INVALID_INPUT:

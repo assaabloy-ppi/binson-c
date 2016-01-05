@@ -645,7 +645,7 @@ binson_res  binson_node_dump_debug( binson *obj, binson_node *node )
 
   if (obj)
   {
-    io = binson_writer_get_io( obj->writer );
+    io = obj->error_io; /*binson_writer_get_io( obj->writer );*/
     return binson_io_printf( io, fmt, node, node->type, node->key, node->val.int_val,
                                       node->parent, node->prev, node->next, node->first_child, node->last_child );
   }
@@ -660,7 +660,7 @@ binson_res  binson_cb_dump_debug( binson *obj, binson_node *node, binson_travers
 {
   binson_traverse_cb_param *p = (binson_traverse_cb_param *)param;
   binson_res  res = BINSON_RES_OK;
-  binson_io   *io = binson_writer_get_io( obj->writer );
+  binson_io   *io = obj->error_io; /*binson_writer_get_io( obj->writer );*/
 
   UNUSED(p);
   UNUSED(res);
@@ -951,11 +951,11 @@ binson_res binson_cb_build( binson_parser *parser, uint8_t token_cnt, binson_tok
     new_node->type = node_type;
 
      /* allocating and cloning key */
-     if (!p->parent_last || p->parent_last->type == BINSON_TYPE_ARRAY)  /* no parent or ARRAY */
+     if ( !p->parent_last || p->parent_last->type == BINSON_TYPE_ARRAY)  /* no key, no parent or ARRAY */
      {
        new_node->key = NULL;
      }
-     else if (!raw_key.bbuf_val.bsize)  /* parent is OBJECT but we have no parsed key, so key from argument  */
+     else if (!raw_key.bbuf_val.bsize && p->top_key)  /* parent is OBJECT but we have no parsed key, so key from argument  */
      {
        new_node->key = (char*)malloc( strlen(p->top_key)+1 );
        strcpy(new_node->key, p->top_key);

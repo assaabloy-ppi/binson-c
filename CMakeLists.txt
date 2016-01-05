@@ -33,10 +33,11 @@ set(CMAKE_MODULE_PATH
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules
 )
 
+#set(CMAKE_BUILD_TYPE, Debug)
 
 # compiler flags
 if(CMAKE_COMPILER_IS_GNUCC)
-  set(COMMON_C_FLAGS  "-g -O2 -fPIC -ansi -pedantic -pedantic-errors -Wall -W  -Wsign-conversion -Wshadow -Wpointer-arith -Wcast-align  -Wnested-externs -fshort-enums -fno-common -Dinline=  ")
+  set(COMMON_C_FLAGS  "-g -O0 -fPIC -ansi -pedantic -pedantic-errors -Wall -W  -Wsign-conversion -Wshadow -Wpointer-arith -Wcast-align  -Wnested-externs -fshort-enums -fno-common -Dinline=  ")
   #set(COMMON_C_FLAGS  "-fPIC -ansi -pedantic -pedantic-errors -Wall -W  -Wmissing-prototypes -Wstrict-prototypes -Wconversion -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -Wnested-externs -fshort-enums -fno-common -Dinline=  ")
   if(NOT WIN32)
     set(COMMON_C_FLAGS "${COMMON_C_FLAGS} -Werror")

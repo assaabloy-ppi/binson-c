@@ -55,20 +55,14 @@ extern "C" {
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
 /**
- *  Argument stringization
- */
-#define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
-
-/**
  *  Conversion helpers (binson raw <-> C style)
  */
 /*uint8_t   binson_util_get_significant_bytes( int64_t i );*/
-size_t    binson_util_pack_integer( int64_t val, uint8_t *bbuf );
-size_t    binson_util_pack_double( double val, uint8_t *bbuf );
+size_t	binson_util_pack_integer( int64_t val, uint8_t *bbuf );
+size_t	binson_util_pack_double( double val, uint8_t *bbuf );
 
-int64_t  binson_util_unpack_integer( const uint8_t *bbuf, uint8_t bsize );
-double   binson_util_unpack_double( const uint8_t *bbuf );
+int64_t	binson_util_unpack_integer( const uint8_t *bbuf, uint8_t bsize );
+double	binson_util_unpack_double( const uint8_t *bbuf );
 
 #ifdef __cplusplus
 }

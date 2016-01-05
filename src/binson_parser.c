@@ -210,8 +210,8 @@ binson_res  binson_parser_parse( binson_parser *parser, binson_parser_cb cb, voi
   binson_res  res;
 
   res = binson_parser_parse_first( parser, cb, param );  /* Request single token at first stage of parsing */
-
-  while (!parser->done && parser->valid )
+  
+  while (SUCCESS(res) && !parser->done && parser->valid )
     res = binson_parser_parse_next( parser );
 
   return res;
@@ -245,6 +245,8 @@ binson_res  binson_parser_parse_first( binson_parser *parser, binson_parser_cb c
   tok_request = parser->depth? (parser->sig_stack[parser->depth-1] == BINSON_SIG_OBJ_BEGIN? 2:1) : 1;
 
   res = binson_token_buf_token_fill( parser->token_buf, &tok_request );
+  if (FAILED(res)) return res;
+  
   res = binson_token_buf_is_valid( parser->token_buf, &valid );
 
   if (!valid)

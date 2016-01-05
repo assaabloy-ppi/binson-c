@@ -437,6 +437,8 @@ binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, s
 
         memcpy(dst_ptr, obj->handle.bytebuf.ptr + obj->handle.bytebuf.cursor, cnt);
         obj->handle.bytebuf.cursor += cnt;
+	*read_bytes = cnt;
+	res = (cnt < max_size)? BINSON_RES_ERROR_IO_OUT_OF_BUFFER : BINSON_RES_OK;
         break;
 
     case BINSON_IO_TYPE_NULL:

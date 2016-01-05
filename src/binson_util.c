@@ -43,30 +43,6 @@
 #define	TWO_TO_31	2147483648L 
 
 
-/** \brief
- *
- * \param i int64_t
- * \return uint8_t
- */
-/*uint8_t binson_util_get_significant_bytes( int64_t i )
-{
-  int cnt, idx=0;
-
-  i = (i<0)? -i:i;   / remove sign /
-
-  for (cnt=1; cnt<=9; cnt++)
-  {
-    if (i & 0xff)
-      idx  = cnt;
-    i >>= 8;
-  }
-
-  if (!idx)  / zero value still needs one byte to be stored /
-    idx = 1;
-
-  return idx;
-}*/
-
 /** \brief Convert 64-bit arg to LE representation in memory buffer
  *
  * \param val int64_t                 Value
