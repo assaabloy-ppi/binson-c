@@ -31,7 +31,7 @@ int main()
     /* ready to build DOM */
     gen_sample_data_binson( context, binson_get_root( context ));
 
-    res = binson_serialize( context );
+    res = binson_serialize( context, NULL );
 
     /* DEBUG: test tree traversal */
 #ifdef DEBUG

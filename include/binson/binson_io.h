@@ -88,6 +88,10 @@ binson_res  binson_io_new( binson_io **pio );
 binson_res  binson_io_init( binson_io *io );
 binson_res  binson_io_free( binson_io *io );
 
+binson_res  binson_io_reset_counters( binson_io *io );
+binson_res  binson_io_get_read_counter( binson_io *io, binson_raw_size *pcnt );
+binson_res  binson_io_get_write_counter( binson_io *io, binson_raw_size *pcnt );
+
 bool        binson_io_is_random( binson_io *io );
 
 binson_res  binson_io_open_file( binson_io *obj, const char* path, binson_io_mode mode );

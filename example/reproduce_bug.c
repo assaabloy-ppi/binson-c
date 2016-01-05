@@ -3,6 +3,8 @@
  */
 
 #include <stdio.h>
+#include <string.h>
+
 #include "binson/binson.h"
 
 int bug1()
@@ -64,14 +66,79 @@ int bug1()
     return res;
 }
 
+/*================================================*/
+
+/** Creates m1 PoT message in provided buffer. Returns actual size used. */
+int32_t create_m1(uint8_t* buffer, int32_t buffer_size, uint8_t* ek, int32_t ek_size)
+{
+    binson *obj;
+    binson_res res;
+    binson_writer *writer;
+    binson_io *out;
+    uint32_t i;
+
+    binson_raw_size  rsize=0;
+    
+    printf("Hello from create_m1, buffer_size: %d, ek_size: %d\n", buffer_size, ek_size);
+
+    memset(buffer, 0, buffer_size);
+
+    res = binson_new(&obj);
+    res = binson_io_new(&out);
+    res = binson_writer_new(&writer);
+
+    res = binson_io_attach_bytebuf(out, buffer, buffer_size);
+    res = binson_writer_init( writer, out, BINSON_WRITER_FORMAT_RAW);
+    res = binson_init(obj, writer, NULL, NULL);
+
+    res = binson_node_add_str(obj, binson_get_root(obj), "t", NULL, "m1");
+    res = binson_node_add_str(obj, binson_get_root(obj), "p", NULL, "S1");
+    res = binson_node_add_bytes(obj, binson_get_root(obj), "ek", NULL, ek, ek_size);
+
+    res = binson_serialize(obj, &rsize);  // use NULL as second arg if not required
+    printf("\n binson_serialize() : rsize: %d\n", rsize);
+    
+    
+    res = binson_writer_free(writer);
+    res = binson_io_free(out);
+    res = binson_free(obj);
+
+    UNUSED(res);
+    
+    uint32_t last_index = -1;
+    for (i = buffer_size - 1; i >= 0; i--)
+    {
+        if (buffer[i] != 0)
+        {
+            last_index = i;
+            break;
+        }
+    }
+
+    int32_t byte_size = last_index == -1 ? -1 : last_index + 1;
+    printf("byte_size: %d\n", byte_size);
+    return byte_size;
+}
+/*================================================*/
 
 int main()
 {
-  int r;
+  int r=0;
+  uint8_t  buff[128];
+  int32_t buff_size = 128;
+  uint8_t ek[] = {0x10, 0x11, 0x12};
+  int32_t ek_size = 3;
   
-  printf("--- before bug1() call");
+  /*
+  printf("\n--- before bug1() call\n");
   r = bug1();
-  printf("--- after bug1() call");
+  printf("\n--- after bug1() call\n");
+  */
+  
+  printf("\n--- before create_m1() call\n");
+  r = create_m1( buff, buff_size, ek, ek_size);
+  printf("\n resulting raw size = %d bytes\n", r);   
+  printf("\n--- after create_m1() call\n"); 
   
   return r;
 }

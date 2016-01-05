@@ -63,7 +63,7 @@ int main()
     reply_to_msg( rx, tx );
 
     /* save to file as raw binson format */
-    res = binson_serialize( tx );
+    res = binson_serialize( tx, NULL );
 
     /* we are done. freeing resources */
     res = binson_free( rx );

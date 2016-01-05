@@ -130,7 +130,7 @@ binson_res  binson_node_remove( binson *obj, binson_node *node );
 /**
  *  Serialization/deserialization
  */
-binson_res  binson_serialize( binson *obj );
+binson_res  binson_serialize( binson *obj, binson_raw_size *psize );
 binson_res  binson_deserialize( binson *obj, binson_node *parent, const char* key, bool validate_only );
 
 /**

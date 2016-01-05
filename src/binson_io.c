@@ -78,9 +78,12 @@ typedef struct binson_io_ {
   binson_io_type    type;
   binson_io_mode    mode;
   binson_io_struct  handle;
+  
+  binson_raw_size   write_counter;  /* byte counter*/
+  binson_raw_size   read_counter;  
 
-  binson_res          status;        /**< Last input/output operation result */
-  int                 errno_copy;    /**< Last errno value for this object */
+  binson_res        status;        /**< Last input/output operation result */
+  int               errno_copy;    /**< Last errno value for this object */
 
 } binson_io_;
 
@@ -106,9 +109,11 @@ binson_res  binson_io_init( binson_io *io )
   io->type = BINSON_IO_TYPE_NULL;
   io->mode = BINSON_IO_MODE_NONE;
   io->handle.stream = 0;
-  io->status = BINSON_RES_OK;
+  io->status = BINSON_RES_OK;	
   io->errno_copy = 0;
 
+  binson_io_reset_counters( io );
+  
   return BINSON_RES_OK;
 }
 
@@ -116,7 +121,6 @@ binson_res  binson_io_init( binson_io *io )
  *
  * \param io binson_io*
  * \return binson_res
- *
  */
 binson_res  binson_io_free( binson_io *io )
 {
@@ -129,6 +133,53 @@ binson_res  binson_io_free( binson_io *io )
   free( io );
 
   return res;
+}
+
+/** \brief Reset io read and write counters
+ *
+ * \param io binson_io*
+ * \return binson_res
+ */
+binson_res  binson_io_reset_counters( binson_io *io )
+{
+  if (!io)
+    return BINSON_RES_ERROR_ARG_WRONG;
+  
+  io->read_counter = io->write_counter = 0;
+  
+  return BINSON_RES_OK;
+}
+
+/** \brief Get read bytes counter value. Use \c binson_io_reset_counters() to clear it.
+ *
+ * \param io binson_io*
+ * \param binson_raw_size pcnt*
+ * \return binson_res
+ */
+binson_res  binson_io_get_read_counter( binson_io *io, binson_raw_size *pcnt )
+{
+  if (!io || !pcnt)
+    return BINSON_RES_ERROR_ARG_WRONG;
+  
+  *pcnt = io->read_counter;
+  
+  return BINSON_RES_OK;  
+}
+
+/** \brief Get written bytes counter value. Use \c binson_io_reset_counters() to clear it.
+ *
+ * \param io binson_io*
+ * \param binson_raw_size pcnt*
+ * \return binson_res
+ */
+binson_res  binson_io_get_write_counter( binson_io *io, binson_raw_size *pcnt )
+{
+  if (!io || !pcnt)
+    return BINSON_RES_ERROR_ARG_WRONG;
+  
+  *pcnt = io->write_counter;
+  
+  return BINSON_RES_OK;    
 }
 
 /** \brief Open file with specified access mode and attach it to \c binson_io object
@@ -302,6 +353,7 @@ binson_res  binson_io_write( binson_io *obj, const uint8_t *src_ptr, size_t bloc
   {
     case BINSON_IO_TYPE_STREAM:
       written = fwrite(src_ptr, 1, block_size, obj->handle.stream);
+      obj->write_counter += written;
       res = (block_size == written)? BINSON_RES_OK : BINSON_RES_ERROR_STREAM;
     break;
 
@@ -313,6 +365,7 @@ binson_res  binson_io_write( binson_io *obj, const uint8_t *src_ptr, size_t bloc
       {
         memcpy(obj->handle.bytebuf.ptr + obj->handle.bytebuf.cursor, src_ptr, block_size);
         obj->handle.bytebuf.cursor += block_size;
+	obj->write_counter += block_size;
       }
       break;
 
@@ -366,6 +419,7 @@ binson_res  binson_io_vprintf( binson_io *obj, const char* format, va_list args 
   {
     case BINSON_IO_TYPE_STREAM:
       written = (unsigned int)vfprintf( obj->handle.stream, format, args );
+      obj->write_counter += written;
     break;
 
     case BINSON_IO_TYPE_STR0:
@@ -374,6 +428,7 @@ binson_res  binson_io_vprintf( binson_io *obj, const char* format, va_list args 
        written = (unsigned int)vsprintf( (obj->mode & BINSON_IO_MODE_APPEND)? obj->handle.strbuf.ptr + obj->handle.strbuf.cursor :
                                                                 obj->handle.strbuf.ptr, format, args );
        obj->handle.strbuf.cursor += written;
+       obj->write_counter += written;
     break;
 
     case BINSON_IO_TYPE_NULL:
@@ -428,6 +483,7 @@ binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, s
     case BINSON_IO_TYPE_STREAM:
       *read_bytes = fread(dst_ptr, 1, max_size, obj->handle.stream );
       res = (*read_bytes == max_size )? BINSON_RES_OK : BINSON_RES_ERROR_STREAM;
+      obj->read_counter += *read_bytes;
     break;
 
     case BINSON_IO_TYPE_STR0:
@@ -437,6 +493,7 @@ binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, s
 
         memcpy(dst_ptr, obj->handle.bytebuf.ptr + obj->handle.bytebuf.cursor, cnt);
         obj->handle.bytebuf.cursor += cnt;
+	obj->read_counter += cnt;	
 	*read_bytes = cnt;
 	res = (cnt < max_size)? BINSON_RES_ERROR_IO_OUT_OF_BUFFER : BINSON_RES_OK;
         break;

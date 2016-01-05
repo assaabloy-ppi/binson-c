@@ -45,16 +45,16 @@ int main()
      printf("---------------\n");
 
     /* serialize via attached 'binson_writer' */
-    res = binson_serialize( context );
+    res = binson_serialize( context, NULL );
     res = binson_io_printf( out, "\n---------------\n" );
 
     res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_HEX );
-    res = binson_serialize( context );
+    res = binson_serialize( context, NULL );
 
     /* save to file as raw binson format */
     res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_RAW );
     res = binson_writer_set_io( writer, fio );
-    res = binson_serialize( context );
+    res = binson_serialize( context, NULL );
 
     /* we are done. freeing resources */
     res = binson_free( context );

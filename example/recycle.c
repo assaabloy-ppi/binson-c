@@ -45,16 +45,16 @@ int main()
     res = binson_deserialize( context, NULL, "def_key", false ); /* NULL mean replace whole DOM tree */
 
     /* serialize via attached 'binson_writer' */
-    res = binson_serialize( context );
+    res = binson_serialize( context, NULL );
     res = binson_io_printf( con, "\n---------------\n" );
     res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_HEX );
-    res = binson_serialize( context );
+    res = binson_serialize( context, NULL );
     res = binson_io_printf( con, "\n---------------\n" );
 
     /* save to file as raw binson format */
     res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_RAW );
     res = binson_writer_set_io( writer, fout );
-    res = binson_serialize( context );
+    res = binson_serialize( context, NULL );
 
     /* we are done. freeing resources */
     res = binson_free( context );

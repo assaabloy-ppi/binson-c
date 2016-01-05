@@ -903,12 +903,25 @@ binson_res  binson_node_remove( binson *obj, binson_node *node )
 /* \brief
  *
  * \param obj binson*
+ * \param psize binson_raw_size* Return number of bytes written. Specify NULL to ignore.
  * \return binson_res
  *
  */
-binson_res  binson_serialize( binson *obj )
+binson_res  binson_serialize( binson *obj, binson_raw_size *psize )
 {
-  return binson_traverse( obj, binson_get_root(obj), BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump, NULL );
+  binson_res res, res2;
+  
+  if (psize)
+    res2 = binson_io_reset_counters( binson_writer_get_io( obj->writer ) );
+    
+  res = binson_traverse( obj, binson_get_root(obj), BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump, NULL );
+  
+  if (psize)
+    res2 = binson_io_get_write_counter( binson_writer_get_io( obj->writer ), psize );
+  
+  UNUSED(res2);	
+  
+  return res;
 }
 
 /**
