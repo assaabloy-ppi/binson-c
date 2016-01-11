@@ -19,6 +19,38 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_C_FLAGS_RELEASE "${COMMON_C_FLAGS_RELEASE}")    # replace default
 endif()
 
+include(ExternalProject)
+ExternalProject_Add (
+        cmocka
+        GIT_REPOSITORY "git://git.cryptomilk.org/projects/cmocka.git"
+        GIT_TAG "master"
+        UPDATE_COMMAND ""
+        INSTALL_COMMAND ""
+        DOWNLOAD_DIR "${CMAKE_SOURCE_DIR}/external/cmocka"
+        CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/external/cmocka"
+        INSTALL_DIR ${CMAKE_BINARY_DIR}/external/cmocka
+        INSTALL_COMMAND
+          "cmake"
+          --build .
+          --target install
+        )
+        
+add_library(cmocka_lib SHARED IMPORTED)       
+set_target_properties( cmocka_lib PROPERTIES IMPORTED_LOCATION "${CMAKE_BINARY_DIR}/external/cmocka/lib/libcmocka.so" )
+add_dependencies( cmocka_lib cmocka )
+
+# find cmocka library and headers
+#find_path(CMOCKA_ROOT_DIR
+#    PATHS "${CMAKE_BINARY_DIR}/external/cmocka"
+#    NAMES include/cmocka.h )  
+#find_path(CMOCKA_INCLUDE_DIR
+#    NAMES cmocka.h
+#    PATHS ${CMOCKA_ROOT_DIR}/include)
+#find_library(CMOCKA_LIBRARY NAMES cmocka
+#    PATHS ${CMOCKA_ROOT_DIR}/lib )
+
+set(CMOCKA_INCLUDE_DIR  "${CMAKE_BINARY_DIR}/external/cmocka/include")
+
 include_directories(
   ${CMOCKA_INCLUDE_DIR}
   ${CMAKE_BINARY_DIR}
@@ -26,24 +58,11 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/include  
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
-
-# find cmocka library and headers
-find_path(CMOCKA_ROOT_DIR
-    NAMES include/cmocka.h )  
-find_path(CMOCKA_INCLUDE_DIR
-    NAMES cmocka.h
-    PATHS ${CMOCKA_ROOT_DIR}/include)
-find_library(CMOCKA_LIBRARY NAMES cmocka
-    PATHS ${CMOCKA_ROOT_DIR}/lib )
-
-set(BINSON_TEST_LINK_LIBRARIES
-    ${CMOCKA_LIBRARY}
-    )
-    
     
 # create test library
 add_library(btest STATIC btest.c)
-target_link_libraries(btest ${CMOCKA_LIBRARY} )
-
+add_dependencies(btest cmocka_lib)
+target_link_libraries(btest cmocka_lib )
+#target_link_libraries(btest cmocka)
 
 add_subdirectory(utest)
