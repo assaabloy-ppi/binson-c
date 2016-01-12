@@ -135,7 +135,7 @@ size_t u8_read_escape_sequence(const uint8_t *str, uint32_t *dest)
     return i;
 }
 
-size_t u8_unescape(uint8_t *buf, size_t sz, uint8_t *src)
+size_t binson_utf8_unescape(uint8_t *buf, size_t sz, uint8_t *src)
 {
     size_t c=0, amt;
     uint32_t ch;
@@ -163,7 +163,7 @@ size_t u8_unescape(uint8_t *buf, size_t sz, uint8_t *src)
 }
 
 
-bool is_utf8( uint8_t* string)
+bool binson_utf8_is_valid( uint8_t* string)
 {
     const unsigned char * bytes = (const unsigned char *)string;
 

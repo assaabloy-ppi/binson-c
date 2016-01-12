@@ -555,12 +555,12 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
 #endif
 
   /* UTF-8 checks & conversion */
-  if (sig == BINSON_SIG_STRING_8 && !is_utf8( src_ptr ) )
+  if (sig == BINSON_SIG_STRING_8 && !binson_utf8_is_valid( src_ptr ) )
   {
       encoded = true;
       src_utf8_ptr = (uint8_t*) malloc(4*src_size+2);
       /*strcpy((char*)src_utf8_ptr, (char*)src_ptr);*/
-      src_utf8_size = u8_unescape( src_utf8_ptr, 4*src_size+2, src_ptr );
+      src_utf8_size = binson_utf8_unescape( src_utf8_ptr, 4*src_size+2, src_ptr );
 
   }
 

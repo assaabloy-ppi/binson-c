@@ -121,13 +121,67 @@ int32_t create_m1(uint8_t* buffer, int32_t buffer_size, uint8_t* ek, int32_t ek_
 }
 /*================================================*/
 
+#define CK (printf("res=%d\n", res));
+/**
+ * Parses Binson bytes in buffer. Stores result in obj.
+ * Caller is responsible for calling binson_free(obj) to free memory allocated in the function.
+ */
+int bn_read_from_bytes(uint8_t* buffer, int32_t buffer_size, binson** obj)
+{
+    binson_res res;
+    binson_parser* parser;
+    binson_io* in;
+
+    res = binson_new(obj); CK
+    res = binson_io_new(&in); CK
+    res = binson_parser_new(&parser); CK
+    res = binson_io_attach_bytebuf(in, buffer, buffer_size); CK
+    res = binson_parser_init(parser, in, BINSON_PARSER_MODE_DOM); CK
+    res = binson_init(*obj, NULL, parser, NULL); CK
+    res = binson_deserialize(*obj, NULL, NULL, false); CK
+    res = binson_parser_free(parser); CK
+    res = binson_io_free(in); CK
+    return 0;
+}
+
+/**
+ * Writes a Binson object to a byte buffer. output_size is the actual
+ * byte size used by the binson bytes.
+ */
+int bn_write_to_bytes(binson* obj, uint8_t* buffer, int32_t buffer_size, int32_t* output_size)
+{
+    binson_res res;
+    binson_writer *writer;
+    binson_io *out;
+    binson_raw_size raw_size;
+
+    res = binson_io_new(&out); CK
+    res = binson_writer_new(&writer); CK
+    res = binson_io_attach_bytebuf(out, buffer, buffer_size); CK
+    res = binson_writer_init(writer, out, BINSON_WRITER_FORMAT_RAW); CK
+
+    // XXX ERROR problematic with binson_init(), resets obj to empty Binson object.
+    //res = binson_init(obj, writer, NULL, NULL); CK
+    res = binson_set_writer(obj, writer); CK
+    
+    res = binson_serialize(obj, &raw_size); CK
+
+    res = binson_writer_free(writer); CK
+    res = binson_io_free(out); CK
+
+    *output_size = raw_size;
+    return 0;
+}
+/*================================================*/
+
 int main()
 {
-  int r=0;
+  /*int r=0;
   uint8_t  buff[128];
   int32_t buff_size = 128;
   uint8_t ek[] = {0x10, 0x11, 0x12};
   int32_t ek_size = 3;
+  */
   
   /*
   printf("\n--- before bug1() call\n");
@@ -135,10 +189,35 @@ int main()
   printf("\n--- after bug1() call\n");
   */
   
-  printf("\n--- before create_m1() call\n");
+  /*printf("\n--- before create_m1() call\n");
   r = create_m1( buff, buff_size, ek, ek_size);
   printf("\n resulting raw size = %d bytes\n", r);   
-  printf("\n--- after create_m1() call\n"); 
+  printf("\n--- after create_m1() call\n"); */
   
-  return r;
+  binson_res res = BINSON_RES_OK;
+  uint8_t buf[] = {0x40, 0x14, 0x01, 0x61, 0x10, 0x7b, 0x41};
+  uint8_t buf2[32];
+  int32_t i, bcnt = 0;
+  binson *obj = NULL;
+  
+  printf("==== bn_read_from_bytes() begin.... ");
+  res = bn_read_from_bytes(buf, sizeof(buf), &obj); CK;
+  
+  //binson_traverse( obj, binson_get_root(obj), BINSON_TRAVERSE_PREORDER, BINSON_DEPTH_LIMIT, binson_cb_dump_debug, NULL );
+
+  printf("==== bn_read_from_bytes() end. ");
+  printf("==== bn_write_to_bytes() begin.... ");
+  res = bn_write_to_bytes(obj, buf2, sizeof(buf2), &bcnt); CK;
+  printf("==== bn_write_to_bytes() end. ");
+  
+  printf("bcnt=%d\n\n", bcnt);
+  for (i=0; i<bcnt; i++)
+  {
+    printf("0x%02x, ", buf2[i]);
+  }
+  printf("\n\n");
+    
+  res = binson_free(obj);
+  
+  return 0;
 }

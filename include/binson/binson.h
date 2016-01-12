@@ -108,6 +108,9 @@ binson_res      binson_free( binson *obj );
 binson_node*    binson_get_root( binson *obj );
 binson_writer*  binson_get_writer( binson *obj );
 binson_parser*  binson_get_parser( binson *obj );
+binson_res	binson_set_writer( binson *obj, binson_writer *pwriter );
+binson_res	binson_set_parser( binson *obj, binson_parser *pparser );
+
 
 /**
  *  Node/tree creation/removal

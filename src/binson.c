@@ -1222,6 +1222,58 @@ binson_node* binson_get_root( binson *obj )
   return obj->root;
 }
 
+/** \brief Return associated writer instance
+ *
+ * \param obj binson*
+ * \return binson_writer*
+ */
+binson_writer*  binson_get_writer( binson *obj )
+{
+  return obj->writer;
+}
+
+/** \brief Return associated parser instance
+ *
+ * \param obj binson*
+ * \return binson_parser*
+ */
+binson_parser*  binson_get_parser( binson *obj )
+{
+  return obj->parser;  
+}
+
+/** \brief Associate writer instance with binson context object
+ *
+ * \param obj binson*
+ * \param pwriter binson_writer*
+ * \return binson_res
+ */
+binson_res	binson_set_writer( binson *obj, binson_writer *pwriter )
+{
+  if (!obj)
+    return BINSON_RES_ERROR_ARG_WRONG; 
+  
+  obj->writer = pwriter;
+  
+  return BINSON_RES_OK;
+}
+
+/** \brief Associate parser instance with binson context object
+ *
+ * \param obj binson*
+ * \param pparser binson_parser*
+ * \return binson_res
+ */
+binson_res	binson_set_parser( binson *obj, binson_parser *pparser )
+{
+  if (!obj)
+    return BINSON_RES_ERROR_ARG_WRONG; 
+  
+  obj->parser = pparser;
+  
+  return BINSON_RES_OK;  
+}
+
 /* \brief Get node type
  *
  * \param node binson_node*

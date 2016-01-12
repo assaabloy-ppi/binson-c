@@ -26,7 +26,7 @@ ExternalProject_Add (
         GIT_TAG "master"
         UPDATE_COMMAND ""
         INSTALL_COMMAND ""
-        DOWNLOAD_DIR "${CMAKE_SOURCE_DIR}/external/cmocka"
+        DOWNLOAD_DIR ""
         CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/external/cmocka"
         INSTALL_DIR ${CMAKE_BINARY_DIR}/external/cmocka
         INSTALL_COMMAND
