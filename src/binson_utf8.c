@@ -177,7 +177,7 @@ bool binson_utf8_is_valid( uint8_t* string)
                 bytes[0] == 0x09 ||
                 bytes[0] == 0x0A ||
                 bytes[0] == 0x0D ||
-                (0x20 <= bytes[0] && bytes[0] <= 0x7E)
+                (0x20 <= bytes[0] && bytes[0] <= 0x7F)
             )
         ) {
             bytes += 1;
