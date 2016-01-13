@@ -57,10 +57,6 @@
 typedef struct binson_ {
 
   binson_node     *root;
-
-  binson_writer   *writer;
-  binson_parser   *parser;
-
   binson_io       *error_io;
 
 } binson_;
@@ -196,17 +192,13 @@ binson_res  binson_new( binson **pobj )
 /* \brief Initialize binson context object
  *
  * \param obj binson*
- * \param writer binson_writer*
- * \param parser binson_parser*
  * \return binson_res
  */
-binson_res  binson_init( binson *obj, binson_writer *writer, binson_parser *parser, binson_io *error_io )
+binson_res  binson_init( binson *obj, binson_io *error_io )
 {
   binson_res  res = BINSON_RES_OK;
 
   obj->root       = NULL;
-  obj->writer     = writer;
-  obj->parser     = parser;
   obj->error_io   = error_io;
 
   res = binson_error_init( obj->error_io );
@@ -579,47 +571,47 @@ binson_res binson_cb_dump( binson *obj, binson_node *node, binson_traverse_cb_st
   binson_traverse_cb_param *p = (binson_traverse_cb_param *)param;
   binson_res  res = BINSON_RES_OK;
 
-  UNUSED(p);
+  /*UNUSED(p);*/
 
 /*printf("t=%d, d=%d\n", node->type, status->dir);*/
 
-  if (!obj || !node || !status || !status->current_node )
+  if (!obj || !(p->in_param.writer) || !node || !status || !status->current_node )
     return BINSON_RES_ERROR_ARG_WRONG;
 
   switch (node->type)
   {
     case BINSON_TYPE_OBJECT:
       if (status->dir == BINSON_TRAVERSE_DIR_UP)
-        res = binson_writer_write_object_end( obj->writer );
+        res = binson_writer_write_object_end( p->in_param.writer );
       else
-        res = binson_writer_write_object_begin( obj->writer, node->key );
+        res = binson_writer_write_object_begin( p->in_param.writer, node->key );
     break;
 
     case BINSON_TYPE_ARRAY:
       if (status->dir == BINSON_TRAVERSE_DIR_UP)
-        res = binson_writer_write_array_end( obj->writer );
+        res = binson_writer_write_array_end( p->in_param.writer );
       else
-        res = binson_writer_write_array_begin( obj->writer, node->key );
+        res = binson_writer_write_array_begin( p->in_param.writer, node->key );
     break;
 
     case BINSON_TYPE_BOOLEAN:
-      res = binson_writer_write_boolean( obj->writer, node->key, node->val.bool_val );
+      res = binson_writer_write_boolean( p->in_param.writer, node->key, node->val.bool_val );
     break;
 
     case BINSON_TYPE_INTEGER:
-      res = binson_writer_write_integer( obj->writer, node->key, node->val.int_val );
+      res = binson_writer_write_integer( p->in_param.writer, node->key, node->val.int_val );
     break;
 
     case BINSON_TYPE_DOUBLE:
-      res = binson_writer_write_double( obj->writer, node->key, node->val.double_val );
+      res = binson_writer_write_double( p->in_param.writer, node->key, node->val.double_val );
     break;
 
     case BINSON_TYPE_STRING:
-      res = binson_writer_write_str( obj->writer, node->key, (const char*)(node->val.bbuf_val.bptr) );
+      res = binson_writer_write_str( p->in_param.writer, node->key, (const char*)(node->val.bbuf_val.bptr) );
     break;
 
     case BINSON_TYPE_BYTES:
-      res = binson_writer_write_bytes( obj->writer, node->key, node->val.bbuf_val.bptr, node->val.bbuf_val.bsize );
+      res = binson_writer_write_bytes( p->in_param.writer, node->key, node->val.bbuf_val.bptr, node->val.bbuf_val.bsize );
     break;
 
     case BINSON_TYPE_UNKNOWN:
@@ -900,24 +892,30 @@ binson_res  binson_node_remove( binson *obj, binson_node *node )
   return res;
 }
 
-/* \brief
+/** \brief
  *
  * \param obj binson*
+ * \param pwriter binson_writer*
  * \param psize binson_raw_size* Return number of bytes written. Specify NULL to ignore.
  * \return binson_res
  *
  */
-binson_res  binson_serialize( binson *obj, binson_raw_size *psize )
+binson_res  binson_serialize( binson *obj, binson_writer *pwriter, binson_raw_size *psize )
 {
   binson_res res, res2;
+  binson_traverse_cb_param tparam;
+  
+  if (!obj || !pwriter)
+    return BINSON_RES_ERROR_ARG_WRONG;  
   
   if (psize)
-    res2 = binson_io_reset_counters( binson_writer_get_io( obj->writer ) );
+    res2 = binson_io_reset_counters( binson_writer_get_io( pwriter ) );
     
-  res = binson_traverse( obj, binson_get_root(obj), BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump, NULL );
+  tparam.in_param.writer = pwriter;
+  res = binson_traverse( obj, binson_get_root(obj), BINSON_TRAVERSE_BOTHORDER, BINSON_DEPTH_LIMIT, binson_cb_dump, &tparam );
   
   if (psize)
-    res2 = binson_io_get_write_counter( binson_writer_get_io( obj->writer ), psize );
+    res2 = binson_io_get_write_counter( binson_writer_get_io( pwriter ), psize );
   
   UNUSED(res2);	
   
@@ -1014,17 +1012,18 @@ else
 /** \brief
  *
  * \param obj binson*
+ * \param pparser binson_parser*
  * \param parent binson_node*   If NULL, replaces whole DOM tree
  * \param key const char*       Used if parent is OBJECT, otherwise ignored
  * \param validate_only bool
  * \return binson_res
  */
-binson_res  binson_deserialize( binson *obj, binson_node *parent, const char* key, bool validate_only )
+binson_res  binson_deserialize( binson *obj, binson_parser *pparser, binson_node *parent, const char* key, bool validate_only )
 {
   binson_cb_build_param_  param;
   binson_res              res;
 
-  if (!obj)
+  if (!obj || !pparser)
     return BINSON_RES_ERROR_ARG_WRONG;
 
   UNUSED(validate_only);
@@ -1034,7 +1033,7 @@ binson_res  binson_deserialize( binson *obj, binson_node *parent, const char* ke
   param.parent_last  = parent; /*obj->root;*/
   param.top_key      = key;
 
-  res = binson_parser_parse( obj->parser, binson_cb_build,  &param );
+  res = binson_parser_parse( pparser, binson_cb_build,  &param );
 
   return res;
 }
@@ -1220,58 +1219,6 @@ binson_node* binson_get_root( binson *obj )
     return NULL;
 
   return obj->root;
-}
-
-/** \brief Return associated writer instance
- *
- * \param obj binson*
- * \return binson_writer*
- */
-binson_writer*  binson_get_writer( binson *obj )
-{
-  return obj->writer;
-}
-
-/** \brief Return associated parser instance
- *
- * \param obj binson*
- * \return binson_parser*
- */
-binson_parser*  binson_get_parser( binson *obj )
-{
-  return obj->parser;  
-}
-
-/** \brief Associate writer instance with binson context object
- *
- * \param obj binson*
- * \param pwriter binson_writer*
- * \return binson_res
- */
-binson_res	binson_set_writer( binson *obj, binson_writer *pwriter )
-{
-  if (!obj)
-    return BINSON_RES_ERROR_ARG_WRONG; 
-  
-  obj->writer = pwriter;
-  
-  return BINSON_RES_OK;
-}
-
-/** \brief Associate parser instance with binson context object
- *
- * \param obj binson*
- * \param pparser binson_parser*
- * \return binson_res
- */
-binson_res	binson_set_parser( binson *obj, binson_parser *pparser )
-{
-  if (!obj)
-    return BINSON_RES_ERROR_ARG_WRONG; 
-  
-  obj->parser = pparser;
-  
-  return BINSON_RES_OK;  
 }
 
 /* \brief Get node type

@@ -51,19 +51,19 @@ int main()
     res = binson_writer_init( writer, fout,  BINSON_WRITER_FORMAT_RAW );
 
     res = binson_new( &rx );
-    res = binson_init( rx, NULL, parser, err_io );
+    res = binson_init( rx, err_io );
 
     res = binson_new( &tx );
-    res = binson_init( tx, writer, NULL, err_io );
+    res = binson_init( tx, err_io );
 
     /* ready to build DOM */
-    res = binson_deserialize( rx, NULL, NULL, false ); /* NULL mean replace whole DOM tree */
+    res = binson_deserialize( rx, parser, NULL, NULL, false ); /* NULL mean replace whole DOM tree */
 
     /* place logic in this function */
     reply_to_msg( rx, tx );
 
     /* save to file as raw binson format */
-    res = binson_serialize( tx, NULL );
+    res = binson_serialize( tx, writer, NULL );
 
     /* we are done. freeing resources */
     res = binson_free( rx );

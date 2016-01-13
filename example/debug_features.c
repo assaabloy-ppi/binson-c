@@ -26,12 +26,12 @@ int main()
     res = binson_writer_init( writer, out, BINSON_WRITER_FORMAT_HEX );
 
     res = binson_new( &context );
-    res = binson_init( context, writer, NULL, err_io );
+    res = binson_init( context, err_io );
 
     /* ready to build DOM */
     gen_sample_data_binson( context, binson_get_root( context ));
 
-    res = binson_serialize( context, NULL );
+    res = binson_serialize( context, writer, NULL );
 
     /* DEBUG: test tree traversal */
 #ifdef DEBUG

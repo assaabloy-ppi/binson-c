@@ -36,11 +36,11 @@ int bug1()
     res = binson_io_attach_bytebuf(in, buffer, buffer_size);
     res = binson_io_attach_stream(err, stderr);
     res = binson_parser_init(parser, in, BINSON_PARSER_MODE_DOM);
-    res = binson_init(obj, NULL, parser, err);
+    res = binson_init(obj, err);
 
     printf("bug1: init done, %d, before binson_deserialize()\n", res);
 
-    res = binson_deserialize(obj, NULL, NULL, false);
+    res = binson_deserialize(obj, parser, NULL, NULL, false);
     if (FAILED(res))
     {
       fprintf(stderr, "\nparser error: 0x%02x\n\n", res);
@@ -89,15 +89,14 @@ int32_t create_m1(uint8_t* buffer, int32_t buffer_size, uint8_t* ek, int32_t ek_
 
     res = binson_io_attach_bytebuf(out, buffer, buffer_size);
     res = binson_writer_init( writer, out, BINSON_WRITER_FORMAT_RAW);
-    res = binson_init(obj, writer, NULL, NULL);
+    res = binson_init(obj, NULL);
 
     res = binson_node_add_str(obj, binson_get_root(obj), "t", NULL, "m1");
     res = binson_node_add_str(obj, binson_get_root(obj), "p", NULL, "S1");
     res = binson_node_add_bytes(obj, binson_get_root(obj), "ek", NULL, ek, ek_size);
 
-    res = binson_serialize(obj, &rsize);  // use NULL as second arg if not required
-    printf("\n binson_serialize() : rsize: %d\n", rsize);
-    
+    res = binson_serialize(obj, writer, &rsize);  // use NULL as second arg if not required
+    printf("\n binson_serialize() : rsize: %d\n", rsize);    
     
     res = binson_writer_free(writer);
     res = binson_io_free(out);
@@ -137,8 +136,8 @@ int bn_read_from_bytes(uint8_t* buffer, int32_t buffer_size, binson** obj)
     res = binson_parser_new(&parser); CK
     res = binson_io_attach_bytebuf(in, buffer, buffer_size); CK
     res = binson_parser_init(parser, in, BINSON_PARSER_MODE_DOM); CK
-    res = binson_init(*obj, NULL, parser, NULL); CK
-    res = binson_deserialize(*obj, NULL, NULL, false); CK
+    res = binson_init(*obj, NULL); CK
+    res = binson_deserialize(*obj, parser, NULL, NULL, false); CK
     res = binson_parser_free(parser); CK
     res = binson_io_free(in); CK
     return 0;
@@ -162,9 +161,9 @@ int bn_write_to_bytes(binson* obj, uint8_t* buffer, int32_t buffer_size, int32_t
 
     // XXX ERROR problematic with binson_init(), resets obj to empty Binson object.
     //res = binson_init(obj, writer, NULL, NULL); CK
-    res = binson_set_writer(obj, writer); CK
+    //res = binson_set_writer(obj, writer); CK
     
-    res = binson_serialize(obj, &raw_size); CK
+    res = binson_serialize(obj, writer, &raw_size); CK
 
     res = binson_writer_free(writer); CK
     res = binson_io_free(out); CK

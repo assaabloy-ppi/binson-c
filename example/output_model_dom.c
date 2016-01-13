@@ -36,7 +36,7 @@ int main()
     res = binson_parser_init( parser, in, BINSON_PARSER_MODE_DOM );
 
     res = binson_new( &context );
-    res = binson_init( context, writer, parser, err_io );
+    res = binson_init( context, err_io );
 
     /* ready to build DOM */
     gen_sample_data_binson( context, binson_get_root( context ) );
@@ -45,16 +45,16 @@ int main()
      printf("---------------\n");
 
     /* serialize via attached 'binson_writer' */
-    res = binson_serialize( context, NULL );
+    res = binson_serialize( context, writer, NULL );
     res = binson_io_printf( out, "\n---------------\n" );
 
     res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_HEX );
-    res = binson_serialize( context, NULL );
+    res = binson_serialize( context, writer, NULL );
 
     /* save to file as raw binson format */
     res = binson_writer_set_format( writer, BINSON_WRITER_FORMAT_RAW );
     res = binson_writer_set_io( writer, fio );
-    res = binson_serialize( context, NULL );
+    res = binson_serialize( context, writer, NULL );
 
     /* we are done. freeing resources */
     res = binson_free( context );

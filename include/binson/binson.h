@@ -99,18 +99,13 @@ uint32_t        binson_lib_get_version();
 bool            binson_lib_is_compatible();
 
 binson_res      binson_new( binson **pobj );
-binson_res      binson_init( binson *obj, binson_writer *writer, binson_parser *parser, binson_io *error_io );
+binson_res      binson_init( binson *obj, binson_io *error_io );
 binson_res      binson_free( binson *obj );
 
 /**
  *  Binson context getters/setters
  */
 binson_node*    binson_get_root( binson *obj );
-binson_writer*  binson_get_writer( binson *obj );
-binson_parser*  binson_get_parser( binson *obj );
-binson_res	binson_set_writer( binson *obj, binson_writer *pwriter );
-binson_res	binson_set_parser( binson *obj, binson_parser *pparser );
-
 
 /**
  *  Node/tree creation/removal
@@ -133,8 +128,8 @@ binson_res  binson_node_remove( binson *obj, binson_node *node );
 /**
  *  Serialization/deserialization
  */
-binson_res  binson_serialize( binson *obj, binson_raw_size *psize );
-binson_res  binson_deserialize( binson *obj, binson_node *parent, const char* key, bool validate_only );
+binson_res  binson_serialize( binson *obj, binson_writer *pwriter, binson_raw_size *psize );
+binson_res  binson_deserialize( binson *obj, binson_parser *pparser, binson_node *parent, const char* key, bool validate_only );
 
 /**
  *  Node level getters/setters
