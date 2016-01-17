@@ -74,7 +74,7 @@ typedef struct binson_error_rec_ {
  */
 typedef struct _binson_error {
 
-  binson_error_rec     ring[ERROR_RING_SIZE];   /**< circular queue buffer */
+  binson_error_rec     ring[ERROR_RING_SIZE+1];   /**< circular queue buffer */
   uint8_t              head, tail;
   binson_io*           io;
 
@@ -136,9 +136,6 @@ binson_res  binson_error_report( binson_res res, const char* file, unsigned int 
 {
   binson_error* err = get_context();
 
-  /**< Find next head position in ring */
-  err->head = (err->head >= ERROR_RING_SIZE)? 0 : err->head+1;
-
   /**< Store error details */
   err->ring[err->head].code       = res;
   err->ring[err->head].code_str   = NULL;
@@ -148,6 +145,9 @@ binson_res  binson_error_report( binson_res res, const char* file, unsigned int 
   err->ring[err->head].data_len   = data_len;
   err->ring[err->head].flag       = 0;
 
+  /**< Find next head position in ring */
+  err->head = (err->head >= ERROR_RING_SIZE)? 0 : err->head+1;
+  
   /**< Fix tail position if ring is full */
   if (err->head == err->tail)
     err->tail = (err->tail >= ERROR_RING_SIZE)? 0 : err->tail+1;
@@ -157,21 +157,30 @@ binson_res  binson_error_report( binson_res res, const char* file, unsigned int 
 
 /** \brief Dump all stored errors to attached IO
  *
+ * \param pcnt uint8_t* Returns number of error dumped entries. Use NULL to ignore.
  * \return binson_res   Result code
  */
-binson_res binson_error_dump()
+binson_res binson_error_dump( uint8_t *pcnt )
 {
   binson_error*      err = get_context();
   binson_res         res = BINSON_RES_OK;
 
+  if (pcnt)
+    *pcnt = 0;
+  
+  res = binson_io_printf( err->io, "================ binson_error_dump() begin ====================\n" );  
   while (err->head != err->tail)
   {
     binson_error_rec*  rec;
 
-    rec = &err->ring[err->head];   /**< Newest error dump first */
+    err->head = (err->head == 0)? ERROR_RING_SIZE : err->head-1;  /**< Roll back dumped error record */    
+    rec = &err->ring[err->head];   /**< Newest error dump first */    
     res = binson_io_printf( err->io, "res=0x%04x, l=%d, f=%s, d=\"%s\"\n", rec->code, rec->line, rec->file, rec->data );
-    err->head = (err->head == 0)? ERROR_RING_SIZE-1 : err->head-1;  /**< Roll back dumped error record */
+    
+    if (pcnt)
+      (*pcnt)++;    
   }
+  res = binson_io_printf( err->io, "\n================ binson_error_dump() end ====================\n" );  
 
   return res;
 }

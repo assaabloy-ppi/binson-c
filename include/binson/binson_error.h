@@ -58,7 +58,7 @@ extern "C" {
 #else
 # define BINSON_ASSERT( exp ) \
                     ( (exp) ? (void)0 : (binson_error_report( BINSON_RES_ERROR_ASSERT_FAILED, __FILE__, __LINE__, #exp, sizeof(#exp)), \
-                                        binson_error_dump(), abort()))
+                                        binson_error_dump(NULL), abort()))
 #endif
 
 /* compilation assert */
@@ -123,7 +123,7 @@ typedef enum binson_res_ {
  */
 binson_res     binson_error_init( binson_io *io );
 binson_res     binson_error_report( binson_res res, const char* file, unsigned int line, char *data, size_t data_len );
-binson_res     binson_error_dump();
+binson_res     binson_error_dump( uint8_t *pcnt );
 binson_res     binson_error_clear_all();
 
 #ifdef __cplusplus
