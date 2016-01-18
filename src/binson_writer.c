@@ -116,7 +116,7 @@ binson_res  write_key( binson_writer *writer, const char* key, int force_no_sepa
   }
 #endif
 
-  if (key && key[0] != '\0')
+  if (key /*&& key[0] != '\0'*/)
   {
     res = write_bytes( writer, (uint8_t *)key,  strlen(key), BINSON_SIG_STRING_8 );
     if (FAILED(res)) return res;
@@ -547,7 +547,7 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
   size_t      src_utf8_size   = src_size;    /* utf8 validated/converted string size */
 
   /**< Initial parameter validation */
-  if (!writer)
+  if (!writer || !src_ptr )
     return BINSON_RES_ERROR_ARG_WRONG;
 
 #ifdef WITH_BINSON_JSON_OUTPUT
@@ -559,7 +559,6 @@ binson_res  write_bytes( binson_writer *writer, uint8_t *src_ptr,  size_t src_si
   {
       encoded = true;
       src_utf8_ptr = (uint8_t*) malloc(4*src_size+2);
-      /*strcpy((char*)src_utf8_ptr, (char*)src_ptr);*/
       src_utf8_size = binson_utf8_unescape( src_utf8_ptr, 4*src_size+2, src_ptr );
 
   }
@@ -647,8 +646,8 @@ binson_res  binson_writer_write_str( binson_writer *writer, const char* key, con
   /* write key if needed */
   res = write_key( writer, key, false );
   if (FAILED(res)) return res;
-
-  res = write_bytes( writer, (uint8_t *)str,  strlen(str), BINSON_SIG_STRING_8 );
+  
+  res = write_bytes( writer, (uint8_t *)str,  str? strlen(str):0, BINSON_SIG_STRING_8 );
   if (FAILED(res)) return res;
 
   return res;

@@ -98,6 +98,7 @@ typedef enum binson_res_ {
     BINSON_RES_ERROR_IO_EOF             = 256,
     BINSON_RES_ERROR_IO_OUT_OF_BUFFER,
     BINSON_RES_ERROR_IO_PART,              /**< partial content */
+    BINSON_RES_ERROR_IO_SEEK,	
     BINSON_RES_ERROR_IO_TYPE_UNKNOWN,
 
     /**< binson parsing errors */

@@ -182,6 +182,39 @@ binson_res  binson_io_get_write_counter( binson_io *io, binson_raw_size *pcnt )
   return BINSON_RES_OK;    
 }
 
+/** \brief Seek to specified position 
+ *
+ * \param io binson_io*
+ * \param binson_raw_size pos
+ * \return binson_res
+ */
+binson_res  binson_io_seek( binson_io *io, binson_raw_size pos )
+{
+  binson_res res = BINSON_RES_OK;
+  
+  if (!io)
+    return BINSON_RES_ERROR_ARG_WRONG;  
+  
+  switch (io->type)
+  {
+    case BINSON_IO_TYPE_STREAM:
+      if (fseek(io->handle.stream, pos, SEEK_SET))
+	res = BINSON_RES_ERROR_IO_SEEK;
+    break;
+
+    case BINSON_IO_TYPE_STR0:
+    case BINSON_IO_TYPE_BUFFER:
+      io->handle.bytebuf.cursor = pos;
+      break;
+
+    case BINSON_IO_TYPE_NULL:
+    default:
+    return BINSON_RES_ERROR_BROKEN_INT_STRUCT;
+  }
+
+  return res;  
+}
+
 /** \brief Open file with specified access mode and attach it to \c binson_io object
  *
  * \param obj binson_io*          Context
