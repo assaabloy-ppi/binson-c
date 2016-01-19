@@ -11,6 +11,5 @@ endfunction (ADD_CMOCKA_TEST)
 add_cmocka_test(utest_util utest_util.c  binson btest cmocka_lib )
 add_cmocka_test(utest_utf8 utest_utf8.c  binson btest cmocka_lib )
 add_cmocka_test(utest_error utest_error.c  binson btest cmocka_lib  )
-
 add_cmocka_test(utest_writer utest_writer.c  binson btest cmocka_lib )
-
+add_cmocka_test(utest_token_buf utest_token_buf.c  binson btest cmocka_lib )

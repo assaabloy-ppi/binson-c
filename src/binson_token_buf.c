@@ -324,6 +324,16 @@ binson_res  binson_token_buf_set_io( binson_token_buf *tbuf, binson_io *source )
 /** \brief
  *
  * \param tbuf binson_token_buf*
+ * \return binson_io*
+ */
+binson_io*  binson_token_buf_get_io( binson_token_buf *tbuf )
+{
+  return tbuf? tbuf->source : NULL;
+}
+
+/** \brief
+ *
+ * \param tbuf binson_token_buf*
  * \param pbptr uint8_t**
  * \param pbsize binson_raw_size*
  * \return binson_res

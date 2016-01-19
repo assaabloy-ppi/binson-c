@@ -63,6 +63,7 @@ binson_res  binson_token_buf_free( binson_token_buf *tbuf );
 
 /* getters/setters */
 binson_res  binson_token_buf_set_io( binson_token_buf *tbuf, binson_io *source );
+binson_io*  binson_token_buf_get_io( binson_token_buf *tbuf  );
 binson_res  binson_token_buf_get_buf( binson_token_buf *tbuf, uint8_t **pbptr, binson_raw_size *pbsize );
 binson_res  binson_token_buf_set_buf( binson_token_buf *tbuf, uint8_t *bptr, binson_raw_size bsize );
 

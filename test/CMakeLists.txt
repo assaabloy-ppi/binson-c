@@ -5,8 +5,8 @@ set(BTEST_LIBRARY btest)
 
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-  set(COMMON_C_FLAGS  "-Wall -g -std=c99 -pedantic -pedantic-errors -Wextra -Winvalid-pch -Winit-self -Wno-unknown-pragmas")
-  set(COMMON_C_FLAGS_DEBUG  "-Wall -g  -std=c99 -pedantic -pedantic-errors -Wextra -Winvalid-pch -Winit-self -Wno-unknown-pragmas")
+  set(COMMON_C_FLAGS  "-Wall -g -std=c99  -fsanitize=address -fstack-protector-all -pedantic -pedantic-errors -Wextra -Winvalid-pch -Winit-self -Wno-unknown-pragmas")
+  set(COMMON_C_FLAGS_DEBUG  "-Wall -g  -std=c99  -fsanitize=address -fstack-protector-all -pedantic -pedantic-errors -Wextra -Winvalid-pch -Winit-self -Wno-unknown-pragmas")
   set(COMMON_C_FLAGS_RELWITHDEBINFO  "-Wall -g -std=c99  -pedantic -pedantic-errors -Wextra -Winvalid-pch -Winit-self -Wno-unknown-pragmas")
   set(COMMON_C_FLAGS_RELEASE  "-Wall -g -std=c99 -pedantic -pedantic-errors -Wextra -Winvalid-pch -Winit-self -Wno-unknown-pragmas")
 
