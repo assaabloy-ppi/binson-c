@@ -211,7 +211,31 @@ binson_res  binson_init( binson *obj, binson_io *error_io )
   return res;
 }
 
-/* \brief Free all memory used by binson object
+/** \brief Replace current DOM tree with empty OBJECT
+ *
+ * \param obj binson*
+ * \return binson_res
+ */
+binson_res  binson_reset( binson *obj )
+{
+  binson_res res = BINSON_RES_OK;
+
+  if (!obj)
+    return BINSON_RES_ERROR_ARG_WRONG;
+
+  if (obj->root)
+  {
+    res = binson_node_remove( obj, obj->root );  
+    obj->root = NULL;
+  }
+  
+  /* add empty root OBJECT */
+  res = binson_node_add_empty( obj, NULL, BINSON_TYPE_OBJECT, NULL, &(obj->root) );
+  
+  return res;  
+}
+
+/** \brief Free all memory used by binson object
  *
  * \param obj binson*
  * \return binson_res
@@ -232,6 +256,7 @@ binson_res  binson_free( binson *obj )
 
   return res;
 }
+
 
 
 /* \brief Allocate storage and attach new empty node to binson DOM tree
@@ -412,7 +437,7 @@ binson_res  binson_node_attach( binson *obj, binson_node *parent, binson_node *n
 
    while (pnode)
    {
-      if ( strcmp(new_node->key, pnode->key) < 0 )
+      if ( new_node->key && pnode->key && strcmp(new_node->key, pnode->key) < 0 )
         break;
       pnode = pnode->next;
    };
@@ -1083,8 +1108,21 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
         status->depth >= status->max_depth ||
         status->current_node_copy.first_child == NULL)  /* there is no way down */
     {
+      bool empty_container = false;
+
+      if ((status->current_node_copy.type == BINSON_TYPE_OBJECT || status->current_node_copy.type == BINSON_TYPE_ARRAY) &&
+           status->current_node_copy.first_child == NULL && status->t_method != BINSON_TRAVERSE_PREORDER )
+          empty_container = true;  
+      
       if (status->current_node && status->current_node_copy.next) /* we can move right */
       {
+          /* process closing part of empty OBJECT/ARRAY */	  
+          if (status->depth > 0 && empty_container && status->t_method == BINSON_TRAVERSE_BOTHORDER)
+	  {
+	    status->dir  = BINSON_TRAVERSE_DIR_UP;	    
+            res = status->cb( status->obj, status->current_node, status, status->param );  
+	  }
+	
           status->current_node = status->current_node_copy.next;  /* update current node to it */
           status->dir = BINSON_TRAVERSE_DIR_RIGHT;
           status->child_num++;  /* keep track of index */
@@ -1092,16 +1130,11 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
           /* required for tree deletion to prevent sawing one's bough */
           memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
 
-          /* processing moment doesn't depend on preorder/postorder for leaves */
-          return status->cb( status->obj, status->current_node, status, status->param );
+          if (status->t_method != BINSON_TRAVERSE_POSTORDER)
+            return status->cb( status->obj, status->current_node, status, status->param );
       }
       else /* no more neighbors from the right, moving up */
       {
-        bool empty_container = false;
-
-        if ((status->current_node_copy.type == BINSON_TYPE_OBJECT || status->current_node_copy.type == BINSON_TYPE_ARRAY) &&
-            status->current_node_copy.first_child == NULL && status->t_method != BINSON_TRAVERSE_PREORDER )
-          empty_container = true;
 
         status->dir          = BINSON_TRAVERSE_DIR_UP;
 
@@ -1152,7 +1185,7 @@ binson_res  binson_traverse_begin( binson *obj, binson_node *root_node, binson_t
        memcpy( &status->current_node_copy, status->current_node, sizeof(binson_node) );
 
       if (status->t_method != BINSON_TRAVERSE_POSTORDER || status->current_node_copy.first_child == NULL)
-        return status->cb( status->obj, status->current_node, status, status->param );
+        res = status->cb( status->obj, status->current_node, status, status->param );         
     }
 
     return res;

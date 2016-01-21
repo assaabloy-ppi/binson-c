@@ -151,7 +151,18 @@ binson_res  binson_parser_free( binson_parser *parser )
   return BINSON_RES_OK;
 }
 
-/* \brief
+/** \brief
+ *
+ * \param parser binson_parser*
+ * \return binson_io*
+ */
+binson_io*  binson_parser_get_io( binson_parser *parser )
+{
+  return parser? parser->source : NULL;  
+}
+
+
+/** \brief
  *
  * \param parser binson_parser*
  * \param source binson_io*
@@ -209,6 +220,7 @@ binson_res  binson_parser_parse( binson_parser *parser, binson_parser_cb cb, voi
 {
   binson_res  res;
 
+  res = binson_parser_reset( parser ); 
   res = binson_parser_parse_first( parser, cb, param );  /* Request single token at first stage of parsing */
   
   while (SUCCESS(res) && !parser->done && parser->valid )

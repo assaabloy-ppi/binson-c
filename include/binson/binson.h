@@ -101,6 +101,7 @@ bool            binson_lib_is_compatible();
 binson_res      binson_new( binson **pobj );
 binson_res      binson_init( binson *obj, binson_io *error_io );
 binson_res      binson_free( binson *obj );
+binson_res      binson_reset( binson *obj );
 
 /**
  *  Binson context getters/setters
@@ -124,6 +125,7 @@ binson_res  binson_node_add_bytes( binson *obj, binson_node *parent, const char*
 binson_res  binson_node_clone( binson *obj, binson_node *parent, binson_node **dst, binson_node *node, const char* new_key );
 binson_res  binson_node_clone_tree( binson *obj, binson_node *node, const char* new_key );  /* not implemented */
 binson_res  binson_node_remove( binson *obj, binson_node *node );
+binson_res  binson_node_remove_( binson *obj, binson_node *node );
 
 /**
  *  Serialization/deserialization

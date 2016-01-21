@@ -82,6 +82,7 @@ binson_res  binson_parser_init( binson_parser *parser, binson_io *source, binson
 binson_res  binson_parser_reset( binson_parser *parser );
 binson_res  binson_parser_free( binson_parser *parser );
 binson_res  binson_parser_set_io( binson_parser *parser, binson_io *source );
+binson_io*  binson_parser_get_io( binson_parser *parser );
 binson_res  binson_parser_set_mode( binson_parser *parser, binson_parser_mode mode );
 
 binson_res  binson_parser_parse( binson_parser *parser, binson_parser_cb cb, void* param );
