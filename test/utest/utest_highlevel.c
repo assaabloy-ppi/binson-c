@@ -35,7 +35,7 @@ const uint8_t s8[]  = "\x40\x14\x01\x62\x40\x14\x01\x61\x40\x41\x41\x14\x01\x64\
 const uint8_t s9[]  = "\x40\x14\x08\x67\x72\xc3\xb6\xc3\x9f\x65\x72\x40\x41\x14\x09\xe6\xb7\x98\xe5\xae\x9d\xe7\xbd\x91\x40\x41\x41"; // {"größer":{}, "淘宝网":{}}
 const uint8_t s10[]  = "\x40\x14\x01\x61\x40\x41\x14\x03\x62\x63\x61\x40\x41\x14\x03\x63\x62\x61\x40\x41\x41"; // {"a":{}, "bca":{}, "cba":{}}
 
-const uint8_t sa1[]  = "\x40\x14\x00\x40\x41\x41"; // {"":{}}
+const uint8_t sa1[]  = "\x40\x14\x00\x42\x43\x41"; // {"":[]}
 const uint8_t sa2[] = "\x40\x14\x00\x42\x42\x42\x43\x43\x43\x41"; // {"":[[[]]]}
 const uint8_t sa3[]  = "\x40\x14\x01\x61\x42\x42\x43\x42\x43\x43\x41"; // {"a":[[],[]]}
 const uint8_t sa4[]  = "\x40\x14\x01\x61\x42\x42\x43\x42\x43\x40\x41\x43\x41"; // {"a":[[],[],{}]}
@@ -127,60 +127,124 @@ static void utest_highlevel_tree_build(void **state) {
     res = binson_serialize( bc->obj, bc->writer, &rs );   assert_int_equal(res, BINSON_RES_OK ); \
     assert_int_equal( rs, sizeof(sample)-1 );  \
     assert_memory_equal( sample, dbuf, rs );     
+        
+     // {}
+    res = binson_reset( bc->obj );
+    UTEST_HL_TREE_BUILD( s0 );    
     
+    // {"":{}}
     res = binson_reset( bc->obj );
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "",  NULL );  assert_int_equal(res, BINSON_RES_OK ); 
     UTEST_HL_TREE_BUILD( s1 );    
     
+    // {"":{"":{"":{}}}}
+    res = binson_reset( bc->obj );
+    res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "",  &np[0] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_object_empty( bc->obj, np[0], "",  &np[1] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_object_empty( bc->obj, np[1], "",  NULL );  assert_int_equal(res, BINSON_RES_OK );     
+    UTEST_HL_TREE_BUILD( s2 );    
+    
+    // {"größer":{}}
     res = binson_reset( bc->obj );
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "größer",  NULL );  assert_int_equal(res, BINSON_RES_OK ); 
-    UTEST_HL_TREE_BUILD( s2 );    
+    UTEST_HL_TREE_BUILD( s3 );    
 
+    // {"größer":{"淘宝网":{}}}
     res = binson_reset( bc->obj );
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "größer",  &np[0] );  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_object_empty( bc->obj, np[0], "淘宝网",  NULL );  assert_int_equal(res, BINSON_RES_OK );     
-    UTEST_HL_TREE_BUILD( s3 );    
+    UTEST_HL_TREE_BUILD( s4 );    
     
     // {"abc":true, "cba":false}
     res = binson_reset( bc->obj );
     res = binson_node_add_boolean( bc->obj, binson_get_root(bc->obj), "cba",  NULL, false);  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_boolean( bc->obj, binson_get_root(bc->obj), "abc",  NULL, true );  assert_int_equal(res, BINSON_RES_OK );     
-    UTEST_HL_TREE_BUILD( s4 );   
-    
-    // {"a":{}, "b":111}
+    UTEST_HL_TREE_BUILD( s5 );   
+             
+    // // {"a":{}, "b":111}
     res = binson_reset( bc->obj );
     res = binson_node_add_integer( bc->obj, binson_get_root(bc->obj), "b",  NULL, 111);  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "a",  NULL );  assert_int_equal(res, BINSON_RES_OK );     
-    UTEST_HL_TREE_BUILD( s5 ); 
-    
-    
-    
-    // {"abc":{}, "cba":{}}
+    UTEST_HL_TREE_BUILD( s6 ); 
+            
+   // {"abc":{}, "cba":{}}
     res = binson_reset( bc->obj );
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "cba",  NULL);  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "abc",  NULL );  assert_int_equal(res, BINSON_RES_OK );     
-    UTEST_HL_TREE_BUILD( s6 );        
+    UTEST_HL_TREE_BUILD( s7 );        
     
     // {"b":{"a":{}}, "d":{"c":{}}}
-    /*res = binson_reset( bc->obj );
+    res = binson_reset( bc->obj );
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "d",  &np[0] );  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_object_empty( bc->obj, np[0], "c",  NULL );  assert_int_equal(res, BINSON_RES_OK );     
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "b",  &np[1] );  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_object_empty( bc->obj, np[1], "a",  NULL );  assert_int_equal(res, BINSON_RES_OK );     
-    UTEST_HL_TREE_BUILD( s7 );            
-    */
+    UTEST_HL_TREE_BUILD( s8 );            
+    
     // {"größer":{}, "淘宝网":{}}
     res = binson_reset( bc->obj );
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "größer",  NULL);  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "淘宝网",  NULL );  assert_int_equal(res, BINSON_RES_OK );     
-    UTEST_HL_TREE_BUILD( s8 );    
-    
-    
-/*    res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "cba",  NULL );  assert_int_equal(res, BINSON_RES_OK ); 
+    UTEST_HL_TREE_BUILD( s9 );    
+
+    // {"a":{}, "bca":{}, "cba":{}}
+    res = binson_reset( bc->obj );    
+    res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "cba",  NULL );  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "bca",  NULL );  assert_int_equal(res, BINSON_RES_OK ); 
     res = binson_node_add_object_empty( bc->obj, binson_get_root(bc->obj), "a",  NULL );  assert_int_equal(res, BINSON_RES_OK );         
-    UTEST_HL_TREE_BUILD( s14 );
-    */
+    UTEST_HL_TREE_BUILD( s10 );
+         
+
+    // {"":[]}
+    res = binson_reset( bc->obj );    
+    res = binson_node_add_array_empty( bc->obj, binson_get_root(bc->obj), "",  NULL );  assert_int_equal(res, BINSON_RES_OK ); 
+    UTEST_HL_TREE_BUILD( sa1 );
+    
+    // {"":[[[]]]}
+    res = binson_reset( bc->obj );
+    res = binson_node_add_array_empty( bc->obj, binson_get_root(bc->obj), "",  &np[0] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_array_empty( bc->obj, np[0], "",  &np[1] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_array_empty( bc->obj, np[1], "",  NULL );  assert_int_equal(res, BINSON_RES_OK );  
+    UTEST_HL_TREE_BUILD( sa2 );   
+     
+    // {"a":[[],[]]}
+    res = binson_reset( bc->obj );
+    res = binson_node_add_array_empty( bc->obj, binson_get_root(bc->obj), "a",  &np[0] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_array_empty( bc->obj, np[0], "",  NULL );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_array_empty( bc->obj, np[0], "",  NULL );  assert_int_equal(res, BINSON_RES_OK );  
+    UTEST_HL_TREE_BUILD( sa3 );   
+
+    // {"a":[[],[],{}]}
+    res = binson_reset( bc->obj );
+    res = binson_node_add_array_empty( bc->obj, binson_get_root(bc->obj), "a",  &np[0] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_array_empty( bc->obj, np[0], "",  NULL );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_array_empty( bc->obj, np[0], "",  NULL );  assert_int_equal(res, BINSON_RES_OK );  
+    res = binson_node_add_object_empty( bc->obj, np[0], "",  NULL );  assert_int_equal(res, BINSON_RES_OK );      
+    UTEST_HL_TREE_BUILD( sa4 );   
+
+    // {"a":[[{}],[{}]]}  
+    res = binson_reset( bc->obj );
+    res = binson_node_add_array_empty( bc->obj, binson_get_root(bc->obj), "a",  &np[0] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_array_empty( bc->obj, np[0], "",  &np[1] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_array_empty( bc->obj, np[0], "",  &np[2] );  assert_int_equal(res, BINSON_RES_OK );  
+    res = binson_node_add_object_empty( bc->obj, np[1], "",  NULL );  assert_int_equal(res, BINSON_RES_OK );      
+    res = binson_node_add_object_empty( bc->obj, np[2], "",  NULL );  assert_int_equal(res, BINSON_RES_OK );          
+    UTEST_HL_TREE_BUILD( sa5);   
+    
+    
+    // {"a":[true,13,-2.34,"zxc",{"d":false, "e":"0x030405", "q":"qwe"},9223372036854775807]}    
+    res = binson_reset( bc->obj );    
+    res = binson_node_add_array_empty( bc->obj, binson_get_root(bc->obj), "a",  &np[0] );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_boolean( bc->obj, np[0], NULL, NULL, true );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_integer( bc->obj, np[0], NULL, NULL, 13 );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_double( bc->obj, np[0], NULL, NULL, -2.34 );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_str( bc->obj, np[0], NULL, NULL, "zxc" );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_object_empty( bc->obj, np[0], NULL,  &np[1] );  assert_int_equal(res, BINSON_RES_OK );      
+    res = binson_node_add_boolean( bc->obj, np[1], "d", NULL, false );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_bytes( bc->obj, np[1], "e", NULL, (uint8_t*)"\x03\x04\x05", 3 );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_str( bc->obj, np[1], "q", NULL, "qwe" );  assert_int_equal(res, BINSON_RES_OK ); 
+    res = binson_node_add_integer( bc->obj, np[0], NULL, NULL, INT64_MAX );  assert_int_equal(res, BINSON_RES_OK ); 
+    UTEST_HL_TREE_BUILD( sb1 );       
 }
 
 /************************************************************/
@@ -201,8 +265,6 @@ static void utest_highlevel_recycle(void **state) {
     assert_int_equal( rs, sizeof(sample)-1 ); \
     assert_memory_equal( sbuf, dbuf, rs ); 
   
-    
-    
     UTEST_HL_RECYCLE( s0 );        
     UTEST_HL_RECYCLE( s1 );    
     UTEST_HL_RECYCLE( s2 );    
@@ -227,7 +289,7 @@ static void utest_highlevel_recycle(void **state) {
 /************************************************************/
 int utest_run_tests(void) {
   const struct CMUnitTest tests[] = {
-            //cmocka_unit_test_setup_teardown(utest_highlevel_tree_build, setup, teardown),    
+            cmocka_unit_test_setup_teardown(utest_highlevel_tree_build, setup, teardown),
             cmocka_unit_test_setup_teardown(utest_highlevel_recycle, setup, teardown),            
   };
   
