@@ -139,12 +139,13 @@ message(
 
 install(TARGETS binson DESTINATION lib)
 
-# install public interface headers
-#install(DIRECTORY include/${PROJECT_NAME}/
-#        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
 include(GNUInstallDirs)
 install(DIRECTORY include/${PROJECT_NAME}/
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
+        
+install(FILES
+  "${PROJECT_BINARY_DIR}/binson_config.h"
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}" )        
 
 #install(FILES .... DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" )
 

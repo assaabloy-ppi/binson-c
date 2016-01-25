@@ -6,7 +6,7 @@
 
 #include "btest.h"
 
-#include "binson_token_buf.h"
+#include "binson/binson_token_buf.h"
 
 static uint8_t buf[512];
 

@@ -42,7 +42,7 @@
 #include "binson_config.h"
 #include "binson_common_pvt.h"
 #include "binson/binson_parser.h"
-#include "binson_token_buf.h"
+#include "binson/binson_token_buf.h"
 
 /**
  *  Parser context

@@ -47,7 +47,7 @@
 #include "binson_util.h"
 #include "binson/binson_writer.h"
 #include "binson/binson_parser.h"
-#include "binson_token_buf.h"
+#include "binson/binson_token_buf.h"
 
 #define BINSON_VERSION_HEX    ((BINSON_MAJOR_VERSION << 16) |   \
                               (BINSON_MINOR_VERSION << 8)  |   \
