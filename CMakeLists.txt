@@ -10,11 +10,10 @@ option (WITH_EXAMPLES "Build examples from ./example" ON)
 option (WITH_TESTING "Build tests" ON) 
 
 
-
 # The version number.
 set (BINSON_MAJOR_VERSION 0)
 set (BINSON_MINOR_VERSION 0)
-set (BINSON_MICRO_VERSION 3)
+set (BINSON_MICRO_VERSION 4)
 
 set(BINSON_VERSION "${BINSON_MAJOR_VERSION}.${BINSON_MINOR_VERSION}.${BINSON_MICRO_VERSION}")
 

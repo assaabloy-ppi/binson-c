@@ -171,6 +171,35 @@ int bn_write_to_bytes(binson* obj, uint8_t* buffer, int32_t buffer_size, int32_t
     *output_size = raw_size;
     return 0;
 }
+
+void reproduce_issue_160125()
+{
+    binson_res res;
+    binson_parser* parser;
+    binson_io* in;
+    binson* obj;
+    int32_t buffer_size = 2;
+    uint8_t buffer[] = {0x40, 0x41};    /* empty Binson object */
+
+    res = binson_new(&obj);
+    res = binson_init(obj, NULL);
+
+    printf("p10\n");
+
+    res = binson_io_new(&in);
+    res = binson_parser_new(&parser);
+    res = binson_io_attach_bytebuf(in, buffer, buffer_size);
+    res = binson_parser_init(parser, in, BINSON_PARSER_MODE_DOM);
+    res = binson_deserialize(obj, parser, NULL, NULL, false);
+
+    printf("p30\n");
+    res = binson_parser_free(parser);
+    res = binson_io_free(in);
+    printf("p40\n");
+    res = binson_free(obj);     // --> Segmentation fault
+    printf("p50\n");
+}
+
 /*================================================*/
 
 int main()
@@ -193,7 +222,7 @@ int main()
   printf("\n resulting raw size = %d bytes\n", r);   
   printf("\n--- after create_m1() call\n"); */
   
-  binson_res res = BINSON_RES_OK;
+  /*binson_res res = BINSON_RES_OK;
   uint8_t buf[] = {0x40, 0x14, 0x01, 0x61, 0x10, 0x7b, 0x41};
   uint8_t buf2[32];
   int32_t i, bcnt = 0;
@@ -216,7 +245,11 @@ int main()
   }
   printf("\n\n");
     
-  res = binson_free(obj);
+  res = binson_free(obj);*/
+  
+  
+  reproduce_issue_160125();
+  
   
   return 0;
 }

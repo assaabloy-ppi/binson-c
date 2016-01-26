@@ -14,7 +14,7 @@ add_executable(fuzz_test fuzz_test.c)
 target_link_libraries(fuzz_test  binson)      
 
 add_custom_target(fuzz
-    COMMAND java -jar ./binson_fuzzer.jar 0 10 10
+    COMMAND java -jar ./binson_fuzzer.jar 2 2 1000
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test/fuzz_test
     DEPENDS fuzz_test
 )
