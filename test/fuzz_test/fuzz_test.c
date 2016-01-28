@@ -1,20 +1,35 @@
 /**
  * Test used with `binson_fuzzer` Java stress tool 
  */
+#define _POSIX_C_SOURCE 200809L
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stddef.h>
+#include <signal.h>
+#include <unistd.h>
+#include <errno.h>
 
 #include "binson/binson.h"
 
 
 /***********************************************/
+static void sig_handler(int sig, siginfo_t *si, void *unused)
+{
+    (void)unused;
+    printf("Got signal with code %d at address: 0x%lx\n", sig, (long) si->si_addr);
+    exit(sig);
+}
+
+#define handle_error(msg, ecode) \
+    do { perror(msg); exit(ecode); } while (0)
+      
+/***********************************************/
 int main( int argc, char** argv )
 {
-    FILE    *infile;
-    uint8_t  *sbuf;
+    FILE    *infile = 0;
+    uint8_t  *sbuf = 0;
     uint8_t  *dbuf;
     
     size_t     numbytes, sread;
@@ -29,10 +44,26 @@ int main( int argc, char** argv )
     
     int 	     cmp_res = 0;
     size_t	     i = 0;
+    struct sigaction sa;
     
     UNUSED(res);
     UNUSED(argc);     
   
+    /*------------------------*/
+    sa.sa_flags = SA_SIGINFO;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_sigaction = sig_handler;
+    if (sigaction(SIGSEGV, &sa, NULL) == -1) handle_error("sigaction", SIGSEGV);    
+    if (sigaction(SIGABRT, &sa, NULL) == -1) handle_error("sigaction", SIGABRT);    
+    if (sigaction(SIGFPE, &sa, NULL) == -1) handle_error("sigaction", SIGFPE);    
+    if (sigaction(SIGHUP, &sa, NULL) == -1) handle_error("sigaction", SIGHUP);    
+    if (sigaction(SIGILL, &sa, NULL) == -1) handle_error("sigaction", SIGILL);    
+    if (sigaction(SIGINT, &sa, NULL) == -1) handle_error("sigaction", SIGINT);    
+    if (sigaction(SIGPIPE, &sa, NULL) == -1) handle_error("sigaction", SIGPIPE);    
+    if (sigaction(SIGTERM, &sa, NULL) == -1) handle_error("sigaction", SIGTERM);    
+    /*------------------------*/
+    
+    
     if (!argv[1] || !strlen(argv[1]))
       return 255;    
     
@@ -40,9 +71,9 @@ int main( int argc, char** argv )
     if(infile == NULL)
       return 2;
     
-    fseek(infile, 0L, SEEK_END);
-    numbytes = ftell(infile);
-    fseek(infile, 0L, SEEK_SET);	
+    fseek(infile, 0, SEEK_END);
+    numbytes = (size_t)ftell(infile);
+    fseek(infile, 0, SEEK_SET);	
 
     sbuf = (uint8_t*)calloc(numbytes, sizeof(uint8_t));	
     dbuf = (uint8_t*)calloc(numbytes*2, sizeof(uint8_t));	

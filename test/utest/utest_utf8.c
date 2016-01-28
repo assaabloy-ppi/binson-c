@@ -51,6 +51,11 @@ static void utest_binson_utf8_is_valid(void **state) {
     assert_true(binson_utf8_is_valid( (uint8_t*)"\xf1\xbe\x80\x9d"));
     assert_true(binson_utf8_is_valid( (uint8_t*)"\xef\x82\xac\xe8\x87\xbd"));
     
+    assert_true(binson_utf8_is_valid( (uint8_t*)"\x1c\xe9\xa1\x99"));    
+    assert_true(binson_utf8_is_valid( (uint8_t*)"\xe7\x88\x85\xec\x9b\xa1"));
+
+    assert_true(binson_utf8_is_valid( (uint8_t*)"\xf3\x91\xb0\xa7"));   
+    
     
     /*************** must be INVALID *************/
     assert_true(!binson_utf8_is_valid( (uint8_t*)"\xBF")); // 3.1.2.

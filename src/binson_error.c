@@ -42,7 +42,7 @@
 #include "binson/binson_io.h"
 #include "binson_util.h"
 
-/**
+/*
  *  Binson error rec flags (possible values of flag member)
  */
 typedef enum binson_error_rec_flag_ {
@@ -52,13 +52,13 @@ typedef enum binson_error_rec_flag_ {
 
 } binson_error_rec_flag;
 
-/**
+/*
  *  Single error record structure
  */
 typedef struct binson_error_rec_ {
 
     uint16_t                code;
-    char*                   code_str;  /**< Optional. If not NULL, point to detailed code description */
+    char*                   code_str;  /* Optional. If not NULL, point to detailed code description */
 
     unsigned int            line;
     const char*             file;
@@ -69,18 +69,18 @@ typedef struct binson_error_rec_ {
 
 } binson_error_rec;
 
-/**
+/*
  *  Error handling context
  */
 typedef struct _binson_error {
 
-  binson_error_rec     ring[ERROR_RING_SIZE+1];   /**< circular queue buffer */
+  binson_error_rec     ring[ERROR_RING_SIZE+1];   /* circular queue buffer */
   uint8_t              head, tail;
   binson_io*           io;
 
 } binson_error;
 
-/**
+/*
  *  Dummy guard union which must produce compiler warnings/errors in case of incorrect porting
  */
 static union dummy_
@@ -95,14 +95,14 @@ static union dummy_
     char uint64_t_incorrect[sizeof(uint64_t) == 8];
 } dummy_;
 
-/** \brief Private helper. Get global/static instance of \c binson_error*
+/* \brief Private helper. Get global/static instance of \c binson_error*
  *
  * \return binson_error*
  *
  */
 binson_error*  get_context()
 {
-  static binson_error ERR = { {{0}}, 0, 0, NULL };    /**< The only instance per process exists ! */
+  static binson_error ERR = { {{0}}, 0, 0, NULL };    /* The only instance per process exists ! */
   return &ERR;
 }
 
@@ -136,7 +136,7 @@ binson_res  binson_error_report( binson_res res, const char* file, unsigned int 
 {
   binson_error* err = get_context();
 
-  /**< Store error details */
+  /* Store error details */
   err->ring[err->head].code       = res;
   err->ring[err->head].code_str   = NULL;
   err->ring[err->head].line       = line;
@@ -145,10 +145,10 @@ binson_res  binson_error_report( binson_res res, const char* file, unsigned int 
   err->ring[err->head].data_len   = data_len;
   err->ring[err->head].flag       = 0;
 
-  /**< Find next head position in ring */
+  /* Find next head position in ring */
   err->head = (err->head >= ERROR_RING_SIZE)? 0 : err->head+1;
   
-  /**< Fix tail position if ring is full */
+  /* Fix tail position if ring is full */
   if (err->head == err->tail)
     err->tail = (err->tail >= ERROR_RING_SIZE)? 0 : err->tail+1;
 
@@ -173,8 +173,8 @@ binson_res binson_error_dump( uint8_t *pcnt )
   {
     binson_error_rec*  rec;
 
-    err->head = (err->head == 0)? ERROR_RING_SIZE : err->head-1;  /**< Roll back dumped error record */    
-    rec = &err->ring[err->head];   /**< Newest error dump first */    
+    err->head = (err->head == 0)? ERROR_RING_SIZE : err->head-1;  /* Roll back dumped error record */    
+    rec = &err->ring[err->head];   /* Newest error dump first */    
     res = binson_io_printf( err->io, "res=0x%04x, l=%d, f=%s, d=\"%s\"\n", rec->code, rec->line, rec->file, rec->data );
     
     if (pcnt)

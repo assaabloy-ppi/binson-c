@@ -29,7 +29,7 @@
 
 /********************************************//**
  * \file binson.h
- * \brief Binson-c library public API header file
+ * \brief Binson-c library main public API header file
  *
  * \author Alexander Reshniuk
  * \date 20/11/2015
@@ -53,7 +53,6 @@ extern "C" {
 #include "binson_writer.h"
 #include "binson_parser.h"
 
-
 /**
  *  Binson DOM tree traversal type
  */
@@ -65,7 +64,7 @@ typedef enum
 
 } binson_traverse_method;
 
-/**
+/*
  *  Forward declarations
  */
 typedef struct binson_                      binson;
@@ -81,7 +80,7 @@ typedef struct binson_traverse_cb_param_    binson_traverse_cb_param;
 /**
  *  Binson DOM tree traversal direction
  */
-typedef enum binson_traverse_dir_
+typedef enum binson_traverse_dir
 {
     BINSON_TRAVERSE_DIR_UNKNOWN   = 0,
     BINSON_TRAVERSE_DIR_DOWN,    /**< Indicates last processed node was parent of current processing node */
@@ -92,7 +91,7 @@ typedef enum binson_traverse_dir_
 
 } binson_traverse_dir;
 
-/**
+/*
  *  General purpose binson library API calls
  */
 uint32_t        binson_lib_get_version();
@@ -103,12 +102,12 @@ binson_res      binson_init( binson *obj, binson_io *error_io );
 binson_res      binson_free( binson *obj );
 binson_res      binson_reset( binson *obj );
 
-/**
+/*
  *  Binson context getters/setters
  */
 binson_node*    binson_get_root( binson *obj );
 
-/**
+/*
  *  Node/tree creation/removal
  */
 binson_res  binson_node_add( binson *obj, binson_node *parent, binson_node_type node_type, const char* key, binson_node **dst, binson_value *tmp_val );
@@ -127,18 +126,17 @@ binson_res  binson_node_clone_tree( binson *obj, binson_node *node, const char* 
 binson_res  binson_node_remove( binson *obj, binson_node *node );
 binson_res  binson_node_remove_( binson *obj, binson_node *node );
 
-/**
+/*
  *  Serialization/deserialization
  */
 binson_res  binson_serialize( binson *obj, binson_writer *pwriter, binson_raw_size *psize );
 binson_res  binson_deserialize( binson *obj, binson_parser *pparser, binson_node *parent, const char* key, bool validate_only );
 
-/**
+/*
  *  Node level getters/setters
  */
 binson_node_type      binson_node_get_type( binson_node *node );
 const char*           binson_node_get_key( binson_node *node );
-/*binson_value*      binson_node_get_val( binson_node *node );*/
 
 binson_res            binson_node_get_boolean( binson_node *node, bool *pbool );
 binson_res            binson_node_get_integer( binson_node *node, int64_t *pinteger );
@@ -146,10 +144,9 @@ binson_res            binson_node_get_double( binson_node *node, double *pdouble
 binson_res            binson_node_get_string( binson_node *node, char **ppstr );
 binson_res            binson_node_get_bytes( binson_node *node, uint8_t **ppbytes, binson_raw_size *psize );
 
-
 bool                  binson_node_is_leaf_type( binson_node *node );
 
-/**
+/*
  *  Tree level getters
  */
 int             binson_node_get_depth(  binson_node *node );
@@ -166,7 +163,7 @@ binson_res      binson_node_get_child_by_key( binson *obj, binson_node *parent, 
 binson_res      binson_node_get_sibling_count( );
 binson_res      binson_node_get_child_count( );
 
-/**
+/*
  *  Binson tree traversal API calls
  */
 typedef binson_res (*binson_traverse_callback)(binson *obj, binson_node *node, binson_traverse_cb_status *status, void* param );

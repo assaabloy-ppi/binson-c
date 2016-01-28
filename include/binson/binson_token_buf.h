@@ -40,20 +40,19 @@
 #define BINSON_TOKEN_BUF_H_INCLUDED
 
 #include "binson_config.h"
-#include "binson/binson_common.h"
-#include "binson/binson_error.h"
+#include "binson_common.h"
+#include "binson_error.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/**
+/*
  *  Forward declarations
  */
 typedef struct binson_token_buf_  binson_token_buf;
-/*typedef struct binson_token_ref_  binson_token_ref;*/
 
-/**
+/*
  *  Token buffer API calls
  */
 binson_res  binson_token_buf_new( binson_token_buf **ptbuf );
@@ -72,15 +71,9 @@ binson_res  binson_token_buf_get_token_payload( binson_token_buf *tbuf, uint8_t 
 binson_res  binson_token_buf_get_sig( binson_token_buf *tbuf, uint8_t tok_num, uint8_t *psig );
 
 binson_res  binson_token_buf_get_node_type( binson_token_buf *tbuf, uint8_t tok_num, binson_node_type *pntype, bool *is_closing_token );
-/*binson_res  binson_token_buf_get_token_type( binson_token_buf *tbuf, uint8_t tok_num, binson_token_type *pttype );*/
 
 binson_res  binson_token_buf_is_partial( binson_token_buf *tbuf, bool *pbool );
 binson_res  binson_token_buf_is_valid( binson_token_buf *tbuf, bool *pbool );
-
-/**
- *  Token ref API calls.
- */
-/*binson_res  binson_token_ref_get_( binson_token_buf *tbuf, binson_token_ref *tref );*/
 
 #ifdef __cplusplus
 }

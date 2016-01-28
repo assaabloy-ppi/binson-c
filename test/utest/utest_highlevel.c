@@ -49,18 +49,12 @@ const uint8_t sa8[]  = "\x40\x14\x06\xe7\x88\x85\xec\x9b\xa1\x40\x14\x04\x1c\xe9
 // {"a":[true,13,-2.34,"zxc",{"d":false, "e":"0x030405", "q":"qwe"},9223372036854775807]}
 const uint8_t sb1[]  = "\x40\x14\x01\x61\x42\x44\x10\x0d\x46\xb8\x1e\x85\xeb\x51\xb8\x02\xc0\x14\x03\x7a\x78\x63\x40\x14\x01\x64\x45\x14\x01\x65\x18\x03\x03\x04\x05\x14\x01\x71\x14\x03\x71\x77\x65\x41\x13\xff\xff\xff\xff\xff\xff\xff\x7f\x43\x41";
 
+
 // failed in fuzzer: 26.01.2016
 //const uint8_t sb2[]  = "\x40\x14\x04\xf1\xa0\xb0\x97\x42\x40\x41\x40\x41\43\x14\x06\xee\xbc\x96\xee\xad\xa4\x42\x42\x43\x40\x41\x43\x41";
-//const uint8_t sb2_[]    = "\x40\x14\x04\x61\x61\x61\x61\x42\x40\x41\x40\x41\43\x14\x06\x61\x61\x61\x61\x61\x61\x42\x42\x43\x40\x41\x43\x41";
 
-//const uint8_t sb3[]  = "\x40\x14\x04\xf1\xbe\x80\x9d\x42\x40\x41\x40\x41\x43\x14\x06\xef\x82\xac\xe8\x87\xbd\x42\x42\x43\x42\x43\x43\x41";
-//const uint8_t sb3[]  = "\x40\x14\x00\x42\x40\x41\x43\x42\x42\x43\x43\x41";  //bug!!!!
-const uint8_t sb3[]  = "\x40\x14\x00\x42\x40\x41\x43\x42\x43\x41"; 
-
-//const uint8_t sb3[]  = "\x40\x14\x04\xf1\xbe\x80\x9d\x42\x43\x41"; // 3-byte character
-
-//const uint8_t sb3[]  = "\40\x14\x00\x40\x14\x00\x40\x41\x14\x00\x42\x43\x41\x14\x00\x42\x40\x41\x42\x43\x43\x41";  //bug!!!
-//const uint8_t sb3[]  = "\40\x14\x01\x61\x40\x14\x01\x61\x40\x41\x14\x01\x61\x42\x43\x41\x14\x01\x61\x42\x40\x41\x42\x43\x43\x41"; // bug!!
+const uint8_t sb2[]  = "\x40\x14\x06\xef\xad\xab\xe8\xb0\xa6\x40\x41\x14\x04\xf3\x91\xb0\xa7\x40\x41\x41"; // {"ﭫ谦":{}, "󑰧":{}}
+const uint8_t sb3[]  = "\x40\x14\x06\xec\xbe\xb6\xe9\xb0\x8a\x40\x41\x14\x06\xec\x8c\xb7\xe9\xb4\x88\x40\x41\x41"; // {"쾶鰊":{}, "쌷鴈":{}}
 
 /************************************************************/
 static int global_setup(void **state) {
@@ -301,22 +295,24 @@ static void utest_highlevel_recycle(void **state) {
     UTEST_HL_RECYCLE( sa4 );  
     UTEST_HL_RECYCLE( sa5 );
     UTEST_HL_RECYCLE( sa6 );
-    //UTEST_HL_RECYCLE( sa7_1 );        
+    UTEST_HL_RECYCLE( sa7_1 );        
     //UTEST_HL_RECYCLE( sa7_2 );            
-    //UTEST_HL_RECYCLE( sa7 );    
-    //UTEST_HL_RECYCLE( sa8 );    
+    UTEST_HL_RECYCLE( sa7 );    
+    UTEST_HL_RECYCLE( sa8 );    
     
-    binson_io_seek( binson_parser_get_io( bc->parser ), 0 );  
+    /*binson_io_seek( binson_parser_get_io( bc->parser ), 0 );  
     binson_io_seek( binson_writer_get_io( bc->writer ), 0 );   
-    memcpy(sbuf, sa8, sizeof(sa8)-1);
+    memcpy(sbuf, sb4, sizeof(sb4)-1);
     res = binson_deserialize( bc->obj, bc->parser, NULL, NULL, false );    assert_int_equal(res, BINSON_RES_OK );
     res = binson_serialize( bc->obj, bc->writer, &rs );  		   assert_int_equal(res, BINSON_RES_OK );
-    assert_int_equal( rs, sizeof(sa8)-1 );
-    assert_memory_equal( sbuf, dbuf, rs ); 
+    for (uint32_t j=0; j<rs; j++) { printf(" 0x%02x(0x%02x), ", sbuf[j], dbuf[j]); };
+    assert_int_equal( rs, sizeof(sb4)-1 );
+    assert_memory_equal( sbuf, dbuf, rs ); */
 
-    //UTEST_HL_RECYCLE( sb1 );      
-    //UTEST_HL_RECYCLE( sb2 );          
-   // UTEST_HL_RECYCLE( sb3 );
+    UTEST_HL_RECYCLE( sb1 );      
+    UTEST_HL_RECYCLE( sb2 );          
+    UTEST_HL_RECYCLE( sb3 );
+    //UTEST_HL_RECYCLE( sb4 );
 }
 
 /************************************************************/

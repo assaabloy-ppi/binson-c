@@ -45,12 +45,11 @@
 #include "binson_io.h"
 #include "binson_token_buf.h"
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/**
+/*
  *  Forward declarations
  */
 typedef struct binson_parser_     binson_parser;
@@ -63,18 +62,17 @@ typedef enum {
   BINSON_PARSER_MODE_RAW    = 0,        /**< Raw mode. Serialized binson raw data used as underlying storage  */
   BINSON_PARSER_MODE_SMART,             /**< Raw mode + some caching */
   BINSON_PARSER_MODE_DOM,               /**< Full DOM creation. Raw data not stored but reconstructed on binson_serialize() call */
-
-  BINSON_PARSER_MODE_LAST               /**< Enum terminator. Need for arg validation */
+  
+  BINSON_PARSER_MODE_LAST               /* Enum terminator. Need for arg validation */
 
 } binson_parser_mode;
 
-
-/**
+/*
  *  Parsing callback declaration
  */
 typedef binson_res (*binson_parser_cb)( binson_parser *parser, uint8_t token_cnt, binson_token_buf *tbuf, void* param );
 
-/**
+/*
  *  Binson parser API calls
  */
 binson_res  binson_parser_new( binson_parser **pparser );
@@ -92,13 +90,6 @@ bool        binson_parser_is_done( binson_parser *parser );
 bool        binson_parser_is_valid( binson_parser *parser );
 
 bool        binson_parser_copy_token_to_( binson_parser *parser, binson_token_ref *token );
-
-/*binson_res  binson_parser_validate( binson_parser *parser );*/
-
-
-/* binson_res        binson_token_parse( binson_parser *parser, binson_token *token, binson_value *val );*/
-
-
 
 #ifdef __cplusplus
 }

@@ -41,53 +41,62 @@
 #include "binson_config.h"
 #include "binson_utf8.h"
 
-size_t u8_wc_toutf8(uint8_t *dest, uint32_t ch)
+/*
+ * Convert unicode wide char to utf-8 representation
+ */
+size_t unicode_to_utf8(uint8_t *dst, uint32_t ch)
 {
     if (ch < 0x80) {
-        dest[0] = (uint8_t)ch;
+        dst[0] = (uint8_t)ch;
         return 1;
     }
     if (ch < 0x800) {
-        dest[0] = (ch>>6) | 0xC0;
-        dest[1] = (ch & 0x3F) | 0x80;
+        dst[0] = (ch>>6) | 0xC0;
+        dst[1] = (ch & 0x3F) | 0x80;
         return 2;
     }
     if (ch < 0x10000) {
-        dest[0] = (ch>>12) | 0xE0;
-        dest[1] = ((ch>>6) & 0x3F) | 0x80;
-        dest[2] = (ch & 0x3F) | 0x80;
+        dst[0] = (ch>>12) | 0xE0;
+        dst[1] = ((ch>>6) & 0x3F) | 0x80;
+        dst[2] = (ch & 0x3F) | 0x80;
         return 3;
     }
     if (ch < 0x110000) {
-        dest[0] = (ch>>18) | 0xF0;
-        dest[1] = ((ch>>12) & 0x3F) | 0x80;
-        dest[2] = ((ch>>6) & 0x3F) | 0x80;
-        dest[3] = (ch & 0x3F) | 0x80;
+        dst[0] = (ch>>18) | 0xF0;
+        dst[1] = ((ch>>12) & 0x3F) | 0x80;
+        dst[2] = ((ch>>6) & 0x3F) | 0x80;
+        dst[3] = (ch & 0x3F) | 0x80;
         return 4;
     }
     return 0;
 }
 
-
-int octal_digit(uint8_t c)
+/*
+ * Is specified character valid octal digit?
+ */
+bool is_octal_digit(uint8_t c)
 {
     return (c >= '0' && c <= '7');
 }
 
-int hex_digit(uint8_t c)
+/*
+ * Is specified character valid hex digit?
+ */
+bool is_hex_digit(uint8_t c)
 {
-    return ((c >= '0' && c <= '9') ||
-            (c >= 'A' && c <= 'F') ||
-            (c >= 'a' && c <= 'f'));
+    return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'));
 }
 
-size_t u8_read_escape_sequence(const uint8_t *str, uint32_t *dest)
+/*
+ * Convert textual \u sequence to unicode
+ */
+size_t unicode_char_unescape(const uint8_t *str, uint32_t *dest)
 {
     uint32_t ch;
     uint8_t digs[9]="\0\0\0\0\0\0\0\0";
     size_t dno=0, i=1;
 
-    ch = (uint32_t)str[0];    /* take literal character */
+    ch = (uint32_t)str[0]; 
     if (str[0] == 'n')
         ch = L'\n';
     else if (str[0] == 't')
@@ -102,29 +111,29 @@ size_t u8_read_escape_sequence(const uint8_t *str, uint32_t *dest)
         ch = L'\v';
     else if (str[0] == 'a')
         ch = L'\a';
-    else if (octal_digit(str[0])) {
+    else if (is_octal_digit(str[0])) {
         i = 0;
         do {
             digs[dno++] = str[i++];
-        } while (octal_digit(str[i]) && dno < 3);
+        } while (is_octal_digit(str[i]) && dno < 3);
         ch = strtol((char*)digs, NULL, 8);
     }
     else if (str[0] == 'x') {
-        while (hex_digit(str[i]) && dno < 2) {
+        while (is_hex_digit(str[i]) && dno < 2) {
             digs[dno++] = str[i++];
         }
         if (dno > 0)
             ch = strtol((char*)digs, NULL, 16);
     }
     else if (str[0] == 'u') {
-        while (hex_digit(str[i]) && dno < 4) {
+        while (is_hex_digit(str[i]) && dno < 4) {
             digs[dno++] = str[i++];
         }
         if (dno > 0)
             ch = strtol((char*)digs, NULL, 16);
     }
     else if (str[0] == 'U') {
-        while (hex_digit(str[i]) && dno < 8) {
+        while (is_hex_digit(str[i]) && dno < 8) {
             digs[dno++] = str[i++];
         }
         if (dno > 0)
@@ -135,23 +144,30 @@ size_t u8_read_escape_sequence(const uint8_t *str, uint32_t *dest)
     return i;
 }
 
+/** \brief Unescape utf-8 string 
+ *
+ * \param buf uint8_t* Destination buffer
+ * \param sz size_t   Destination buffer size
+ * \param src uint8_t* Source buffer
+ * \return size_t  Number of bytes written
+ */
 size_t binson_utf8_unescape(uint8_t *buf, size_t sz, uint8_t *src)
 {
     size_t c=0, amt;
-    uint32_t ch;
+    uint32_t ch;	
     uint8_t temp[4];
 
     while (*src && c < sz) {
         if (*src == '\\') {
             src++;
-            amt = u8_read_escape_sequence(src, &ch);
+            amt = unicode_char_unescape(src, &ch);
         }
         else {
             ch = (uint32_t)*src;
             amt = 1;
         }
         src += amt;
-        amt = u8_wc_toutf8(temp, ch);
+        amt =  unicode_to_utf8(temp, ch);
         if (amt > sz-c)
             break;
         memcpy(&buf[c], temp, amt);
@@ -162,8 +178,12 @@ size_t binson_utf8_unescape(uint8_t *buf, size_t sz, uint8_t *src)
     return c;
 }
 
-
-bool binson_utf8_is_valid( uint8_t* string)
+/** \brief Return true if string in buffer is valid UTF-8 encoded string
+ *
+ * \param string uint8_t* Source buffer
+ * \return bool
+ */
+bool binson_utf8_is_valid( uint8_t* string )
 {
     const unsigned char * bytes = (const unsigned char *)string;
 
@@ -174,6 +194,7 @@ bool binson_utf8_is_valid( uint8_t* string)
     {
         if( ( /* ASCII */
              /* use bytes[0] <= 0x7F to allow ASCII control characters */
+		bytes[0] <= 0x7F ||   /* allow all low ASCII codes to meet relaxed Java UTF-8 compatibility style */
                 bytes[0] == 0x09 ||
                 bytes[0] == 0x0A ||
                 bytes[0] == 0x0D ||

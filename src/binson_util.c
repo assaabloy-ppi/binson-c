@@ -42,7 +42,6 @@
 #define TWO_TO_15	32768
 #define	TWO_TO_31	2147483648L 
 
-
 /** \brief Convert 64-bit arg to LE representation in memory buffer
  *
  * \param val int64_t                 Value
@@ -92,7 +91,7 @@ size_t binson_util_pack_double( double val, uint8_t *bbuf )
 }
 
 
-/** \brief
+/** \brief Convert 64-bit integer LE representation  in byte buffer to 64-bit integer value
  *
  * \param bbuf uint8_t*
  * \param bsize uint8_t
@@ -115,7 +114,7 @@ int64_t  binson_util_unpack_integer( const uint8_t *bbuf, uint8_t bsize )
 }
 
 
-/** \brief
+/** \brief Convert 64-bit double LE representation in byte buffer to double value
  *
  * \param bbuf uint8_t*
  * \return double

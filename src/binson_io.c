@@ -45,7 +45,7 @@
 #include "binson/binson_io.h"
 #include "binson_util.h"
 
-/**< String buffer access struct */
+/* String buffer access struct */
 typedef struct _binson_io_strbuf_struct {
 
   char      *ptr;
@@ -54,7 +54,7 @@ typedef struct _binson_io_strbuf_struct {
 
 } binson_io_strbuf_struct;
 
-/**< Memory byte buffer access struct */
+/* Memory byte buffer access struct */
 typedef struct _binson_io_bytebuf_struct {
 
   uint8_t   *ptr;
@@ -63,7 +63,7 @@ typedef struct _binson_io_bytebuf_struct {
 
 } binson_io_bytebuf_struct;
 
-/**< Union of supported storage structs */
+/* Union of supported storage structs */
 typedef union _binson_io_struct {
 
   binson_io_strbuf_struct       strbuf;
@@ -72,7 +72,7 @@ typedef union _binson_io_struct {
 
 } binson_io_struct;
 
-/**< Binson IO context */
+/* Binson IO context */
 typedef struct binson_io_ {
 
   binson_io_type    type;
@@ -82,8 +82,8 @@ typedef struct binson_io_ {
   binson_raw_size   write_counter;  /* byte counter*/
   binson_raw_size   read_counter;  
 
-  binson_res        status;        /**< Last input/output operation result */
-  int               errno_copy;    /**< Last errno value for this object */
+  binson_res        status;        /* Last input/output operation result */
+  int               errno_copy;    /* Last errno value for this object */
 
 } binson_io_;
 
@@ -99,7 +99,7 @@ binson_res  binson_io_new( binson_io **pio )
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Initialize new \c binson_io context object
  *
  * \param io binson_io*
  * \return binson_res
@@ -262,34 +262,6 @@ binson_res  binson_io_attach_stream( binson_io *obj, FILE *stream )
 
   return BINSON_RES_OK;
 }
-
-/** \brief Attach already existing file descriptor to \c binson_io object
- *
- * \param obj binson_io*          Context
- * \param fd int                  File descriptor
- * \param mode binson_io_mode_t   Access mode
- * \return binson_res             Result code
- *
- */
-/*binson_res  binson_io_attach_fd( binson_io *obj, int fd, binson_io_mode mode  )
-{
-  char m[3] = {0};
-
-  if (!obj)
-    return BINSON_RES_ERROR_ARG_WRONG;
-
-  obj->mode = mode;
-
-  if (mode & BINSON_IO_MODE_READ)
-    strcat(m, "r");
-  else
-    if (mode & BINSON_IO_MODE_APPEND)
-      strcat(m, "a");
-    else
-      strcat(m, "w");
-
-  return binson_io_attach_stream( obj, fdopen(fd, &m) );
-}*/
 
 /** \brief Attach string buffer to \c binson_io object
  *
@@ -457,7 +429,7 @@ binson_res  binson_io_vprintf( binson_io *obj, const char* format, va_list args 
 
     case BINSON_IO_TYPE_STR0:
     case BINSON_IO_TYPE_BUFFER:
-        /**< \todo Implement strict overflow checks to mimic nonportable vsnprintf() */
+        /* \todo Implement strict overflow checks to mimic nonportable vsnprintf() */
        written = (unsigned int)vsprintf( (obj->mode & BINSON_IO_MODE_APPEND)? obj->handle.strbuf.ptr + obj->handle.strbuf.cursor :
                                                                 obj->handle.strbuf.ptr, format, args );
        obj->handle.strbuf.cursor += written;
@@ -521,7 +493,7 @@ binson_res  binson_io_read( binson_io *obj, uint8_t *dst_ptr, size_t max_size, s
 
     case BINSON_IO_TYPE_STR0:
     case BINSON_IO_TYPE_BUFFER:
-        /**< can't copy more than we have */
+        /* can't copy more than we have */
         cnt = MIN(max_size, obj->handle.bytebuf.buf_size - obj->handle.bytebuf.cursor );
 
         memcpy(dst_ptr, obj->handle.bytebuf.ptr + obj->handle.bytebuf.cursor, cnt);
@@ -562,7 +534,7 @@ binson_res  binson_io_read_str( binson_io *obj, char* strbuf, size_t max_size, s
   else
     res = binson_io_read( obj, (uint8_t *)strbuf, max_size, read_chars );
 
-  strbuf[len + *read_chars] = 0; /**< Terminating zero */
+  strbuf[len + *read_chars] = 0; /* Terminating zero */
 
   return res;
 }

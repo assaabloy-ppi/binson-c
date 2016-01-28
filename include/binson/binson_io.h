@@ -49,7 +49,7 @@
 extern "C" {
 #endif
 
-/**
+/*
  *  Forward declarations
  */
 #ifndef binson_io_DEFINED
@@ -81,7 +81,7 @@ typedef enum {
 
 } binson_io_mode;
 
-/**
+/*
  *  Binson IO abstraction layer API calls
  */
 binson_res  binson_io_new( binson_io **pio );
@@ -92,7 +92,6 @@ binson_res  binson_io_reset_counters( binson_io *io );
 binson_res  binson_io_get_read_counter( binson_io *io, binson_raw_size *pcnt );
 binson_res  binson_io_get_write_counter( binson_io *io, binson_raw_size *pcnt );
 binson_res  binson_io_seek( binson_io *io, binson_raw_size pos );
-
 
 bool        binson_io_is_random( binson_io *io );
 

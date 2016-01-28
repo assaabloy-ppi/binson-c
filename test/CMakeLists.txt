@@ -66,4 +66,7 @@ target_link_libraries(btest cmocka_lib )
 #target_link_libraries(btest cmocka)
 
 add_subdirectory(utest)
-add_subdirectory(fuzz_test)
+
+if (WITH_FUZZING)
+  add_subdirectory(fuzz_test)
+endif()

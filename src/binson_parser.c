@@ -44,7 +44,7 @@
 #include "binson/binson_parser.h"
 #include "binson/binson_token_buf.h"
 
-/**
+/*
  *  Parser context
  */
 typedef struct binson_parser_
@@ -67,7 +67,7 @@ typedef struct binson_parser_
 
 } binson_parser_;
 
-/* \brief
+/** \brief Create new parser object instance
  *
  * \param pparser binson_parser**
  * \return binson_res
@@ -94,7 +94,7 @@ binson_res  binson_parser_new( binson_parser **pparser )
   return BINSON_RES_OK;
 }
 
-/*8 \brief
+/** \brief Initialize new parser object instance
  *
  * \param parser binson_parser*
  * \param source binson_io*
@@ -131,7 +131,7 @@ binson_res  binson_parser_reset( binson_parser *parser )
   return binson_parser_init( parser, parser->source, parser->mode );
 }
 
-/* \brief
+/** \brief Destroy parser instance 
  *
  * \param parser binson_parser*
  * \return binson_res
@@ -151,7 +151,7 @@ binson_res  binson_parser_free( binson_parser *parser )
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Return attached binson_io object
  *
  * \param parser binson_parser*
  * \return binson_io*
@@ -162,7 +162,7 @@ binson_io*  binson_parser_get_io( binson_parser *parser )
 }
 
 
-/** \brief
+/** \brief Attach binson_io object
  *
  * \param parser binson_parser*
  * \param source binson_io*
@@ -179,7 +179,7 @@ binson_res  binson_parser_set_io( binson_parser *parser, binson_io *source )
   return BINSON_RES_OK;
 }
 
-/* \brief
+/** \brief  Set parsing mode. Not implemented.
  *
  * \param parser binson_parser*
  * \param mode binson_parser_mode
@@ -209,7 +209,7 @@ binson_res  binson_parser_set_mode( binson_parser *parser, binson_parser_mode mo
   return BINSON_RES_OK;
 }
 
-/* \brief
+/** \brief Parse data from attached binson_io object
  *
  * \param parser binson_parser*
  * \param cb binson_parser_cb
@@ -229,7 +229,7 @@ binson_res  binson_parser_parse( binson_parser *parser, binson_parser_cb cb, voi
   return res;
 }
 
-/* \brief
+/** \brief First parsing step
  *
  * \param parser binson_parser*
  * \param cb binson_parser_cb
@@ -295,7 +295,7 @@ binson_res  binson_parser_parse_first( binson_parser *parser, binson_parser_cb c
   return res;
 }
 
-/* \brief
+/** \brief Next parsing step
  *
  * \param parser binson_parser*
  * \return binson_res
@@ -305,7 +305,7 @@ binson_res  binson_parser_parse_next( binson_parser *parser )
   return binson_parser_parse_first( parser, NULL, NULL );
 }
 
-/** \brief
+/** \brief Check status of parsing process
  *
  * \param parser binson_parser*
  * \return bool
@@ -315,7 +315,7 @@ bool  binson_parser_is_done( binson_parser *parser )
   return parser->done;
 }
 
-/** \brief
+/** \brief Return true if no parsing errors occured
  *
  * \param parser binson_parser*
  * \return bool
@@ -324,116 +324,3 @@ bool binson_parser_is_valid( binson_parser *parser )
 {
   return parser->valid;
 }
-
-/* \brief Input validation callback.
- *
- * \param parser binson_parser*
- * \param token binson_token*
- * \param param void*
- * \return binson_res
- */
-/*binson_res  binson_parser_cb_validate( binson_parser *parser, binson_token *token, void* param )
-{
-
-}
-*/
-/* \brief
- *
- * \param parser binson_parser*
- * \param token binson_token*
- * \param val binson_value*
- * \return binson_res
- */
-/*binson_res  binson_token_parse( binson_parser *parser, binson_token *token, binson_value *val )
-{
-  / Initial parameter validation /
-  if (!parser || !token || !val)
-    return BINSON_RES_ERROR_ARG_WRONG;
-
-  switch (node_type)
-  {
-    case BINSON_TYPE_OBJECT:
-    case BINSON_TYPE_ARRAY:
-      return BINSON_RES_OK;
-
-    case BINSON_TYPE_BOOLEAN:
-      return binson_token_parse_boolean( parser, token, val->bool_val );
-
-    case BINSON_TYPE_INTEGER:
-      return binson_token_parse_integer( parser, token, val->int_val );
-
-    case BINSON_TYPE_DOUBLE:
-      return binson_token_parse_double( parser, token, val->double_val );
-
-    case BINSON_TYPE_STRING:
-      return binson_token_parse_string( parser, token, val->vector_val.vptr );
-
-    case BINSON_TYPE_BYTES:
-      return binson_token_parse_bytes( parser, token, val->vector_val.vptr, val->vector_val.vsize );
-
-    case BINSON_TYPE_UNKNOWN:
-    default:
-      return BINSON_RES_ERROR_ARG_WRONG;
-  }
-}*/
-
-/* \brief
- *
- * \param parser binson_parser*
- * \param token binson_token*
- * \param val bool*
- * \return binson_res
- */
-/*binson_res binson_token_parse_boolean( binson_parser *parser, binson_token *token, bool *val )
-{
-
-}*/
-
-/* \brief
- *
- * \param parser binson_parser*
- * \param token binson_token*
- * \param val int64_t*
- * \return binson_res
- */
-/*binson_res token_parse_integer( binson_parser *parser, binson_token *token, int64_t *val )
-{
-
-}*/
-
-/* \brief
- *
- * \param parser binson_parser*
- * \param token binson_token*
- * \param val double*
- * \return binson_res
- */
-/*binson_res token_parse_double( binson_parser *parser, binson_token *token, double *val )
-{
-
-}*/
-
-/* \brief
- *
- * \param parser binson_parser*
- * \param token binson_token*
- * \param val char*
- * \return binson_res
- */
-/*binson_res token_parse_str( binson_parser *parser, binson_token *token, char *val )
-{
-
-}*/
-
-/* \brief
- *
- * \param parser binson_parser*
- * \param token binson_token*
- * \param bptr uint8_t*
- * \param bsize size_t*
- * \return binson_res
- */
-/*binson_res token_parse_bytes( binson_parser *parser, binson_token *token, uint8_t *bptr, size_t *bsize )
-{
-
-}*/

@@ -29,7 +29,7 @@
 
 /********************************************//**
  * \file binson_common_pvt.c
- * \brief Function implementations common for all public interfaces
+ * \brief Common private implementation details
  *
  * \author Alexander Reshniuk
  * \date 08/12/2015
@@ -38,7 +38,6 @@
 
 #include "binson_common_pvt.h"
 
-/*static int i = 0;*/
 /* \brief
  *
  * \param sig enum
@@ -92,5 +91,3 @@ binson_node_type   binson_common_map_sig_to_node_type( uint8_t sig, bool *pclosi
     return BINSON_TYPE_UNKNOWN;
   }
 }
-
-

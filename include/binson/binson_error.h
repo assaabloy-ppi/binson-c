@@ -51,7 +51,7 @@ extern "C" {
 #define FAILED(res)   ((res == BINSON_RES_OK)? 0 : (BINSON_ERROR_REPORT(res), 1))
 #define SUCCESS(res)  (!FAILED(res))
 
-#define UNUSED(x) (void)(x)   /* for unused variable suppression */
+#define UNUSED(x) (void)(x)   /* for unused variable warning suppression */
   
 #ifdef NDEBUG
 # define BINSON_ASSERT( expr ) ((void)0)
@@ -67,7 +67,7 @@ extern "C" {
       enum { assert_static__ = 1/(e) }; \
       } while (0)
 
-/**
+/*
  *  Forward declarations
  */
 #ifndef binson_io_DEFINED
@@ -81,45 +81,45 @@ typedef struct binson_io_  binson_io;
 typedef enum binson_res_ {
     BINSON_RES_OK                       = 0,
 
-    /**< traversal control codes set by callbacks */
+    /* traversal control codes set by callbacks */
     BINSON_RES_TRAVERSAL_BREAK          = 32,
     BINSON_RES_TRAVERSAL_RESTART,
     BINSON_RES_TRAVERSAL_DONE,
-    BINSON_RES_TRAVERSAL_CB,    /**< problem in traversal's callback */
+    BINSON_RES_TRAVERSAL_CB,    /* problem in traversal's callback */
 
-    /**< binson API calls argument errors */
+    /* binson API calls argument errors */
     BINSON_RES_ERROR_ARG_WRONG,
-    BINSON_RES_ERROR_ARG_WRONG_COMB,  /**< invalid argument combination */
+    BINSON_RES_ERROR_ARG_WRONG_COMB,  /* invalid argument combination */
 
-    /**< tree access errors */
-    BINSON_RES_ERROR_TREE_OUT_OF_ARRAY  = 128,    /**< unable to access ARRAY item specified */
+    /* tree access errors */
+    BINSON_RES_ERROR_TREE_OUT_OF_ARRAY  = 128,    /* unable to access ARRAY item specified */
 
-    /**< binson raw data input errors */
+    /* binson raw data input errors */
     BINSON_RES_ERROR_IO_EOF             = 256,
     BINSON_RES_ERROR_IO_OUT_OF_BUFFER,
-    BINSON_RES_ERROR_IO_PART,              /**< partial content */
+    BINSON_RES_ERROR_IO_PART,              /* partial content */
     BINSON_RES_ERROR_IO_SEEK,	
     BINSON_RES_ERROR_IO_TYPE_UNKNOWN,
 
-    /**< binson parsing errors */
-    BINSON_RES_ERROR_PARSE_INVALID_INPUT,   /**< can't parse input data */
-    BINSON_RES_ERROR_PARSE_PART,            /**< partial content */
-    BINSON_RES_ERROR_PARSE_SUSPENDED,       /**< Used from callback to postpone parsing */
-    BINSON_RES_ERROR_PARSE_INVALID_STR,     /**< String is not vilid UTF-8 string */
-    BINSON_RES_ERROR_PARSE_TOKEN_BUF_FULL,  /**< Token buffer already contains maximum allowed number of tokens */
+    /* binson parsing errors */
+    BINSON_RES_ERROR_PARSE_INVALID_INPUT,   /* can't parse input data */
+    BINSON_RES_ERROR_PARSE_PART,            /* partial content */
+    BINSON_RES_ERROR_PARSE_SUSPENDED,       /* Used from callback to postpone parsing */
+    BINSON_RES_ERROR_PARSE_INVALID_STR,     /* String is not vilid UTF-8 string */
+    BINSON_RES_ERROR_PARSE_TOKEN_BUF_FULL,  /* Token buffer already contains maximum allowed number of tokens */
 
-    /**< internal library errors/failures codes */
+    /* internal library errors/failures codes */
     BINSON_RES_ERROR_ASSERT_FAILED      = 512,
-    BINSON_RES_ERROR_TYPE_UNKNOWN,        /**< unknown node type used */
-    BINSON_RES_ERROR_LIB_VERSION,         /**< binary lib version don't match headers version */
-    BINSON_RES_ERROR_NOT_SUPPORTED,       /**< feature not supported in this binson model type or still not implemented in library */
+    BINSON_RES_ERROR_TYPE_UNKNOWN,        /* unknown node type used */
+    BINSON_RES_ERROR_LIB_VERSION,         /* binary lib version don't match headers version */
+    BINSON_RES_ERROR_NOT_SUPPORTED,       /* feature not supported in this binson model type or still not implemented in library */
     BINSON_RES_ERROR_OUT_OF_MEMORY,
-    BINSON_RES_ERROR_BROKEN_INT_STRUCT,   /**< internal structure consistency is broken */
-    BINSON_RES_ERROR_STREAM               /**<  stream/file access or read/write error */
+    BINSON_RES_ERROR_BROKEN_INT_STRUCT,   /* internal structure consistency is broken */
+    BINSON_RES_ERROR_STREAM               /*  stream/file access or read/write error */
 
 } binson_res;
 
-/**
+/*
  *  Binson error handling API calls
  */
 binson_res     binson_error_init( binson_io *io );

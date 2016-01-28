@@ -48,16 +48,15 @@
 extern "C" {
 #endif
 
-/**
+/*
  *  Useful macros missing in C89
  */
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
-/**
+/*
  *  Conversion helpers (binson raw <-> C style)
  */
-/*uint8_t   binson_util_get_significant_bytes( int64_t i );*/
 size_t	binson_util_pack_integer( int64_t val, uint8_t *bbuf );
 size_t	binson_util_pack_double( double val, uint8_t *bbuf );
 

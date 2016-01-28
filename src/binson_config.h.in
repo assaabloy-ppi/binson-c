@@ -47,18 +47,17 @@ extern "C" {
 #define BINSON_MINOR_VERSION @BINSON_MINOR_VERSION@  
 #define BINSON_MICRO_VERSION @BINSON_MICRO_VERSION@  
   
-/**
+/*
  *  BEGIN of backport section
  */
-
-/**< \c bool type backport. C89 have no \c bool type */
+/* \c bool type backport. C89 have no \c bool type */
 #ifndef bool
 # define bool        int
 # define true        1
 # define false       0
 #endif
 
-/**< In C89 we have no strdint.h, so need to mimic it */
+/* In C89 we have no strdint.h, so need to mimic it */
 #ifndef __WORDSIZE
 #if defined __x86_64__ && !defined __ILP32__
 # define __WORDSIZE	64
@@ -67,7 +66,7 @@ extern "C" {
 #endif
 #endif
 
-/**
+/*
  *  Backport of fixed width types from C99's strdin.h
  */
 #ifndef int8_t
@@ -103,7 +102,8 @@ typedef unsigned long int	      uint64_t;
 typedef unsigned long long int	uint64_t;
 #endif
 #endif
-/**
+
+/*
  *  Backport (from C99's \c strdin.h) of range defines
  */
 #ifndef INT8_MAX
@@ -150,11 +150,12 @@ typedef unsigned long long int	uint64_t;
 #  define SIZE_MAX		(4294967295U)
 # endif
 #endif
-/**
+
+/*
  *  END of backport section
  */
 
-/**
+/*
  *  Detect endianness at build time
  */
 /*#define IS_LITTLE_ENDIAN  (((*(short *)"xy") & 0xFF) == 'x')
@@ -165,7 +166,7 @@ typedef unsigned long long int	uint64_t;
 #cmakedefine	DEBUG
 #cmakedefine	NDEBUG
 
-#define ERROR_RING_SIZE  16  /**< Size of circular error buffer */
+#define ERROR_RING_SIZE  16  /* Size of circular error buffer */
 
 #define BINSON_CHILD_NUM_T      uint8_t
 #define BINSON_NODE_NUM_T       uint16_t
@@ -181,19 +182,19 @@ typedef  BINSON_NODE_NUM_T   binson_node_num;
 
 #define BINSON_DEPTH_LIMIT       16
 
-#define  WITH_BINSON_PARSER_MODE_RAW           /**< Build with 'raw' model functionality */
-#define  WITH_BINSON_PARSER_MODE_SMART         /**< Build with 'smart' model functionality */
-#define  WITH_BINSON_PARSER_MODE_DOM           /**< Build with 'DOM' model functionality */
-#cmakedefine WITH_BINSON_JSON_OUTPUT           /**< Build \c binson_writer with JSON output support */
+#define  WITH_BINSON_PARSER_MODE_RAW           /* Build with 'raw' model functionality */
+#define  WITH_BINSON_PARSER_MODE_SMART         /* Build with 'smart' model functionality */
+#define  WITH_BINSON_PARSER_MODE_DOM           /* Build with 'DOM' model functionality */
+#cmakedefine WITH_BINSON_JSON_OUTPUT           /* Build \c binson_writer with JSON output support */
 
-#define BINSON_JSON_OBJ_LENGTH_LIMIT     256   /**< Max number or chars in JSON-dumped representation of object */
+#define BINSON_JSON_OBJ_LENGTH_LIMIT     256   /* Max number or chars in JSON-dumped representation of object */
 
-#define BINSON_TOKEN_BUF_SIZE             16    /**< Initial/regular size of token buffer storage */
-#define BINSON_TOKEN_BUF_SIZE_INC         16    /**< Minimal buffer grow increment */
-#define BINSON_TOKEN_BUF_TOKS             2     /**< Maximim number of tokens to keep in token buffer */
+#define BINSON_TOKEN_BUF_SIZE             16    /* Initial/regular size of token buffer storage */
+#define BINSON_TOKEN_BUF_SIZE_INC         16    /* Minimal buffer grow increment */
+#define BINSON_TOKEN_BUF_TOKS             2     /* Maximim number of tokens to keep in token buffer */
 
 /* Constants. No reason to change. */
-#define BINSON_RAW_SIG_SIZE               1     /**< How many bytes occupies type signature */
+#define BINSON_RAW_SIG_SIZE               1     /* How many bytes occupies type signature */
 
 #ifdef __cplusplus
 }

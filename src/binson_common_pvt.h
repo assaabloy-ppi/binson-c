@@ -29,7 +29,7 @@
 
 /********************************************//**
  * \file binson_common_pvt.h
- * \brief Inplementation specific details common for some modules
+ * \brief Common private declarations
  *
  * \author Alexander Reshniuk
  * \date 08/12/2015
@@ -68,9 +68,7 @@ extern "C" {
 #define BINSON_SIG_BYTES_16       0x19
 #define BINSON_SIG_BYTES_32       0x1a
 
-
 binson_node_type  binson_common_map_sig_to_node_type( uint8_t sig, bool *pclosing_tag );
-
 
 #ifdef __cplusplus
 }

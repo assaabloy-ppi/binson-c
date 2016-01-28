@@ -45,7 +45,7 @@
 #include "binson_util.h"
 #include "binson/binson_io.h"
 
-/**
+/*
  *  Individual token info
  */
 typedef struct binson_token_ref
@@ -61,7 +61,7 @@ typedef struct binson_token_ref
 
 } binson_token_ref;
 
-/**
+/*
  *  Binson tokern buffer structure
  */
 typedef struct binson_token_buf_
@@ -82,7 +82,6 @@ typedef struct binson_token_buf_
   bool                   is_valid;
 
 } binson_token_buf;
-
 
 /*
  *  Forward declarations
@@ -105,7 +104,6 @@ bool  last_token_is_final( binson_token_buf *tbuf,  uint8_t tokens_requested )
 binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bool *valid )
 {
   binson_token_ref  *tok;
-  /*uint8_t            cnt;*/
   binson_raw_size    payload_len;
 
   if (!tbuf || !missing_bytes || !valid)
@@ -134,7 +132,6 @@ binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bo
     case BINSON_SIG_FALSE:
         tok->len_size = 0;
         tok->val_size = 0;
-      /*cnt = BINSON_RAW_SIG_SIZE;*/
     break;
 
     case BINSON_SIG_INTEGER_8:
@@ -146,7 +143,6 @@ binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bo
     case BINSON_SIG_BYTES_8:
         tok->len_size = 1;
         tok->val_size = 0;
-      /*cnt = BINSON_RAW_SIG_SIZE + 1;*/
     break;
 
     case BINSON_SIG_INTEGER_16:
@@ -158,7 +154,6 @@ binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bo
     case BINSON_SIG_BYTES_16:
         tok->len_size = 2;
         tok->val_size = 0;
-      /*cnt = BINSON_RAW_SIG_SIZE + 2;*/
     break;
 
     case BINSON_SIG_INTEGER_32:
@@ -168,14 +163,12 @@ binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bo
 
     case BINSON_SIG_STRING_32:
     case BINSON_SIG_BYTES_32:
-      /*cnt = BINSON_RAW_SIG_SIZE + 4;*/
         tok->len_size = 4;
         tok->val_size = 0;
     break;
 
     case BINSON_SIG_DOUBLE:
     case BINSON_SIG_INTEGER_64:
-      /*cnt = BINSON_RAW_SIG_SIZE + 8;*/
         tok->len_size = 0;
         tok->val_size = 8;
     break;
@@ -184,8 +177,6 @@ binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bo
       *valid = false;
        return BINSON_RES_ERROR_PARSE_INVALID_INPUT;
   }
-
-  /*tok->len_size = cnt - BINSON_RAW_SIG_SIZE;*/
 
   if (!tok->val_size && tok->size < BINSON_RAW_SIG_SIZE + tok->len_size)  /* missing part of length data */
   {
@@ -224,9 +215,7 @@ binson_res  last_token_rescan( binson_token_buf *tbuf, size_t *missing_bytes, bo
   return *missing_bytes? BINSON_RES_ERROR_PARSE_PART : BINSON_RES_OK;
 }
 
-
-
-/** \brief
+/** \brief Create new token buffer instance
  *
  * \param ptbuf binson_token_buf**
  * \return binson_res
@@ -241,7 +230,7 @@ binson_res  binson_token_buf_new( binson_token_buf **ptbuf )
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Reset token buffer instance
  *
  * \param tbuf binson_token_buf*
  * \return binson_res
@@ -259,7 +248,6 @@ binson_res  binson_token_buf_reset( binson_token_buf *tbuf )
 
   tbuf->tokens[tbuf->current_token].is_partial = true;  /* token which has no signature is partial */
   tbuf->is_valid = true;
-
 
   return BINSON_RES_OK;
 }
@@ -284,11 +272,10 @@ binson_res  binson_token_buf_init( binson_token_buf *tbuf, uint8_t *bptr, binson
   return res;
 }
 
-/** \brief
+/** \brief  Destroy token buffer instance
  *
  * \param tbuf binson_token_buf*
  * \return binson_res
- *
  */
 binson_res  binson_token_buf_free( binson_token_buf *tbuf )
 {
@@ -304,12 +291,11 @@ binson_res  binson_token_buf_free( binson_token_buf *tbuf )
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Attach data source
  *
  * \param tbuf binson_token_buf*
  * \param source binson_io*
  * \return binson_res
- *
  */
 binson_res  binson_token_buf_set_io( binson_token_buf *tbuf, binson_io *source )
 {
@@ -321,7 +307,7 @@ binson_res  binson_token_buf_set_io( binson_token_buf *tbuf, binson_io *source )
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Get attached data source
  *
  * \param tbuf binson_token_buf*
  * \return binson_io*
@@ -331,7 +317,7 @@ binson_io*  binson_token_buf_get_io( binson_token_buf *tbuf )
   return tbuf? tbuf->source : NULL;
 }
 
-/** \brief
+/** \brief Get current buffer pointer and size
  *
  * \param tbuf binson_token_buf*
  * \param pbptr uint8_t**
@@ -350,13 +336,12 @@ binson_res  binson_token_buf_get_buf( binson_token_buf *tbuf, uint8_t **pbptr, b
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Set specific buffer to use for token storage during parsing
  *
  * \param tbuf binson_token_buf*
  * \param bptr uint8_t*
  * \param bsize binson_raw_size
  * \return binson_res
- *
  */
 binson_res  binson_token_buf_set_buf( binson_token_buf *tbuf, uint8_t *bptr, binson_raw_size bsize )
 {
@@ -468,25 +453,7 @@ binson_res  binson_token_buf_token_fill( binson_token_buf *tbuf, uint8_t *tok_co
   return res;
 }
 
-/** \brief
- *
- * \param tbuf binson_token_buf*
- * \param tok_num uint8_t
- * \param pttype binson_token_type*
- * \param is_closing_token bool*      returns true, if token is closing part of OBJECT/ARRAY
- * \return binson_res
- */
-/*binson_res  binson_token_buf_get_token_type( binson_token_buf *tbuf, uint8_t tok_num, binson_token_type *pttype  )
-{
-  if (!tbuf || tok_num >= BINSON_TOKEN_BUF_TOKS || !pttype)
-    return BINSON_RES_ERROR_ARG_WRONG;
-
-  *pttype = *(tbuf->ptr + tbuf->tokens[ tok_num ].offset);
-
-  return BINSON_RES_OK;
-}
-*/
-/** \brief
+/** \brief Get node type of specified parsed token
  *
  * \param tbuf binson_token_buf*
  * \param tok_num uint8_t
@@ -506,8 +473,7 @@ binson_res  binson_token_buf_get_node_type( binson_token_buf *tbuf, uint8_t tok_
   return BINSON_RES_OK;
 }
 
-
-/** \brief
+/** \brief Get pointer to payload data structure of specified parsed token
  *
  * \param tbuf binson_token_buf*
  * \param tok_num uint8_t
@@ -580,7 +546,7 @@ binson_res  binson_token_buf_get_token_payload( binson_token_buf *tbuf, uint8_t 
   return res;
 }
 
-/** \brief
+/** \brief Get internal byte signature of specified parsed token
  *
  * \param tbuf binson_token_buf*
  * \param tok_num uint8_t
@@ -597,12 +563,11 @@ binson_res  binson_token_buf_get_sig( binson_token_buf *tbuf, uint8_t tok_num, u
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Check if last binson_token_buf_token_fill() call was fully satisfied
  *
  * \param tbuf binson_token_buf*
  * \param pbool bool*
  * \return binson_res
- *
  */
 binson_res  binson_token_buf_is_partial( binson_token_buf *tbuf, bool *pbool )
 {
@@ -610,12 +575,11 @@ binson_res  binson_token_buf_is_partial( binson_token_buf *tbuf, bool *pbool )
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Check current parsing status
  *
  * \param tbuf binson_token_buf*
  * \param pbool bool*
  * \return binson_res
- *
  */
 binson_res  binson_token_buf_is_valid( binson_token_buf *tbuf, bool *pbool )
 {
@@ -623,13 +587,12 @@ binson_res  binson_token_buf_is_valid( binson_token_buf *tbuf, bool *pbool )
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Get pointer to first byte of specified parsed token
  *
  * \param tbuf binson_token_buf*
  * \param tok_num uint8_t
  * \param pptr uint8_t**
  * \return binson_res
- *
  */
 binson_res  binson_token_buf_get_token_ptr( binson_token_buf *tbuf, uint8_t tok_num, uint8_t **pptr )
 {
@@ -641,13 +604,12 @@ binson_res  binson_token_buf_get_token_ptr( binson_token_buf *tbuf, uint8_t tok_
   return BINSON_RES_OK;
 }
 
-/** \brief
+/** \brief Return byte length of specified parsed token
  *
  * \param tbuf binson_token_buf*
  * \param tok_num uint8_t
  * \param pbsize binson_raw_size*
  * \return binson_res
- *
  */
 binson_res  binson_token_buf_get_token_size( binson_token_buf *tbuf, uint8_t tok_num, binson_raw_size *pbsize )
 {

@@ -97,11 +97,9 @@ typedef union binson_value {
     {
       uint8_t         *bptr;
       binson_size      bsize;
-
     } bbuf_val;
 
 } binson_value;
-
 
 /**
  *  Raw payload data type. String are NOT zero terminated
@@ -113,14 +111,8 @@ typedef union binson_raw_value {
     double    double_val;
 
     struct bbuf_val bbuf_val;
-  /*  {
-      uint8_t         *bptr;
-      binson_size      bsize;
-
-    } bbuf_val;*/
 
 } binson_raw_value;
-
 
 #ifdef __cplusplus
 }

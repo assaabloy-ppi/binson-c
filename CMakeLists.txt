@@ -7,7 +7,8 @@ project(binson C)
 option (WITH_STATIC_LIB "Build binson lib as static instead of dynamic" OFF) 
 option (WITH_BINSON_JSON_OUTPUT "Build lib with JSON output support" ON) 
 option (WITH_EXAMPLES "Build examples from ./example" ON) 
-option (WITH_TESTING "Build tests" ON) 
+option (WITH_TESTING "Build tests" ON)
+option (WITH_FUZZING "Build fuzzing stress suite" ON) 
 
 
 # The version number.
@@ -24,7 +25,8 @@ set(BINSON_VERSION "${BINSON_MAJOR_VERSION}.${BINSON_MINOR_VERSION}.${BINSON_MIC
 #     Increment AGE. Set REVISION to 0
 #   If the source code was changed, but there were no interface changes:
 #     Increment REVISION.
-set(LIBRARY_VERSION "0.0.0")
+#set(LIBRARY_VERSION "0.0.5")
+set(LIBRARY_VERSION ${BINSON_VERSION})
 set(LIBRARY_SOVERSION "0")
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
@@ -149,5 +151,28 @@ install(FILES
 #install(FILES .... DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" )
 
 
+########################################################################
+## Documentation
 
+# add a target to generate API documentation with Doxygen
+find_package(Doxygen)
+option(WITH_DOCS "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
 
+if(WITH_DOCS)
+    if(NOT DOXYGEN_FOUND)
+        message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+    endif()
+
+    set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+    set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+    configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+
+    add_custom_target(doc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM)
+
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)
+endif()

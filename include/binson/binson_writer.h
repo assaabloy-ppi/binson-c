@@ -40,15 +40,15 @@
 #define BINSON_WRITER_H_INCLUDED
 
 #include "binson_config.h"
-#include "binson/binson_common.h"
-#include "binson/binson_error.h"
-#include "binson/binson_io.h"
+#include "binson_common.h"
+#include "binson_error.h"
+#include "binson_io.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/**
+/*
  *  Forward declarations
  */
 typedef struct binson_writer_  binson_writer;
@@ -67,7 +67,7 @@ typedef enum {
 
 } binson_writer_format;
 
-/**
+/*
  *  Binson/JSON low-level output API calls
  */
 binson_res  binson_writer_new( binson_writer **pwriter);
@@ -88,7 +88,6 @@ binson_res  binson_writer_write_integer( binson_writer *writer, const char* key,
 binson_res  binson_writer_write_double( binson_writer *writer, const char* key, double val );
 binson_res  binson_writer_write_str( binson_writer *writer, const char* key, const char* str );
 binson_res  binson_writer_write_bytes( binson_writer *writer, const char* key, uint8_t *src_ptr,  size_t src_size );
-
 
 #ifdef __cplusplus
 }
