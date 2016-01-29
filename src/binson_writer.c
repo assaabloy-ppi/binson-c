@@ -411,7 +411,7 @@ binson_res  binson_writer_write_integer( binson_writer *writer, const char* key,
                                      BINSON_SIG_INTEGER_64,     /* for 7 bytes of int data */
                                      BINSON_SIG_INTEGER_64 };   /* for 8 bytes of int data */
   binson_res  res = BINSON_RES_OK;
-  uint8_t     bbuf[sizeof(int64_t)+1];
+  uint8_t     bbuf[sizeof(int64_t)+1] = {0,0,0,0,0,0,0,0,0}; /* this initialization prevents aggressive optimization from breaking the code */
   size_t     bsize;
   unsigned int         i;
 
@@ -469,7 +469,7 @@ binson_res  binson_writer_write_integer( binson_writer *writer, const char* key,
 binson_res  binson_writer_write_double( binson_writer *writer, const char* key, double val )
 {
   binson_res  res = BINSON_RES_OK;
-  uint8_t     bbuf[sizeof(double)+1] = {0,0,0,0,0,0,0,0,0}; /* this initialization prevents aggressive optimization to brake the code */
+  uint8_t     bbuf[sizeof(double)+1] = {0,0,0,0,0,0,0,0,0}; /* this initialization prevents aggressive optimization from breaking the code */
   size_t      i;
 
  /* Initial parameter validation */

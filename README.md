@@ -5,7 +5,7 @@ ANSI C implementation of Binson format serialization library.
 Status
 ---------
 
-Pre-alpha (debugging and testing functionality)
+Alpha (version 0.0.6)
 
 Features
 ---------
@@ -15,10 +15,11 @@ Features
   * x86, x86_64
   * ARM (ARMv71, Cortext-A8)
   * MIPS (big-endian)
-* Has not 3rd party dependencies (stdlib only)
+* Compatible with [binson-java](https://github.com/franslundberg/binson-java)
+* Has not 3rd party dependencies (libc.so only)
 * Streaming mode parsing
 * Input/output abstraction layer
-
+* Tested with fuzzing stress test tool (included in currenty source tree)
 
 Usage
 ---------
@@ -59,26 +60,20 @@ $ cmake ..
 $ make all
 ```
 
-Now it's possible to run unit tests (if built with option WITH_TESTING):
+To run unit test (from ./build subdirectory):
 
 ```
 $ make test
 ```
 
+To run fuzzing test session:
 
-ToDo (before beta)
----------
-- [x] CMake build system integration
-- [x] Test on big-endian (MIPS, etc) platforms
-- [x] Unit testing framework (CMocka) integration
-- [ ] Binson-java compatibility testing
-- [ ] Extensive error handling
-- [ ] Adopt interfaces to provide model's storage abstraction
-- [ ] ABI review
+```
+$ make fuzz
+```
 
+To build documentation (see results in ./build/doc)
 
-Feature requests
----------
-
-* JSON import (using external parser library)
-
+```
+$ make doc
+```
