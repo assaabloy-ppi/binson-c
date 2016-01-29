@@ -100,12 +100,12 @@ public class FuzzGen {
 					node.put(genStr(), obj2);
 				break;	
 	
-				/*case 1:
+				case 1:
 					if (depth <= 0 ) continue;
 					BinsonArray arr2 = new BinsonArray();			
 					GenArrayTree(arr2, depth-1);
 					node.put(genStr(), arr2);				
-				break;*/	
+				break;	
 				
 				
 				case 2: // BOOLEAN					
@@ -137,8 +137,6 @@ public class FuzzGen {
 		
 	}
 	
-
-	
 	/*
 	 * 
 	 */	
@@ -149,6 +147,5 @@ public class FuzzGen {
 		GenObjectTree(root, fuzz);
 		return root;
 	}
-	
 	
 }

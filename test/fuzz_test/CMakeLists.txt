@@ -26,7 +26,7 @@ add_custom_target(fuzz
     #	<l>: Integer in range 0..100 to specify ending fuzz factor
     #	<x>: Integer to specify number of fuzz iterations before fuzz factor increment
     #	[JSON]: Generate JSON output instead of Binson
-    COMMAND java -cp "binson_fuzzer.jar:*"  binson_fuzzer 2 2 1000
+    COMMAND java -cp "binson_fuzzer.jar:*"  binson_fuzzer 3 10 10000
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test/fuzz_test
     DEPENDS fuzz_test
 )
