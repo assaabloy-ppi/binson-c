@@ -469,7 +469,7 @@ binson_res  binson_writer_write_integer( binson_writer *writer, const char* key,
 binson_res  binson_writer_write_double( binson_writer *writer, const char* key, double val )
 {
   binson_res  res = BINSON_RES_OK;
-  uint8_t     bbuf[sizeof(double)+1];
+  uint8_t     bbuf[sizeof(double)+1] = {0,0,0,0,0,0,0,0,0}; /* this initialization prevents aggressive optimization to brake the code */
   size_t      i;
 
  /* Initial parameter validation */
@@ -484,7 +484,7 @@ binson_res  binson_writer_write_double( binson_writer *writer, const char* key, 
   writer->idx_stack[writer->depth]++;
 #endif
 
-  binson_util_pack_double( val, &bbuf[1] );
+  binson_util_pack_double( val, bbuf+1 );
   bbuf[0] = BINSON_SIG_DOUBLE;
 
   /* Format dependent output */

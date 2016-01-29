@@ -10,11 +10,10 @@ option (WITH_EXAMPLES "Build examples from ./example" ON)
 option (WITH_TESTING "Build tests" ON)
 option (WITH_FUZZING "Build fuzzing stress suite" ON) 
 
-
 # The version number.
 set (BINSON_MAJOR_VERSION 0)
 set (BINSON_MINOR_VERSION 0)
-set (BINSON_MICRO_VERSION 5)
+set (BINSON_MICRO_VERSION 6)
 
 set(BINSON_VERSION "${BINSON_MAJOR_VERSION}.${BINSON_MINOR_VERSION}.${BINSON_MICRO_VERSION}")
 
@@ -34,22 +33,23 @@ set(CMAKE_MODULE_PATH
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules
 )
 
-#set(CMAKE_BUILD_TYPE, Debug)
+# Default is Debug build type.  Use  cmake -DCMAKE_BUILD_TYPE=Release  to override
+IF(NOT CMAKE_BUILD_TYPE)
+  SET(CMAKE_BUILD_TYPE Debug CACHE STRING
+      "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
+      FORCE)
+ENDIF(NOT CMAKE_BUILD_TYPE)
 
 # compiler flags
 if(CMAKE_COMPILER_IS_GNUCC)
-  set(COMMON_C_FLAGS  "-g -O0 -fPIC -ansi -pedantic -pedantic-errors -Wall -W  -Wsign-conversion -Wshadow -Wpointer-arith -Wcast-align  -Wnested-externs -fshort-enums -fno-common -Dinline=  ")
-  #set(COMMON_C_FLAGS  "-fPIC -ansi -pedantic -pedantic-errors -Wall -W  -Wmissing-prototypes -Wstrict-prototypes -Wconversion -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -Wnested-externs -fshort-enums -fno-common -Dinline=  ")
+  set(COMMON_C_FLAGS  "-fPIC -ansi -pedantic -pedantic-errors -Wall -W  -Wsign-conversion -Wshadow -Wpointer-arith -Wcast-align  -Wnested-externs -fshort-enums -fno-common -Dinline=  ")
   if(NOT WIN32)
     set(COMMON_C_FLAGS "${COMMON_C_FLAGS} -Werror")
   endif()  
-  #set(COMMON_C_FLAGS_DEBUG "-g -O0 ${COMMON_C_FLAGS}" )
-  #set(COMMON_C_FLAGS_RELWITHDEBINFO "-g -O3 ${COMMON_C_FLAGS}" )
-  #set(COMMON_C_FLAGS_RELEASE "-O3 ${COMMON_C_FLAGS}" )
-  set(CMAKE_C_FLAGS "${COMMON_C_FLAGS} ${CMAKE_C_FLAGS}")
-  #set(CMAKE_C_FLAGS_DEBUG "${COMMON_C_FLAGS_DEBUG} ${CMAKE_C_FLAGS_DEBUG}")
-  #set(CMAKE_C_FLAGS_RELWITHDEBINFO "${COMMON_C_FLAGS_RELWITHDEBINFO} ${CMAKE_C_FLAGS_RELWITHDEBINFO}")
-  #set(CMAKE_C_FLAGS_RELEASE "${COMMON_C_FLAGS_RELEASE} ${CMAKE_C_FLAGS_RELEASE}")  
+  set(CMAKE_C_FLAGS "-g -O0 ${COMMON_C_FLAGS} ${CMAKE_C_FLAGS}" )
+  set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMMON_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} " )
+  set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g -O2 ${COMMON_C_FLAGS} ${CMAKE_C_FLAGS_RELWITHDEBINFO} ")
+  set(CMAKE_C_FLAGS_RELEASE "-O2 -s -DNDEBUG ${COMMON_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ")  
 endif()
 
 # platform endiannes checks
@@ -58,10 +58,6 @@ TEST_BIG_ENDIAN(BIGENDIAN)
 if (NOT ${BIGENDIAN})
   set (IS_LITTLE_ENDIAN 1)
 endif (NOT ${BIGENDIAN})
-
-if(NOT CMAKE_BUILD_TYPE)
-    SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
-endif()
 
 if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
     set(DEBUG 1)
@@ -131,7 +127,6 @@ message(
     "\nInstall prefix:    ${CMAKE_INSTALL_PREFIX}"
     "\n"
     "\nCC:                ${CMAKE_C_COMPILER}"
-    "\nCFLAGS:            ${CMAKE_C_FLAGS}"
     "\n================================================================\n"
 )
 

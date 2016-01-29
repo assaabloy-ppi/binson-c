@@ -161,10 +161,17 @@ typedef unsigned long long int	uint64_t;
 /*#define IS_LITTLE_ENDIAN  (((*(short *)"xy") & 0xFF) == 'x')
 */
 
+#ifndef IS_LITTLE_ENDIAN
 #cmakedefine  IS_LITTLE_ENDIAN
+#endif
 
+#ifndef DEBUG
 #cmakedefine	DEBUG
+#endif
+
+#ifndef NDEBUG
 #cmakedefine	NDEBUG
+#endif
 
 #define ERROR_RING_SIZE  16  /* Size of circular error buffer */
 

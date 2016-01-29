@@ -40,10 +40,13 @@ int main()
 
     /* ready to build DOM */
     gen_sample_data_binson( context, binson_get_root( context ) );
+    
+#ifdef DEBUG        
      printf("\n\n------ postorder tree traversal (e.g. to debug tree deletion)  ---------\n");
      binson_traverse( context, binson_get_root(context), BINSON_TRAVERSE_PREORDER, BINSON_DEPTH_LIMIT, binson_cb_dump_debug, NULL );
      printf("---------------\n");
-
+#endif
+     
     /* serialize via attached 'binson_writer' */
     res = binson_serialize( context, writer, NULL );
     res = binson_io_printf( out, "\n---------------\n" );

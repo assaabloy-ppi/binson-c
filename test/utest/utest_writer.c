@@ -194,7 +194,7 @@ static void utest_binson_writer_write_double(void **state) {
   binson_writer		*writer = *state;
   binson_res		res = BINSON_RES_OK;
   binson_raw_size	cnt=0;
-
+  
   UNUSED(res);
 
   UTEST_WRITER_START();

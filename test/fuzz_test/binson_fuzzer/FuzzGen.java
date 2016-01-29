@@ -12,7 +12,6 @@ public class FuzzGen {
 	private int fuzz;
 	private Binson root;
 	private Random  rn;
-
 	
 	/*
 	 * 
