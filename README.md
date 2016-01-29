@@ -60,6 +60,12 @@ $ cmake ..
 $ make all
 ```
 
+Default configuration is 'Debug'. To build 'Release' replace 3rd command with:
+
+```
+$ cmake -DCMAKE_BUILD_TYPE=Release ..
+```
+
 To run unit test (from ./build subdirectory):
 
 ```
