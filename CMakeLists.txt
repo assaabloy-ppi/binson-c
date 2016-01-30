@@ -12,8 +12,8 @@ option (WITH_FUZZING "Build fuzzing stress suite" ON)
 
 # The version number.
 set (BINSON_MAJOR_VERSION 0)
-set (BINSON_MINOR_VERSION 0)
-set (BINSON_MICRO_VERSION 6)
+set (BINSON_MINOR_VERSION 1)
+set (BINSON_MICRO_VERSION 0)
 
 set(BINSON_VERSION "${BINSON_MAJOR_VERSION}.${BINSON_MINOR_VERSION}.${BINSON_MICRO_VERSION}")
 
@@ -120,7 +120,7 @@ endif (WITH_TESTING)
 ########################################################################
 ## Build Summary
 
-message(
+message( STATUS
     "\n====================|  Binson Build Summary  |====================="
     "\n"
     "\nBuild type:        ${CMAKE_BUILD_TYPE}"    

@@ -18,10 +18,7 @@ add_executable(fuzz_test fuzz_test.c)
 target_link_libraries(fuzz_test  binson)      
 
 add_custom_target(fuzz
-    #COMMAND java -jar ./binson_fuzzer.jar 2 2 100000
-    #COMMAND java -cp ./binson_fuzzer/binson_fuzzer.jar binson_fuzzer 2 2 100000 JSON
-
-    #Usage: binson_fuzzer.jar <f> <l> <x> [JSON]
+    # Usage: binson_fuzzer.jar <f> <l> <x> [JSON]
     #	<f>: Integer in range 0..100 to specify starting fuzz factor
     #	<l>: Integer in range 0..100 to specify ending fuzz factor
     #	<x>: Integer to specify number of fuzz iterations before fuzz factor increment

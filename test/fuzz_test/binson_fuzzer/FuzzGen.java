@@ -29,7 +29,14 @@ public class FuzzGen {
 	String genStr()
 	{
 		//return RandomStringUtils.randomAscii(fuzz);
-		return RandomStringUtils.random(fuzz);
+		
+		String s;
+		do 
+		{
+		  s = RandomStringUtils.random(fuzz);		 
+		} while( s.contains("\0") );  		// for C-string compatibility.
+		
+		return s;
 	}
 	
 	private void GenArrayTree (BinsonArray node, int depth)

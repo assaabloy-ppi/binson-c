@@ -5,7 +5,7 @@ ANSI C implementation of Binson format serialization library.
 Status
 ---------
 
-Alpha (version 0.0.6)
+Alpha version (0.1.0)
 
 Features
 ---------
