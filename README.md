@@ -1,14 +1,15 @@
-ANSI C implementation of Binson format serialization library.
+An ANSI C Binson serialization library. Binson is like JSON, 
+but faster, binary and even simpler. See [binson.org](http://binson.org/)
 
-> Binson is like JSON, but faster, binary and even simpler. See [binson.org](http://binson.org/)
 
 Status
----------
+------
 
 Alpha version (0.1.0)
 
+
 Features
----------
+--------
 
 * Written in ANSI C (C89 standard)
 * Multiplatform. Tested at:
@@ -21,14 +22,15 @@ Features
 * Input/output abstraction layer
 * Tested with fuzzing stress test tool (included in currenty source tree)
 
+
 Usage
----------
+-----
 
 See ./examples subdirectory for usage examples.
 
 
 Build
----------
+-----
 
 You need to have CMake installed in your system.
 Check its presence by:
