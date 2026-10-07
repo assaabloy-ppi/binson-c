@@ -81,3 +81,9 @@ To build documentation (see results in ./build/doc)
 ```
 $ make doc
 ```
+
+
+License
+-------
+
+MIT, see [LICENSE](LICENSE).

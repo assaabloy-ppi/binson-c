@@ -1,0 +1,35 @@
+================ binson_error_dump() begin ====================
+
+================ binson_error_dump() end ====================
+================ binson_error_dump() begin ====================
+res=0x0023, l=32, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x0022, l=31, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x0021, l=30, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x0020, l=29, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+
+================ binson_error_dump() end ====================
+================ binson_error_dump() begin ====================
+
+================ binson_error_dump() end ====================
+================ binson_error_dump() begin ====================
+res=0x00dd, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00dc, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00db, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00da, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d9, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d8, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d7, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d6, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d5, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d4, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d3, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d2, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d1, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00d0, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00cf, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+res=0x00ce, l=41, f=/Users/f/fl/repos/binson-c/test/utest/utest_error.c, d="(null)"
+
+================ binson_error_dump() end ====================
+================ binson_error_dump() begin ====================
+
+================ binson_error_dump() end ====================
