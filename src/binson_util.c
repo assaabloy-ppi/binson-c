@@ -80,13 +80,19 @@ size_t binson_util_pack_integer( int64_t val, uint8_t *bbuf)
 size_t binson_util_pack_double( double val, uint8_t *bbuf )
 {
   union {
-    double dval;
-    int64_t ival;
+    double   dval;
+    uint64_t uval;
   } utmp;
+  size_t i;
 
   utmp.dval = val;
 
-  binson_util_pack_integer( utmp.ival, bbuf );
+  /* always write all 8 bytes; shortest-form packing applies to integers only */
+  for (i=0; i<sizeof(double); i++)
+  {
+    bbuf[i] = utmp.uval & 0xff;
+    utmp.uval >>= 8;
+  }
   return sizeof(double);
 }
 
