@@ -3,6 +3,7 @@
  */
 #include <math.h>
 #include <float.h>
+#include <string.h>
 
 #include "btest.h"
 
@@ -26,6 +27,8 @@ const uint8_t dsample1[] = { 0xfc, 0x17, 0xac, 0xd2, 0x95, 0x96, 0xf5, 0xbd };
 const uint8_t dsample2[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf8, 0x7f };
 const uint8_t dsample3[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0x7f };    
 const uint8_t dsample4[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xff };        
+const uint8_t dsample5[] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };    /* negative NaN, all bits set */
+const uint8_t dsample6[] = { 0x00, 0x00, 0x00, 0x80, 0xff, 0xff, 0xff, 0xff };    /* negative NaN, int64 view == INT32_MIN */
 
 
 static void utest_binson_util_pack_integer(void **state) {
@@ -128,6 +131,26 @@ static void utest_binson_util_pack_double(void **state) {
     assert_memory_equal(buf, dsample4, result );    
 }
 
+/* Negative NaNs whose int64 view fits in 32 bits must keep all 8 bytes */
+static void utest_binson_util_pack_double_negative_nan(void **state) {
+
+    (void) state;
+    size_t  result;
+    uint8_t buf[10];
+
+    /* case: all bits set */
+    memset( buf, 0, sizeof(buf) );
+    result = binson_util_pack_double( binson_util_unpack_double(dsample5), buf );
+    assert_int_equal(result, 8);
+    assert_memory_equal(buf, dsample5, result );
+
+    /* case: 0xffffffff80000000 */
+    memset( buf, 0, sizeof(buf) );
+    result = binson_util_pack_double( binson_util_unpack_double(dsample6), buf );
+    assert_int_equal(result, 8);
+    assert_memory_equal(buf, dsample6, result );
+}
+
 static void utest_binson_util_unpack_integer(void **state) {
     (void) state;
         
@@ -184,6 +207,7 @@ int utest_run_tests(void) {
   const struct CMUnitTest tests[] = {
 	      cmocka_unit_test(utest_binson_util_pack_integer),
 	      cmocka_unit_test(utest_binson_util_pack_double),
+	      cmocka_unit_test(utest_binson_util_pack_double_negative_nan),
 	      cmocka_unit_test(utest_binson_util_unpack_integer),	      
 	      cmocka_unit_test(utest_binson_util_unpack_double),	      	      
 	      };
